@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingBag, Menu, X, Phone } from 'lucide-react';
 
-// In production, this points to a GitHub Pages-hosted product catalogue
-const CATALOGUE_URL = 'https://example.com/catalogue';
+const CATALOGUE_PATH = '/catalogue';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -24,6 +23,7 @@ const Header = () => {
 
   const navLinks = [
     { to: '/', label: 'Home' },
+    { to: CATALOGUE_PATH, label: 'Catalogue' },
     { to: '/about', label: 'About Us' },
     { to: '/contact', label: 'Contact' },
   ];
@@ -79,8 +79,8 @@ const Header = () => {
                 )}
               </Link>
             ))}
-            <a
-              href={CATALOGUE_URL}
+            <Link
+              to={CATALOGUE_PATH}
               className={`px-5 py-2 font-medium transition-colors duration-300 rounded-full ${
                 isScrolled
                   ? 'text-gray-700 hover:text-primary-600'
@@ -88,7 +88,7 @@ const Header = () => {
               }`}
             >
               Order Now
-            </a>
+            </Link>
           </nav>
 
           {/* CTA Buttons */}
@@ -102,13 +102,13 @@ const Header = () => {
               </svg>
               <span className="hidden xl:inline">Chat</span>
             </a>
-            <a
-              href={CATALOGUE_URL}
+            <Link
+              to={CATALOGUE_PATH}
               className="btn-primary flex items-center gap-2"
             >
               <ShoppingBag className="w-5 h-5" />
               Shop Now
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -160,12 +160,12 @@ const Header = () => {
                   {link.label}
                 </Link>
               ))}
-              <a
-                href={CATALOGUE_URL}
+              <Link
+                to={CATALOGUE_PATH}
                 className="flex items-center px-5 py-3 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-all duration-300"
               >
                 Order Now
-              </a>
+              </Link>
             </nav>
 
             <div className="mt-8 space-y-3">

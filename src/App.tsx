@@ -8,6 +8,7 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import PrivacyPage from './pages/PrivacyPage';
 import CookiePage from './pages/CookiePage';
+import CataloguePage from './pages/CataloguePage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/catalogue" element={<CataloguePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />

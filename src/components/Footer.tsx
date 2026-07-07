@@ -1,14 +1,13 @@
 import { Link } from 'react-router-dom';
 import { ShoppingBag, Instagram, Mail, MapPin, Phone, Heart, ArrowUpRight } from 'lucide-react';
 
-// In production, this points to a GitHub Pages-hosted product catalogue
-const CATALOGUE_URL = 'https://example.com/catalogue';
+const CATALOGUE_PATH = '/catalogue';
 
 const quickLinks = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About Us' },
   { to: '/contact', label: 'Contact' },
-  { href: CATALOGUE_URL, label: 'Order Now', isExternal: true },
+  { to: CATALOGUE_PATH, label: 'Order Now' },
 ];
 
 const socialLinks = [

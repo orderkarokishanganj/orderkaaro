@@ -1,7 +1,7 @@
+import { Link } from 'react-router-dom';
 import { ShoppingBag, Truck, Clock, Shield, ChevronRight } from 'lucide-react';
 
-// In production, this points to a GitHub Pages-hosted product catalogue
-const CATALOGUE_URL = 'https://example.com/catalogue';
+const CATALOGUE_PATH = '/catalogue';
 
 const stats = [
   { value: '45', suffix: 'min', label: 'Delivery Time' },
@@ -87,8 +87,8 @@ const Hero = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
-              <a
-                href={CATALOGUE_URL}
+              <Link
+                to={CATALOGUE_PATH}
                 className="group relative inline-flex items-center justify-center gap-2 bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-accent-500/25 hover:scale-105 active:scale-95 text-lg overflow-hidden"
               >
                 <span className="relative z-10 flex items-center gap-2">
@@ -97,7 +97,7 @@ const Hero = () => {
                   <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
                 <div className="absolute inset-0 animate-shimmer" />
-              </a>
+              </Link>
               <a
                 href="https://wa.me/919942089120?text=I%20want%20to%20order"
                 className="group inline-flex items-center justify-center gap-3 bg-green-500 hover:bg-green-600 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-green-500/25 hover:scale-105 active:scale-95"
