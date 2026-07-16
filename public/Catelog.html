@@ -34,16 +34,12 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-body);
-      color: var(--text-main);
-      line-height: 1.5;
-      overflow-x: hidden;
-      /* Subtle grid background pattern */
-      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 40px 40px;
-      background-position: -1px -1px;
-    }
+  font-family: 'Inter', sans-serif;
+  background-color: #d3f5d3; /* You can change this to var(--primary) for green */
+  color: var(--text-main);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
     
     h1, h2, h3, h4, .logo-name, .section-title, .promo-text h2, .drawer-header h2, .modal-title {
       font-family: 'Space Grotesk', sans-serif;
