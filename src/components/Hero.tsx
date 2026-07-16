@@ -132,39 +132,18 @@ const Hero = () => {
               <div className="absolute top-1/2 -right-4 w-16 h-16 bg-accent-300/40 rounded-xl animate-pulse-slow" />
 
               {/* Image */}
-              <div className="relative bg-gradient-to-br from-primary-100 to-accent-100 p-3 rounded-3xl shadow-2xl">
-                <img
-                  src="https://images.pexels.com/photos/7176307/pexels-photo-7176307.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Grocery shopping basket with fresh essentials"
-                  className="w-full h-[400px] md:h-[500px] object-cover rounded-2xl"
+              <div className="relative bg-gradient-to-br from-primary-100 to-accent-100 p-3 rounded-3xl shadow-2xl overflow-hidden">
+                <video
+                  src="/logo.mp4"
+                  poster="/logo.jpeg"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  className="absolute inset-3 h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)] rounded-2xl object-cover"
                 />
-
-                {/* Floating Cards */}
-                <div className="absolute -left-6 top-1/4 bg-white p-4 rounded-2xl shadow-xl animate-float">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                      <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-bold text-gray-900">Fresh Daily</p>
-                      <p className="text-sm text-gray-500">Quality First</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="absolute -right-6 bottom-1/4 bg-white p-4 rounded-2xl shadow-xl animate-float-delayed">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-accent-100 rounded-xl flex items-center justify-center">
-                      <Clock className="w-6 h-6 text-accent-600" />
-                    </div>
-                    <div>
-                      <p className="font-bold text-gray-900">45 Min</p>
-                      <p className="text-sm text-gray-500">Delivery</p>
-                    </div>
-                  </div>
-                </div>
+                <div className="aspect-video w-full" />
               </div>
             </div>
           </div>

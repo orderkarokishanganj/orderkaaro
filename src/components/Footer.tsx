@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Instagram, Mail, MapPin, Phone, Heart } from 'lucide-react';
+import { Instagram, Mail, MapPin, Phone, Heart } from 'lucide-react';
 
 const CATALOGUE_URL = '/Catelog.html';
 
@@ -52,8 +52,12 @@ const Footer = () => {
             {/* Brand Column */}
             <div className="lg:col-span-1">
               <Link to="/" className="inline-flex items-center gap-3 mb-6 group">
-                <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-green-500 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:shadow-primary-500/30 transition-shadow">
-                  <ShoppingBag className="w-7 h-7 text-white" />
+                <div className="w-12 h-12 rounded-xl overflow-hidden shadow-lg ring-1 ring-white/10 bg-white group-hover:shadow-xl group-hover:shadow-primary-500/30 transition-shadow">
+                  <img
+                    src="/logo.jpeg"
+                    alt="Order Kaaro logo"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
                 <div>
                   <span className="font-display font-bold text-xl text-white block">

@@ -43,11 +43,12 @@ const Header = () => {
             to="/"
             className="flex items-center gap-3 group"
           >
-            <div className="relative">
-              <div className="w-11 h-11 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-primary-500/30 transition-all duration-300 group-hover:scale-110">
-                <ShoppingBag className="w-6 h-6 text-white" />
-              </div>
-              <div className="absolute -inset-1 bg-primary-400 rounded-xl opacity-0 group-hover:opacity-30 blur transition-opacity duration-300" />
+            <div className="relative w-11 h-11 rounded-xl overflow-hidden shadow-lg ring-1 ring-black/5 group-hover:shadow-primary-500/30 transition-all duration-300 group-hover:scale-110 bg-white">
+              <img
+                src="/logo.jpeg"
+                alt="Order Kaaro logo"
+                className="h-full w-full object-cover"
+              />
             </div>
             <div className="flex flex-col">
               <span className={`font-display font-bold text-xl leading-none ${
@@ -89,16 +90,7 @@ const Header = () => {
                 </Link>
               )
             ))}
-            <Link
-              to={CATALOGUE_URL}
-              className={`px-5 py-2 font-medium transition-colors duration-300 rounded-full ${
-                isScrolled
-                  ? 'text-gray-700 hover:text-primary-600'
-                  : 'text-gray-700 hover:text-primary-600'
-              }`}
-            >
-              Order Now
-            </Link>
+          
           </nav>
 
           {/* CTA Buttons */}
