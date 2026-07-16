@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
 import { ShoppingCart, Sparkles, ArrowRight } from 'lucide-react';
+
+const CATALOGUE_URL = '/Catelog.html';
 
 const CTABanner = () => {
   return (
@@ -55,14 +56,14 @@ const CTABanner = () => {
           </div>
 
           {/* CTA Button */}
-          <Link
-            to="/catalogue"
+          <a
+            href={CATALOGUE_URL}
             className="group inline-flex items-center justify-center gap-3 bg-accent-500 hover:bg-accent-600 text-white font-bold py-4 px-10 rounded-2xl transition-all duration-300 shadow-2xl hover:shadow-accent-500/40 hover:scale-105 active:scale-95 text-lg"
           >
             <ShoppingCart className="w-6 h-6 group-hover:animate-bounce" />
             Shop Now
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          </a>
 
           {/* Secondary text */}
           <p className="mt-6 text-white/70 text-sm">

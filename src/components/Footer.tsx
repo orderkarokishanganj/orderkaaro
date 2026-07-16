@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Instagram, Mail, MapPin, Phone, Heart, ArrowUpRight } from 'lucide-react';
+import { ShoppingBag, Instagram, Mail, MapPin, Phone, Heart } from 'lucide-react';
 
-const CATALOGUE_PATH = '/catalogue';
+const CATALOGUE_URL = '/Catelog.html';
 
 const quickLinks = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About Us' },
   { to: '/contact', label: 'Contact' },
-  { to: CATALOGUE_PATH, label: 'Order Now' },
+  { href: CATALOGUE_URL, label: 'Order Now' },
 ];
 
 const socialLinks = [
@@ -88,17 +88,16 @@ const Footer = () => {
               <ul className="space-y-3">
                 {quickLinks.map((link, index) => (
                   <li key={index}>
-                    {link.isExternal ? (
+                    {'href' in link ? (
                       <a
                         href={link.href}
-                        className="text-gray-400 hover:text-primary-400 transition-colors flex items-center gap-1 group"
+                        className="text-gray-400 hover:text-primary-400 transition-colors"
                       >
                         {link.label}
-                        <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </a>
                     ) : (
                       <Link
-                        to={link.to!}
+                        to={link.to}
                         className="text-gray-400 hover:text-primary-400 transition-colors"
                       >
                         {link.label}

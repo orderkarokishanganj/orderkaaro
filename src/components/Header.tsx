@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingBag, Menu, X, Phone } from 'lucide-react';
 
-const CATALOGUE_PATH = '/catalogue';
+const CATALOGUE_URL = '/Catelog.html';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -23,7 +23,7 @@ const Header = () => {
 
   const navLinks = [
     { to: '/', label: 'Home' },
-    { to: CATALOGUE_PATH, label: 'Catalogue' },
+    { href: CATALOGUE_URL, label: 'Catalogue' },
     { to: '/about', label: 'About Us' },
     { to: '/contact', label: 'Contact' },
   ];
@@ -62,25 +62,35 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`relative px-5 py-2 font-medium transition-colors duration-300 rounded-full ${
-                  location.pathname === link.to
-                    ? 'text-primary-600'
-                    : isScrolled
-                    ? 'text-gray-700 hover:text-primary-600'
-                    : 'text-gray-700 hover:text-primary-600'
-                }`}
-              >
-                {link.label}
-                {location.pathname === link.to && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary-500 rounded-full" />
-                )}
-              </Link>
+              'href' in link ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="relative px-5 py-2 font-medium transition-colors duration-300 rounded-full text-gray-700 hover:text-primary-600"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className={`relative px-5 py-2 font-medium transition-colors duration-300 rounded-full ${
+                    location.pathname === link.to
+                      ? 'text-primary-600'
+                      : isScrolled
+                      ? 'text-gray-700 hover:text-primary-600'
+                      : 'text-gray-700 hover:text-primary-600'
+                  }`}
+                >
+                  {link.label}
+                  {location.pathname === link.to && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary-500 rounded-full" />
+                  )}
+                </Link>
+              )
             ))}
             <Link
-              to={CATALOGUE_PATH}
+              to={CATALOGUE_URL}
               className={`px-5 py-2 font-medium transition-colors duration-300 rounded-full ${
                 isScrolled
                   ? 'text-gray-700 hover:text-primary-600'
@@ -103,7 +113,7 @@ const Header = () => {
               <span className="hidden xl:inline">Chat</span>
             </a>
             <Link
-              to={CATALOGUE_PATH}
+              to={CATALOGUE_URL}
               className="btn-primary flex items-center gap-2"
             >
               <ShoppingBag className="w-5 h-5" />
@@ -147,21 +157,32 @@ const Header = () => {
           <div className="p-6 pt-24">
             <nav className="flex flex-col gap-2">
               {navLinks.map((link, index) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className={`flex items-center px-5 py-3 rounded-xl font-medium transition-all duration-300 ${
-                    location.pathname === link.to
-                      ? 'bg-primary-50 text-primary-600'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                  style={{ animationDelay: `${index * 50}ms` }}
-                >
-                  {link.label}
-                </Link>
+                'href' in link ? (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="flex items-center px-5 py-3 rounded-xl font-medium transition-all duration-300 text-gray-700 hover:bg-gray-50"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    className={`flex items-center px-5 py-3 rounded-xl font-medium transition-all duration-300 ${
+                      location.pathname === link.to
+                        ? 'bg-primary-50 text-primary-600'
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    {link.label}
+                  </Link>
+                )
               ))}
               <Link
-                to={CATALOGUE_PATH}
+                to={CATALOGUE_URL}
                 className="flex items-center px-5 py-3 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-all duration-300"
               >
                 Order Now

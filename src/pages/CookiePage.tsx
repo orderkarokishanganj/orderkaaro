@@ -1,4 +1,4 @@
-import { Cookie, Phone, Globe, FileText, Clock, Shield, Settings, Ban, Database, Lock, RefreshCw, Mail } from 'lucide-react';
+import { Cookie, Clock, FileText, Database, RefreshCw, Lock, Phone, Globe } from 'lucide-react';
 
 const CookiePage = () => {
   return (

@@ -1,4 +1,4 @@
-import { Shield, Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { Shield, Phone, MapPin } from 'lucide-react';
 
 const PrivacyPage = () => {
   return (

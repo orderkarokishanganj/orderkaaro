@@ -6,9 +6,9 @@ import ScrollToTopButton from './components/ScrollToTopButton';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import CataloguePage from './pages/CataloguePage';
 import PrivacyPage from './pages/PrivacyPage';
 import CookiePage from './pages/CookiePage';
-import CataloguePage from './pages/CataloguePage';
 
 function App() {
   return (
