@@ -19,7 +19,7 @@ function AppContent() {
       <ScrollToTop />
       {!isCataloguePage && <Header />}
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<CataloguePage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/catalogue" element={<CataloguePage />} />
         <Route path="/about" element={<AboutPage />} />
