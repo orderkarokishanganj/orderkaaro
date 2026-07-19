@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingBag, Menu, X, Phone } from 'lucide-react';
 
@@ -38,6 +38,7 @@ const Header = () => {
         }`}
       >
         <div className="container-custom flex items-center justify-between">
+          {/* Logo */}
           <Link
             to="/"
             className="flex items-center gap-3 group"
@@ -59,20 +60,18 @@ const Header = () => {
             </div>
           </Link>
 
+          {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => {
-              if ('href' in link) {
-                return (
-                  
-                    key={link.label}
-                    href={link.href}
-                    className="relative px-5 py-2 font-medium transition-colors duration-300 rounded-full text-gray-700 hover:text-primary-600"
-                  >
-                    {link.label}
-                  </a>
-                );
-              }
-              return (
+            {navLinks.map((link) => (
+              'href' in link ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="relative px-5 py-2 font-medium transition-colors duration-300 rounded-full text-gray-700 hover:text-primary-600"
+                >
+                  {link.label}
+                </a>
+              ) : (
                 <Link
                   key={link.to}
                   to={link.to}
@@ -89,12 +88,14 @@ const Header = () => {
                     <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary-500 rounded-full" />
                   )}
                 </Link>
-              );
-            })}
+              )
+            ))}
+          
           </nav>
 
+          {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-3">
-            
+            <a
               href="https://wa.me/919942089120?text=I%20want%20to%20order"
               className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-green-500 hover:bg-green-600 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
             >
@@ -112,6 +113,7 @@ const Header = () => {
             </Link>
           </div>
 
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="lg:hidden w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 bg-gray-100 hover:bg-gray-200"
@@ -122,6 +124,7 @@ const Header = () => {
         </div>
       </header>
 
+      {/* Mobile Navigation */}
       <div
         className={`fixed inset-0 z-40 lg:hidden transition-all duration-500 ${
           isMobileMenuOpen
@@ -129,6 +132,7 @@ const Header = () => {
             : 'opacity-0 pointer-events-none'
         }`}
       >
+        {/* Backdrop */}
         <div
           className={`absolute inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity duration-500 ${
             isMobileMenuOpen ? 'opacity-100' : 'opacity-0'
@@ -136,6 +140,7 @@ const Header = () => {
           onClick={() => setIsMobileMenuOpen(false)}
         />
 
+        {/* Menu Panel */}
         <div
           className={`absolute top-0 right-0 w-80 max-w-[85vw] h-full bg-white shadow-2xl transform transition-transform duration-500 ${
             isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
@@ -143,20 +148,17 @@ const Header = () => {
         >
           <div className="p-6 pt-24">
             <nav className="flex flex-col gap-2">
-              {navLinks.map((link, index) => {
-                if ('href' in link) {
-                  return (
-                    
-                      key={link.label}
-                      href={link.href}
-                      className="flex items-center px-5 py-3 rounded-xl font-medium transition-all duration-300 text-gray-700 hover:bg-gray-50"
-                      style={{ animationDelay: `${index * 50}ms` }}
-                    >
-                      {link.label}
-                    </a>
-                  );
-                }
-                return (
+              {navLinks.map((link, index) => (
+                'href' in link ? (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="flex items-center px-5 py-3 rounded-xl font-medium transition-all duration-300 text-gray-700 hover:bg-gray-50"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    {link.label}
+                  </a>
+                ) : (
                   <Link
                     key={link.to}
                     to={link.to}
@@ -169,8 +171,8 @@ const Header = () => {
                   >
                     {link.label}
                   </Link>
-                );
-              })}
+                )
+              ))}
               <Link
                 to={CATALOGUE_URL}
                 className="flex items-center px-5 py-3 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-all duration-300"
@@ -180,7 +182,7 @@ const Header = () => {
             </nav>
 
             <div className="mt-8 space-y-3">
-              
+              <a
                 href="https://wa.me/919942089120?text=I%20want%20to%20order"
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-green-500 hover:bg-green-600 text-white font-semibold transition-all duration-300"
               >
@@ -189,14 +191,14 @@ const Header = () => {
                 </svg>
                 WhatsApp Support
               </a>
-              
+              <a
                 href="tel:+919942089120"
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold transition-all duration-300"
               >
                 <Phone className="w-5 h-5" />
                 +91 99420 89120
               </a>
-              
+              <a
                 href="tel:+917857033161"
                 className="flex items-center justify-center gap-2 w-full py-2 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-600 font-medium transition-all duration-300 text-sm"
               >
