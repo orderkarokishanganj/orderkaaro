@@ -38,7 +38,6 @@ const Header = () => {
         }`}
       >
         <div className="container-custom flex items-center justify-between">
-          {/* Logo */}
           <Link
             to="/"
             className="flex items-center gap-3 group"
@@ -60,18 +59,20 @@ const Header = () => {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
-              'href' in link ? (
-                
-                  key={link.label}
-                  href={link.href}
-                  className="relative px-5 py-2 font-medium transition-colors duration-300 rounded-full text-gray-700 hover:text-primary-600"
-                >
-                  {link.label}
-                </a>
-              ) : (
+            {navLinks.map((link) => {
+              if ('href' in link) {
+                return (
+                  
+                    key={link.label}
+                    href={link.href}
+                    className="relative px-5 py-2 font-medium transition-colors duration-300 rounded-full text-gray-700 hover:text-primary-600"
+                  >
+                    {link.label}
+                  </a>
+                );
+              }
+              return (
                 <Link
                   key={link.to}
                   to={link.to}
@@ -88,12 +89,10 @@ const Header = () => {
                     <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary-500 rounded-full" />
                   )}
                 </Link>
-              )
-            ))}
-          
+              );
+            })}
           </nav>
 
-          {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-3">
             
               href="https://wa.me/919942089120?text=I%20want%20to%20order"
@@ -113,7 +112,6 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="lg:hidden w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 bg-gray-100 hover:bg-gray-200"
@@ -124,7 +122,6 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Mobile Navigation */}
       <div
         className={`fixed inset-0 z-40 lg:hidden transition-all duration-500 ${
           isMobileMenuOpen
@@ -132,7 +129,6 @@ const Header = () => {
             : 'opacity-0 pointer-events-none'
         }`}
       >
-        {/* Backdrop */}
         <div
           className={`absolute inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity duration-500 ${
             isMobileMenuOpen ? 'opacity-100' : 'opacity-0'
@@ -140,7 +136,6 @@ const Header = () => {
           onClick={() => setIsMobileMenuOpen(false)}
         />
 
-        {/* Menu Panel */}
         <div
           className={`absolute top-0 right-0 w-80 max-w-[85vw] h-full bg-white shadow-2xl transform transition-transform duration-500 ${
             isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
@@ -148,17 +143,20 @@ const Header = () => {
         >
           <div className="p-6 pt-24">
             <nav className="flex flex-col gap-2">
-              {navLinks.map((link, index) => (
-                'href' in link ? (
-                  
-                    key={link.label}
-                    href={link.href}
-                    className="flex items-center px-5 py-3 rounded-xl font-medium transition-all duration-300 text-gray-700 hover:bg-gray-50"
-                    style={{ animationDelay: `${index * 50}ms` }}
-                  >
-                    {link.label}
-                  </a>
-                ) : (
+              {navLinks.map((link, index) => {
+                if ('href' in link) {
+                  return (
+                    
+                      key={link.label}
+                      href={link.href}
+                      className="flex items-center px-5 py-3 rounded-xl font-medium transition-all duration-300 text-gray-700 hover:bg-gray-50"
+                      style={{ animationDelay: `${index * 50}ms` }}
+                    >
+                      {link.label}
+                    </a>
+                  );
+                }
+                return (
                   <Link
                     key={link.to}
                     to={link.to}
@@ -171,8 +169,8 @@ const Header = () => {
                   >
                     {link.label}
                   </Link>
-                )
-              ))}
+                );
+              })}
               <Link
                 to={CATALOGUE_URL}
                 className="flex items-center px-5 py-3 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-all duration-300"
