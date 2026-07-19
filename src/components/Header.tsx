@@ -21,9 +21,13 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
- const navLinks = [
+ type NavLink =
+  | { to: string; label: string; href?: undefined }
+  | { href: string; label: string; to?: undefined };
+
+const navLinks: NavLink[] = [
   { to: '/', label: 'Home' },
-  { to: CATALOGUE_URL, label: 'Order Now' },
+  { href: CATALOGUE_URL, label: 'Order Now' },
   { to: '/about', label: 'About Us' },
   { to: '/contact', label: 'Contact' },
 ];
