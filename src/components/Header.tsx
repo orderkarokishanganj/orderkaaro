@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingBag, Menu, X, Phone } from 'lucide-react';
 
-const CATALOGUE_URL = '/Catelog.html';
+ const CATALOGUE_URL = '/catalogue';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,12 +21,12 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
-  const navLinks = [
-    { to: '/', label: 'Home' },
-    { href: CATALOGUE_URL, label: 'Order Now' },
-    { to: '/about', label: 'About Us' },
-    { to: '/contact', label: 'Contact' },
-  ];
+ const navLinks = [
+  { to: '/', label: 'Home' },
+  { to: CATALOGUE_URL, label: 'Order Now' },
+  { to: '/about', label: 'About Us' },
+  { to: '/contact', label: 'Contact' },
+];
 
   return (
     <>
