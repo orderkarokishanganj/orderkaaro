@@ -22,7 +22,7 @@ const Header = () => {
   }, [location]);
 
   const navLinks = [
-    { to: '/', label: 'Home' },
+    { to: '/home', label: 'Home' },
     { href: CATALOGUE_URL, label: 'Order Now' },
     { to: '/about', label: 'About Us' },
     { to: '/contact', label: 'Contact' },
@@ -64,7 +64,7 @@ const Header = () => {
           <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               'href' in link ? (
-                <a
+                
                   key={link.label}
                   href={link.href}
                   className="relative px-5 py-2 font-medium transition-colors duration-300 rounded-full text-gray-700 hover:text-primary-600"
@@ -95,7 +95,7 @@ const Header = () => {
 
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-3">
-            <a
+            
               href="https://wa.me/919942089120?text=I%20want%20to%20order"
               className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-green-500 hover:bg-green-600 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
             >
@@ -150,7 +150,7 @@ const Header = () => {
             <nav className="flex flex-col gap-2">
               {navLinks.map((link, index) => (
                 'href' in link ? (
-                  <a
+                  
                     key={link.label}
                     href={link.href}
                     className="flex items-center px-5 py-3 rounded-xl font-medium transition-all duration-300 text-gray-700 hover:bg-gray-50"
@@ -182,7 +182,7 @@ const Header = () => {
             </nav>
 
             <div className="mt-8 space-y-3">
-              <a
+              
                 href="https://wa.me/919942089120?text=I%20want%20to%20order"
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-green-500 hover:bg-green-600 text-white font-semibold transition-all duration-300"
               >
@@ -191,14 +191,14 @@ const Header = () => {
                 </svg>
                 WhatsApp Support
               </a>
-              <a
+              
                 href="tel:+919942089120"
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold transition-all duration-300"
               >
                 <Phone className="w-5 h-5" />
                 +91 99420 89120
               </a>
-              <a
+              
                 href="tel:+917857033161"
                 className="flex items-center justify-center gap-2 w-full py-2 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-600 font-medium transition-all duration-300 text-sm"
               >
