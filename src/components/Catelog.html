@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -208,7 +208,7 @@
     .product-img-wrap img.error + .emoji-fallback { display: block; }
 
     .product-unit { font-size: 0.7rem; font-weight: 500; color: var(--text-muted); margin-bottom: 4px; }
-    .product-name { font-size: 0.9rem; font-weight: 600; color: var(--text-main); line-height: 1.3; margin-bottom: 12px; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .product-name { font-size: 0.9rem; font-weight: 600; color: var(--text-main); line-height: 1.3; margin-bottom: 12px; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     
     .product-price-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
     .product-price { font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
@@ -237,7 +237,7 @@
     .deal-img-wrap img.error { display: none; }
     .deal-img-wrap img.error + .emoji-fallback { display: block; }
     
-    .deal-name { font-size: 0.85rem; font-weight: 600; line-height: 1.3; margin-bottom: 4px; color: var(--text-main); display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex-grow: 1; }
+    .deal-name { font-size: 0.85rem; font-weight: 600; line-height: 1.3; margin-bottom: 4px; color: var(--text-main); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex-grow: 1; }
     .deal-unit-text { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 12px; }
     .deal-price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 12px; }
     .deal-price { font-size: 1rem; font-weight: 700; color: var(--text-main); }
@@ -416,7 +416,7 @@
   <div class="promo-card">
     <div class="promo-text">
       <h2>Fresh Groceries, Delivered Fast!</h2>
-      <p>Best prices on 90+ daily essentials. Order now securely via WhatsApp.</p>
+      <p>Best prices on 180+ daily essentials. Order now securely via WhatsApp.</p>
     </div>
     <div class="promo-emoji">🥦</div>
   </div>
@@ -523,6 +523,7 @@
 
 <script>
 const WA_NUMBER = "919942089120";
+const FLAT_DELIVERY_CHARGE = 50;
 
 function offImgUrl(barcode) {
   if (!barcode) return null;
@@ -543,147 +544,242 @@ function imgEl(barcode, emoji, cls) {
   </div>`;
 }
 
-function extractWeightGrams(unit) {
-  const n = (unit||"").toLowerCase();
-  const kgM = n.match(/(\d+(?:\.\d+)?)\s*kg/);
-  const lM  = n.match(/(\d+(?:\.\d+)?)\s*l(?:\b|iter)/);
-  const mlM = n.match(/(\d+(?:\.\d+)?)\s*ml/);
-  const gM  = n.match(/(\d+(?:\.\d+)?)\s*g(?!el|et|od|ar|reen|old)/);
-  if (kgM) return parseFloat(kgM[1])*1000;
-  if (lM)  return parseFloat(lM[1])*1000;
-  if (mlM) return parseFloat(mlM[1]);
-  if (gM)  return parseFloat(gM[1]);
-  return 200;
-}
-function getDelivery(grams) {
-  const kg = grams/1000;
-  if (kg<=5)  return {charge:50,  label:"Up to 5 kg",  tier:"Light"};
-  if (kg<=11) return {charge:80,  label:"5–11 kg",     tier:"Medium"};
-  return             {charge:120, label:"Above 11 kg", tier:"Heavy"};
-}
 function disc(mrp, sp) { if (!mrp || mrp<=sp) return 0; return Math.round(((mrp-sp)/mrp)*100); }
 
 const categories = [
   { name:"Grains & Atta", emoji:"🌾", sub:"Quality grains for your daily needs", brands:[
-    {id:"P001",name:"Aashirvaad Shud Chakki Aata",   unit:"5 kg",   emoji:"🌾", special:235, mrp:240, barcode:null},
-    {id:"P002",name:"Amrit Bhog Atta",               unit:"5 kg",   emoji:"🌾", special:225, mrp:240, barcode:null},
-    {id:"P010",name:"Besan",                         unit:"1 kg",   emoji:"🟡", special:90,  mrp:110,  barcode:null},
-    {id:"P055",name:"Gota Kala Channa",                unit:"500 g",  emoji:"🟤", special:45,  mrp:45,  barcode:null},
-    {id:"P056",name:"Kala Channa",                     unit:"1 kg",   emoji:"🟤", special:90,  mrp:90,  barcode:null},
-    {id:"P058",name:"Kabuli Channa",                   unit:"1 kg",   emoji:"⚪", special:95,  mrp:95,  barcode:null},
-    {id:"P059",name:"Kabuli Channa",                   unit:"500 g",  emoji:"⚪", special:50,  mrp:50,  barcode:null},
-    {id:"P060",name:"Kala Chana",                      unit:"1 kg",   emoji:"🟤", special:80,  mrp:80,  barcode:null},
-    {id:"P061",name:"Kala Chana",                      unit:"500 g",  emoji:"🟤", special:40,  mrp:40,  barcode:null},
-    {id:"P064",name:"Katarni Chura",                   unit:"500 g",  emoji:"🍚", special:50,  mrp:50,  barcode:null},
-    {id:"P065",name:"Katarni Chura",                   unit:"1 kg",   emoji:"🍚", special:90,  mrp:90,  barcode:null},
-    {id:"P077",name:"Moth",                            unit:"1 kg",   emoji:"🌾", special:90,  mrp:90,  barcode:null},
-    {id:"P085",name:"Sattu",                           unit:"200 g",  emoji:"💪", special:31,  mrp:31,  barcode:null},
-    {id:"P086",name:"Sattu",                           unit:"400 g",  emoji:"💪", special:70,  mrp:70,  barcode:null},
-    {id:"P090",name:"Amrit Bhog Sooji",                unit:"1 kg",   emoji:"🌾", special:60,  mrp:60,  barcode:null},
+    {id:"P001",name:"Aashirvaad Shud Chakki Aata",unit:"5 kg",emoji:"🌾",special:235,mrp:240,barcode:null},
+    {id:"P002",name:"Amrit Bhog Atta",unit:"5 kg",emoji:"🌾",special:225,mrp:240,barcode:null},
+    {id:"P010",name:"Besan",unit:"1 kg",emoji:"🟡",special:90,mrp:110,barcode:null},
+    {id:"P055",name:"Gota Kala Channa",unit:"500 g",emoji:"🟤",special:45,mrp:45,barcode:null},
+    {id:"P056",name:"Kala Channa",unit:"1 kg",emoji:"🟤",special:90,mrp:90,barcode:null},
+    {id:"P058",name:"Kabuli Channa",unit:"1 kg",emoji:"⚪",special:95,mrp:95,barcode:null},
+    {id:"P059",name:"Kabuli Channa",unit:"500 g",emoji:"⚪",special:50,mrp:50,barcode:null},
+    {id:"P060",name:"Kala Chana",unit:"1 kg",emoji:"🟤",special:80,mrp:80,barcode:null},
+    {id:"P061",name:"Kala Chana",unit:"500 g",emoji:"🟤",special:40,mrp:40,barcode:null},
+    {id:"P064",name:"Katarni Chura",unit:"500 g",emoji:"🍚",special:50,mrp:50,barcode:null},
+    {id:"P065",name:"Katarni Chura",unit:"1 kg",emoji:"🍚",special:90,mrp:90,barcode:null},
+    {id:"P077",name:"Moth",unit:"1 kg",emoji:"🌾",special:90,mrp:90,barcode:null},
+    {id:"P085",name:"Sattu",unit:"200 g",emoji:"💪",special:31,mrp:31,barcode:null},
+    {id:"P086",name:"Sattu",unit:"400 g",emoji:"💪",special:70,mrp:70,barcode:null},
+    {id:"P090",name:"Amrit Bhog Sooji",unit:"1 kg",emoji:"🌾",special:60,mrp:60,barcode:null},
+    {id:"N1012",name:"Sugar",unit:"1 kg",emoji:"🍬",special:55,mrp:55,barcode:null},
+    {id:"N1013",name:"Chawal",unit:"10 kg",emoji:"🌾",special:700,mrp:700,barcode:null},
+    {id:"N1014",name:"Sooji",unit:"1 kg",emoji:"🌾",special:60,mrp:60,barcode:null},
+    {id:"N1015",name:"Mouth",unit:"500 g",emoji:"🛍️",special:45,mrp:45,barcode:null},
+    {id:"N1016",name:"Gat",unit:"1 pcs",emoji:"🛍️",special:38,mrp:38,barcode:null},
+    {id:"N1017",name:"Popcorn Makki Loose",unit:"500 g",emoji:"🌾",special:70,mrp:70,barcode:null},
+    {id:"N1018",name:"Chini",unit:"1 kg",emoji:"🍬",special:55,mrp:55,barcode:null},
+    {id:"N1019",name:"Chana Dal",unit:"500 g",emoji:"🫘",special:40,mrp:40,barcode:null},
+    {id:"N1020",name:"Chole Chana",unit:"500 g",emoji:"🫘",special:48,mrp:48,barcode:null},
+    {id:"N1021",name:"Vermicelli",unit:"1 kg",emoji:"🌾",special:120,mrp:120,barcode:null},
+    {id:"N1022",name:"Maida",unit:"1 kg",emoji:"🌾",special:50,mrp:50,barcode:null},
+    {id:"N1023",name:"Gotta Jeera",unit:"1 kg",emoji:"🛍️",special:260,mrp:260,barcode:null},
   ]},
   { name:"Dairy", emoji:"🧀", sub:"Fresh daily essentials", brands:[
-    {id:"P003",name:"Amul Cheese Cubes",               unit:"1 pcs",  emoji:"🧀", special:20,  mrp:22,  barcode:null},
-    {id:"P004",name:"Amul Ghee",                       unit:"1 kg",   emoji:"🧈", special:649,  mrp:670,  barcode:null},
+    {id:"P003",name:"Amul Cheese Cubes",unit:"1 pcs",emoji:"🧀",special:20,mrp:22,barcode:null},
+    {id:"P004",name:"Amul Ghee",unit:"1 kg",emoji:"🧈",special:649,mrp:670,barcode:null},
   ]},
   { name:"Pulses & Dal", emoji:"🫘", sub:"Protein-rich pulses", brands:[
-    {id:"P006",name:"Arahar Dal",                      unit:"1 kg",   emoji:"🫘", special:130, mrp:130, barcode:null},
-    {id:"P007",name:"Arahar Dal",                      unit:"500 g",  emoji:"🫘", special:65,  mrp:65,  barcode:null},
-    {id:"P031",name:"Dal Makhani Special Dal",           unit:"500 g",  emoji:"🍛", special:90,  mrp:90,  barcode:null},
-    {id:"P032",name:"Dal Makhani Special Dal",           unit:"1 kg",   emoji:"🍛", special:180, mrp:180, barcode:null},
-    {id:"P043",name:"Gota Kalai Dal",                  unit:"500 g",  emoji:"🫘", special:60,  mrp:60,  barcode:null},
-    {id:"P044",name:"Gota Kalai Dal",                  unit:"1 kg",   emoji:"🫘", special:120, mrp:120, barcode:null},
-    {id:"P045",name:"Gota Massor Dal",                 unit:"500 g",  emoji:"🟠", special:70,  mrp:70,  barcode:null},
-    {id:"P046",name:"Gota Massor Dal",                 unit:"1 kg",   emoji:"🟠", special:140, mrp:140, barcode:null},
-    {id:"P047",name:"Gota Massur Dal",                 unit:"1 kg",   emoji:"🟠", special:120, mrp:120, barcode:null},
-    {id:"P048",name:"Gota Massur Dal",                 unit:"500 g",  emoji:"🟠", special:60,  mrp:60,  barcode:null},
-    {id:"P049",name:"Gota Moong Dal",                  unit:"500 g",  emoji:"💛", special:60,  mrp:60,  barcode:null},
-    {id:"P050",name:"Gota Moong Dal",                  unit:"1 kg",   emoji:"💛", special:120, mrp:120, barcode:null},
-    {id:"P062",name:"Kalai Dal",                       unit:"500 g",  emoji:"🫘", special:70,  mrp:70,  barcode:null},
-    {id:"P063",name:"Kalai Dal",                       unit:"1 kg",   emoji:"🫘", special:140, mrp:140, barcode:null},
-    {id:"P071",name:"Massor Dal",                      unit:"500 g",  emoji:"🟠", special:50,  mrp:50,  barcode:null},
-    {id:"P072",name:"Massor Dal",                      unit:"1 kg",   emoji:"🟠", special:100, mrp:100, barcode:null},
-    {id:"P075",name:"Moong Dal",                       unit:"1 kg",   emoji:"💛", special:120, mrp:120, barcode:null},
-    {id:"P076",name:"Moong Dal",                       unit:"500 g",  emoji:"💛", special:60,  mrp:60,  barcode:null},
+    {id:"P006",name:"Arahar Dal",unit:"1 kg",emoji:"🫘",special:130,mrp:130,barcode:null},
+    {id:"P007",name:"Arahar Dal",unit:"500 g",emoji:"🫘",special:65,mrp:65,barcode:null},
+    {id:"P031",name:"Dal Makhani Special Dal",unit:"500 g",emoji:"🍛",special:90,mrp:90,barcode:null},
+    {id:"P032",name:"Dal Makhani Special Dal",unit:"1 kg",emoji:"🍛",special:180,mrp:180,barcode:null},
+    {id:"P043",name:"Gota Kalai Dal",unit:"500 g",emoji:"🫘",special:60,mrp:60,barcode:null},
+    {id:"P044",name:"Gota Kalai Dal",unit:"1 kg",emoji:"🫘",special:120,mrp:120,barcode:null},
+    {id:"P045",name:"Gota Massor Dal",unit:"500 g",emoji:"🟠",special:70,mrp:70,barcode:null},
+    {id:"P046",name:"Gota Massor Dal",unit:"1 kg",emoji:"🟠",special:140,mrp:140,barcode:null},
+    {id:"P047",name:"Gota Massur Dal",unit:"1 kg",emoji:"🟠",special:120,mrp:120,barcode:null},
+    {id:"P048",name:"Gota Massur Dal",unit:"500 g",emoji:"🟠",special:60,mrp:60,barcode:null},
+    {id:"P049",name:"Gota Moong Dal",unit:"500 g",emoji:"💛",special:60,mrp:60,barcode:null},
+    {id:"P050",name:"Gota Moong Dal",unit:"1 kg",emoji:"💛",special:120,mrp:120,barcode:null},
+    {id:"P062",name:"Kalai Dal",unit:"500 g",emoji:"🫘",special:70,mrp:70,barcode:null},
+    {id:"P063",name:"Kalai Dal",unit:"1 kg",emoji:"🫘",special:140,mrp:140,barcode:null},
+    {id:"P071",name:"Massor Dal",unit:"500 g",emoji:"🟠",special:50,mrp:50,barcode:null},
+    {id:"P072",name:"Massor Dal",unit:"1 kg",emoji:"🟠",special:100,mrp:100,barcode:null},
+    {id:"P075",name:"Moong Dal",unit:"1 kg",emoji:"💛",special:120,mrp:120,barcode:null},
+    {id:"P076",name:"Moong Dal",unit:"500 g",emoji:"💛",special:60,mrp:60,barcode:null},
+    {id:"N1005",name:"Chilka Wali Masoor Dal",unit:"1 kg",emoji:"🫘",special:140,mrp:140,barcode:null},
+    {id:"N1006",name:"Chana Dal",unit:"1 kg",emoji:"🫘",special:96,mrp:96,barcode:null},
   ]},
   { name:"Oil", emoji:"🛢️", sub:"Premium cooking oils", brands:[
-    {id:"P033",name:"Dhara Kachi Gani",                unit:"1 L",    emoji:"🛢️", special:179,  mrp:179,  barcode:null},
-    {id:"P035",name:"Fortune Kachi Gani",              unit:"1 L",    emoji:"🛢️", special:178,  mrp:178,  barcode:null},
-    {id:"P036",name:"Fortune Kachi Ghani",             unit:"1 L",    emoji:"🛢️", special:180,  mrp:180,  barcode:null},
-    {id:"P037",name:"Fortune Kachi Ghanni Jar",        unit:"15 kg",  emoji:"🛢️", special:2765, mrp:2765, barcode:null},
-    {id:"P038",name:"Fortune Soya Refine",             unit:"1 L",    emoji:"🍳", special:145,  mrp:145,  barcode:null},
-    {id:"P066",name:"King Kachi Ghani",                unit:"1 L",    emoji:"👑", special:165,  mrp:165,  barcode:null},
-    {id:"P067",name:"King Soya Refine",                unit:"1 L",    emoji:"👑", special:120,  mrp:120,  barcode:null},
+    {id:"P033",name:"Dhara Kachi Gani",unit:"1 L",emoji:"🛢️",special:179,mrp:179,barcode:null},
+    {id:"P035",name:"Fortune Kachi Gani",unit:"1 L",emoji:"🛢️",special:178,mrp:178,barcode:null},
+    {id:"P036",name:"Fortune Kachi Ghani",unit:"1 L",emoji:"🛢️",special:180,mrp:180,barcode:null},
+    {id:"P037",name:"Fortune Kachi Ghanni Jar",unit:"15 kg",emoji:"🛢️",special:2765,mrp:2765,barcode:null},
+    {id:"P038",name:"Fortune Soya Refine",unit:"1 L",emoji:"🍳",special:145,mrp:145,barcode:null},
+    {id:"P066",name:"King Kachi Ghani",unit:"1 L",emoji:"👑",special:165,mrp:165,barcode:null},
+    {id:"P067",name:"King Soya Refine",unit:"1 L",emoji:"👑",special:120,mrp:120,barcode:null},
+    {id:"N1028",name:"Rice Bran Oil",unit:"1 L",emoji:"🛢️",special:175,mrp:175,barcode:null},
+    {id:"N1029",name:"Engine Kacchi Ghani Oil",unit:"1 L",emoji:"🛢️",special:215,mrp:215,barcode:null},
   ]},
   { name:"Biscuits & Cookies", emoji:"🍪", sub:"Perfect tea-time snacks", brands:[
-    {id:"P005",name:"Anmol Dream Lite Salty Butterly", unit:"1 pcs", emoji:"🍪", special:5,  mrp:5,  barcode:null},
-    {id:"P008",name:"Baba Elaichi Toast",              unit:"1 pcs",  emoji:"🫚", special:60, mrp:60, barcode:null},
-    {id:"P009",name:"Baba Toasts",                     unit:"1 pcs",  emoji:"🍞", special:70, mrp:70, barcode:null},
-    {id:"P011",name:"Bisk Butter Biscotti",            unit:"1 pcs",  emoji:"🍪", special:30, mrp:30, barcode:null},
-    {id:"P012",name:"Bisk Farm Champ Milkuit",         unit:"1 pcs",  emoji:"🥛", special:25, mrp:25, barcode:null},
-    {id:"P013",name:"Bisk Farm Coco Wonder",           unit:"1 pcs",  emoji:"🍫", special:30, mrp:30, barcode:null},
-    {id:"P014",name:"Bisk Farm Jeera Wonder",          unit:"1 pcs",  emoji:"🌾", special:30, mrp:30, barcode:null},
-    {id:"P015",name:"Bisk Farm Mast Jeera",            unit:"1 pcs",  emoji:"🌾", special:45, mrp:45, barcode:null},
-    {id:"P016",name:"Bisk Farm Ruskit",                unit:"1 pcs",  emoji:"🍞", special:35, mrp:35, barcode:null},
-    {id:"P017",name:"Bisk Farm Top Gold",              unit:"1 pcs",  emoji:"🥇", special:30, mrp:30, barcode:null},
-    {id:"P018",name:"Bisk Farm Top Gold",              unit:"1 pcs",  emoji:"🥇", special:30, mrp:30, barcode:null},
-    {id:"P019",name:"Bisk Farm Top Herbs",             unit:"1 pcs",  emoji:"🌿", special:35, mrp:35, barcode:null},
-    {id:"P020",name:"Bisk Farm Top Herbs",             unit:"1 pcs",  emoji:"🌿", special:35, mrp:35, barcode:null},
-    {id:"P021",name:"Britannia 50-50 Golmaal Kala",    unit:"1 pcs",  emoji:"🍪", special:30, mrp:30, barcode:null},
-    {id:"P022",name:"Britannia 50-50 Golmal Top",      unit:"1 pcs",  emoji:"🧈", special:5,  mrp:5,  barcode:null},
-    {id:"P023",name:"Britannia 50-50 Marie Gold",      unit:"1 pcs",  emoji:"🍪", special:30, mrp:30, barcode:null},
-    {id:"P024",name:"Britannia 50-50 Top Butterly",    unit:"1 pcs",  emoji:"🧈", special:30, mrp:30, barcode:null},
-    {id:"P025",name:"Britannia Bourbon",               unit:"1 pcs",  emoji:"🍫", special:35, mrp:35, barcode:null},
-    {id:"P026",name:"Britannia GoodDay Butter Cookies",unit:"1 pcs",  emoji:"🧈", special:40, mrp:40, barcode:null},
-    {id:"P027",name:"Britannia GoodDay Cashew Almond", unit:"1 pcs",  emoji:"🌰", special:40, mrp:40, barcode:null},
-    {id:"P028",name:"Britannia Milk Bikis",            unit:"1 pcs",  emoji:"🥛", special:30, mrp:30, barcode:null},
-    {id:"P029",name:"Britannia NutriChoice Digestive", unit:"1 pcs",  emoji:"💚", special:55, mrp:55, barcode:null},
-    {id:"P030",name:"Coco Wonder",                     unit:"1 pcs",  emoji:"🍫", special:30, mrp:30, barcode:null},
-    {id:"P042",name:"Good Day",                        unit:"1 pcs",  emoji:"🧈", special:40, mrp:40, barcode:null},
-    {id:"P051",name:"Home Bake Premium (Green)",       unit:"1 pcs",  emoji:"🍪", special:55, mrp:55, barcode:null},
-    {id:"P052",name:"Home Bake Premium (Red)",         unit:"1 pcs",  emoji:"🍪", special:55, mrp:55, barcode:null},
-    {id:"P053",name:"Homebread Cookies",               unit:"1 pcs",  emoji:"🍪", special:80, mrp:80, barcode:null},
-    {id:"P057",name:"Jeera Wonder",                    unit:"1 pcs",  emoji:"🌾", special:30, mrp:30, barcode:null},
-    {id:"P069",name:"Malkist Cheese Flavoured",        unit:"1 pcs",  emoji:"🧀", special:45, mrp:45, barcode:null},
-    {id:"P070",name:"Marie Gold",                      unit:"1 pcs",  emoji:"🍪", special:40, mrp:40, barcode:null},
-    {id:"P073",name:"Biskfarm Mast Jeera",             unit:"1 pcs",  emoji:"🌾", special:45, mrp:45, barcode:null},
-    {id:"P074",name:"Milk Kut Champ",                  unit:"1 pcs",  emoji:"🥛", special:25, mrp:25, barcode:null},
-    {id:"P081",name:"Nutri Choice",                    unit:"1 pcs",  emoji:"💚", special:10, mrp:10, barcode:null},
-    {id:"P082",name:"Oreo",                            unit:"1 pcs",  emoji:"⚫", special:10, mrp:10, barcode:null},
-    {id:"P083",name:"Parle Monaco Classic",            unit:"1 pcs",  emoji:"🍪", special:70, mrp:70, barcode:null},
-    {id:"P084",name:"Ruskit",                          unit:"1 pcs",  emoji:"🍞", special:40, mrp:40, barcode:null},
-    {id:"P089",name:"Snfeast Mom's Magic Ghee",        unit:"1 pcs",  emoji:"🍪", special:5,  mrp:5,  barcode:null},
-    {id:"P094",name:"Unickk Butter Maska",             unit:"1 pcs",  emoji:"🧈", special:10, mrp:10, barcode:null},
-    {id:"P095",name:"Unickk Snackker",                 unit:"1 pcs",  emoji:"🍪", special:10, mrp:10, barcode:null},
+    {id:"P005",name:"Anmol Dream Lite Salty Butterly",unit:"1 pcs",emoji:"🍪",special:5,mrp:5,barcode:null},
+    {id:"P008",name:"Baba Elaichi Toast",unit:"1 pcs",emoji:"🫚",special:60,mrp:60,barcode:null},
+    {id:"P009",name:"Baba Toasts",unit:"1 pcs",emoji:"🍞",special:70,mrp:70,barcode:null},
+    {id:"P011",name:"Bisk Butter Biscotti",unit:"1 pcs",emoji:"🍪",special:30,mrp:30,barcode:null},
+    {id:"P012",name:"Bisk Farm Champ Milkuit",unit:"1 pcs",emoji:"🥛",special:25,mrp:25,barcode:null},
+    {id:"P013",name:"Bisk Farm Coco Wonder",unit:"1 pcs",emoji:"🍫",special:30,mrp:30,barcode:null},
+    {id:"P014",name:"Bisk Farm Jeera Wonder",unit:"1 pcs",emoji:"🌾",special:30,mrp:30,barcode:null},
+    {id:"P015",name:"Bisk Farm Mast Jeera",unit:"1 pcs",emoji:"🌾",special:45,mrp:45,barcode:null},
+    {id:"P016",name:"Bisk Farm Ruskit",unit:"1 pcs",emoji:"🍞",special:35,mrp:35,barcode:null},
+    {id:"P017",name:"Bisk Farm Top Gold",unit:"1 pcs",emoji:"🥇",special:30,mrp:30,barcode:null},
+    {id:"P018",name:"Bisk Farm Top Gold",unit:"1 pcs",emoji:"🥇",special:30,mrp:30,barcode:null},
+    {id:"P019",name:"Bisk Farm Top Herbs",unit:"1 pcs",emoji:"🌿",special:35,mrp:35,barcode:null},
+    {id:"P020",name:"Bisk Farm Top Herbs",unit:"1 pcs",emoji:"🌿",special:35,mrp:35,barcode:null},
+    {id:"P021",name:"Britannia 50-50 Golmaal Kala",unit:"1 pcs",emoji:"🍪",special:30,mrp:30,barcode:null},
+    {id:"P022",name:"Britannia 50-50 Golmal Top",unit:"1 pcs",emoji:"🧈",special:5,mrp:5,barcode:null},
+    {id:"P023",name:"Britannia 50-50 Marie Gold",unit:"1 pcs",emoji:"🍪",special:30,mrp:30,barcode:null},
+    {id:"P024",name:"Britannia 50-50 Top Butterly",unit:"1 pcs",emoji:"🧈",special:30,mrp:30,barcode:null},
+    {id:"P025",name:"Britannia Bourbon",unit:"1 pcs",emoji:"🍫",special:35,mrp:35,barcode:null},
+    {id:"P026",name:"Britannia GoodDay Butter Cookies",unit:"1 pcs",emoji:"🧈",special:40,mrp:40,barcode:null},
+    {id:"P027",name:"Britannia GoodDay Cashew Almond",unit:"1 pcs",emoji:"🌰",special:40,mrp:40,barcode:null},
+    {id:"P028",name:"Britannia Milk Bikis",unit:"1 pcs",emoji:"🥛",special:30,mrp:30,barcode:null},
+    {id:"P029",name:"Britannia NutriChoice Digestive",unit:"1 pcs",emoji:"💚",special:55,mrp:55,barcode:null},
+    {id:"P030",name:"Coco Wonder",unit:"1 pcs",emoji:"🍫",special:30,mrp:30,barcode:null},
+    {id:"P042",name:"Good Day",unit:"1 pcs",emoji:"🧈",special:40,mrp:40,barcode:null},
+    {id:"P051",name:"Home Bake Premium (Green)",unit:"1 pcs",emoji:"🍪",special:55,mrp:55,barcode:null},
+    {id:"P052",name:"Home Bake Premium (Red)",unit:"1 pcs",emoji:"🍪",special:55,mrp:55,barcode:null},
+    {id:"P053",name:"Homebread Cookies",unit:"1 pcs",emoji:"🍪",special:80,mrp:80,barcode:null},
+    {id:"P057",name:"Jeera Wonder",unit:"1 pcs",emoji:"🌾",special:30,mrp:30,barcode:null},
+    {id:"P069",name:"Malkist Cheese Flavoured",unit:"1 pcs",emoji:"🧀",special:45,mrp:45,barcode:null},
+    {id:"P070",name:"Marie Gold",unit:"1 pcs",emoji:"🍪",special:40,mrp:40,barcode:null},
+    {id:"P073",name:"Biskfarm Mast Jeera",unit:"1 pcs",emoji:"🌾",special:45,mrp:45,barcode:null},
+    {id:"P074",name:"Milk Kut Champ",unit:"1 pcs",emoji:"🥛",special:25,mrp:25,barcode:null},
+    {id:"P081",name:"Nutri Choice",unit:"1 pcs",emoji:"💚",special:10,mrp:10,barcode:null},
+    {id:"P082",name:"Oreo",unit:"1 pcs",emoji:"⚫",special:10,mrp:10,barcode:null},
+    {id:"P083",name:"Parle Monaco Classic",unit:"1 pcs",emoji:"🍪",special:70,mrp:70,barcode:null},
+    {id:"P084",name:"Ruskit",unit:"1 pcs",emoji:"🍞",special:40,mrp:40,barcode:null},
+    {id:"P089",name:"Snfeast Mom's Magic Ghee",unit:"1 pcs",emoji:"🍪",special:5,mrp:5,barcode:null},
+    {id:"P094",name:"Unickk Butter Maska",unit:"1 pcs",emoji:"🧈",special:10,mrp:10,barcode:null},
+    {id:"P095",name:"Unickk Snackker",unit:"1 pcs",emoji:"🍪",special:10,mrp:10,barcode:null},
+    {id:"N1001",name:"Britannia Nutri Choice Digestive High Fibre",unit:"1 pcs",emoji:"🛍️",special:55,mrp:55,barcode:null},
+    {id:"N1002",name:"Home Bake Premium Cookies Mix Flavours Green",unit:"1 pcs",emoji:"🍪",special:55,mrp:55,barcode:null},
+    {id:"N1003",name:"Home Bake Premium Cookies Mix Flavours Red",unit:"1 pcs",emoji:"🍪",special:55,mrp:55,barcode:null},
+    {id:"N1004",name:"Time Pass 50-50",unit:"1 pcs",emoji:"🛍️",special:25,mrp:25,barcode:null},
   ]},
   { name:"Noodles", emoji:"🍜", sub:"Instant meals", brands:[
-    {id:"P034",name:"Dodo Noodle's Special",           unit:"1 pcs",  emoji:"🍜", special:80, mrp:80, barcode:null},
+    {id:"P034",name:"Dodo Noodle's Special",unit:"1 pcs",emoji:"🍜",special:80,mrp:80,barcode:null},
+    {id:"N1042",name:"Maggie",unit:"1 pcs",emoji:"🍜",special:15,mrp:15,barcode:null},
   ]},
   { name:"Energy Drinks", emoji:"⚡", sub:"Stay active and hydrated", brands:[
-    {id:"P040",name:"Glucon-D Regular",                unit:"1 pcs",  emoji:"⚡", special:39, mrp:39, barcode:null},
-    {id:"P041",name:"Glucon-D Tangy Orange",           unit:"1 pcs",  emoji:"🍊", special:55, mrp:55, barcode:null},
+    {id:"P040",name:"Glucon-D Regular",unit:"1 pcs",emoji:"⚡",special:39,mrp:39,barcode:null},
+    {id:"P041",name:"Glucon-D Tangy Orange",unit:"1 pcs",emoji:"🍊",special:55,mrp:55,barcode:null},
   ]},
   { name:"Dry Cakes", emoji:"🎂", sub:"Sweet bakery items", brands:[
-    {id:"P039",name:"Fruit Cake",                      unit:"1 pcs",  emoji:"🎂", special:80, mrp:80, barcode:null},
-    {id:"P088",name:"Sliced Fruit Cake",               unit:"1 pcs",  emoji:"🍰", special:65, mrp:65, barcode:null},
-    {id:"P092",name:"Tiffun Slice Mawa Cake Big",      unit:"1 pcs",  emoji:"🍮", special:20, mrp:20, barcode:null},
-    {id:"P093",name:"Tiffun Slice Mawa Cake Small",    unit:"1 pcs",  emoji:"🍮", special:10, mrp:10, barcode:null},
+    {id:"P039",name:"Fruit Cake",unit:"1 pcs",emoji:"🎂",special:80,mrp:80,barcode:null},
+    {id:"P088",name:"Sliced Fruit Cake",unit:"1 pcs",emoji:"🍰",special:65,mrp:65,barcode:null},
+    {id:"P092",name:"Tiffun Slice Mawa Cake Big",unit:"1 pcs",emoji:"🍮",special:20,mrp:20,barcode:null},
+    {id:"P093",name:"Tiffun Slice Mawa Cake Small",unit:"1 pcs",emoji:"🍮",special:10,mrp:10,barcode:null},
   ]},
   { name:"Chutney & Sauces", emoji:"🫙", sub:"Enhance your meals", brands:[
-    {id:"P078",name:"Nilon's Green Chilly Sauce",      unit:"90 g",   emoji:"🌶️", special:25, mrp:25, barcode:null},
-    {id:"P079",name:"Nilon's Red Chilly Sauce",        unit:"80 g",   emoji:"🍅", special:25, mrp:25, barcode:null},
-    {id:"P080",name:"Nilon's Schezwan Chutney",        unit:"80 g",   emoji:"🌶️", special:35, mrp:35, barcode:null},
+    {id:"P078",name:"Nilon's Green Chilly Sauce",unit:"90 g",emoji:"🌶️",special:25,mrp:25,barcode:null},
+    {id:"P079",name:"Nilon's Red Chilly Sauce",unit:"80 g",emoji:"🍅",special:25,mrp:25,barcode:null},
+    {id:"P080",name:"Nilon's Schezwan Chutney",unit:"80 g",emoji:"🌶️",special:35,mrp:35,barcode:null},
   ]},
   { name:"Snacks", emoji:"🍿", sub:"Crispy munchies", brands:[
-    {id:"P068",name:"Kurkure Puffcorn",                unit:"1 pcs",  emoji:"🍿", special:10, mrp:10, barcode:null},
+    {id:"P068",name:"Kurkure Puffcorn",unit:"1 pcs",emoji:"🍿",special:10,mrp:10,barcode:null},
+    {id:"N1045",name:"Haldirams Delhi Bhujiya",unit:"1 kg",emoji:"🍟",special:280,mrp:280,barcode:null},
+    {id:"N1046",name:"Mala Chanachur",unit:"400 g",emoji:"🍟",special:100,mrp:100,barcode:null},
   ]},
   { name:"Milk Mix", emoji:"🥛", sub:"Health drinks", brands:[
-    {id:"P054",name:"Horlicks",                        unit:"1 kg",   emoji:"🥛", special:264, mrp:264, barcode:null},
+    {id:"P054",name:"Horlicks",unit:"1 kg",emoji:"🥛",special:264,mrp:264,barcode:null},
   ]},
   { name:"Salts", emoji:"🧂", sub:"Cooking essentials", brands:[
-    {id:"P091",name:"Tata Salt",                       unit:"1 kg",   emoji:"🧂", special:30, mrp:30, barcode:null},
+    {id:"P091",name:"Tata Salt",unit:"1 kg",emoji:"🧂",special:30,mrp:30,barcode:null},
   ]},
   { name:"Detergents", emoji:"🧺", sub:"Laundry care", brands:[
-    {id:"P087",name:"Surf Excel Detergent",            unit:"500 g",  emoji:"🧺", special:71, mrp:71, barcode:null},
+    {id:"P087",name:"Surf Excel Detergent",unit:"500 g",emoji:"🧺",special:71,mrp:71,barcode:null},
+    {id:"N1007",name:"Sirf Excel",unit:"500 g",emoji:"🧺",special:71,mrp:71,barcode:null},
+    {id:"N1008",name:"Vim Bar",unit:"1 pcs",emoji:"🧼",special:10,mrp:10,barcode:null},
+    {id:"N1009",name:"Rin Bar",unit:"1 pcs",emoji:"🧼",special:10,mrp:10,barcode:null},
+    {id:"N1010",name:"Aerial Sirf",unit:"1 kg",emoji:"🧺",special:140,mrp:140,barcode:null},
+    {id:"N1011",name:"Wheel Sirf",unit:"1 kg",emoji:"🧺",special:70,mrp:70,barcode:null},
+  ]},
+  { name:"Self Care", emoji:"🧴", sub:"Personal care essentials", brands:[
+    {id:"N1024",name:"Cetaphil",unit:"1 pcs",emoji:"🧴",special:414,mrp:414,barcode:null},
+  ]},
+  { name:"Chips", emoji:"🍟", sub:"Crunchy chips & namkeen", brands:[
+    {id:"N1025",name:"Bingo Tedhe Medhe",unit:"1 pcs",emoji:"💊",special:5,mrp:5,barcode:null},
+    {id:"N1026",name:"Lay's Potato Chips - Simple Classic Salted",unit:"1 pcs",emoji:"🧂",special:20,mrp:20,barcode:null},
+    {id:"N1027",name:"Punjabi Tadka",unit:"1 pcs",emoji:"🛍️",special:10,mrp:10,barcode:null},
+  ]},
+  { name:"Water & Drinks", emoji:"💧", sub:"Bottled water & soft drinks", brands:[
+    {id:"N1030",name:"Independence Mineral Water",unit:"1.5 L",emoji:"💧",special:20,mrp:20,barcode:null},
+    {id:"N1031",name:"Mogu Mogu",unit:"1 pcs",emoji:"🛍️",special:70,mrp:70,barcode:null},
+  ]},
+  { name:"Spices & Masala", emoji:"🌶️", sub:"Masalas & spice powders", brands:[
+    {id:"N1032",name:"Everest Chaat Masala",unit:"1 pcs",emoji:"🌶️",special:44,mrp:44,barcode:null},
+    {id:"N1033",name:"Dhania Powder",unit:"1 pcs",emoji:"🌶️",special:85,mrp:85,barcode:null},
+    {id:"N1034",name:"Mirchi Powder",unit:"1 pcs",emoji:"🌶️",special:130,mrp:130,barcode:null},
+    {id:"N1035",name:"Geera Powder",unit:"1 pcs",emoji:"🌶️",special:180,mrp:180,barcode:null},
+    {id:"N1036",name:"Catch Dal Makhani Masala",unit:"1 pcs",emoji:"🌶️",special:80,mrp:80,barcode:null},
+    {id:"N1037",name:"Dhania Powder 1 Box",unit:"1 box",emoji:"🌶️",special:85,mrp:85,barcode:null},
+    {id:"N1038",name:"Mirchi Powder 1 Box",unit:"1 box",emoji:"🌶️",special:130,mrp:130,barcode:null},
+    {id:"N1039",name:"Geera Powder 1 Box",unit:"1 box",emoji:"🌶️",special:180,mrp:180,barcode:null},
+  ]},
+  { name:"Stationery", emoji:"📎", sub:"Everyday stationery", brands:[
+    {id:"N1040",name:"Cellotape",unit:"1 pcs",emoji:"📎",special:10,mrp:10,barcode:null},
+    {id:"N1041",name:"Korean Paper",unit:"1 pcs",emoji:"📎",special:20,mrp:20,barcode:null},
+  ]},
+  { name:"Cosmetics", emoji:"💄", sub:"Beauty & hair care", brands:[
+    {id:"N1043",name:"Streaks Dark Brown Hair Colour",unit:"1 pcs",emoji:"💄",special:205,mrp:205,barcode:null},
+    {id:"N1044",name:"Streaks Developer",unit:"1 pcs",emoji:"🛍️",special:130,mrp:130,barcode:null},
+  ]},
+  { name:"Health & Medicine", emoji:"💊", sub:"Everyday health essentials", brands:[
+    {id:"N1047",name:"Eno",unit:"1 pcs",emoji:"💊",special:10,mrp:10,barcode:null},
+  ]},
+  { name:"Cleaning & Home Care", emoji:"🧽", sub:"Keep your home spotless", brands:[
+    {id:"N1048",name:"Lisol",unit:"945 ml",emoji:"🧽",special:249,mrp:249,barcode:null},
+  ]},
+  { name:"Dry Fruits", emoji:"🥜", sub:"Premium dry fruits & nuts", brands:[
+    {id:"N1049",name:"Kismis / Raisins",unit:"250 g",emoji:"🥜",special:149,mrp:149,barcode:null},
+    {id:"N1050",name:"Kaju",unit:"1 kg",emoji:"🥜",special:999,mrp:999,barcode:null},
+  ]},
+  { name:"Fruits", emoji:"🥥", sub:"Fresh fruit picks", brands:[
+    {id:"N1051",name:"Coconut",unit:"1 pcs",emoji:"🥥",special:50,mrp:50,barcode:null},
+  ]},
+  { name:"Tea & Coffee", emoji:"🍵", sub:"Premium teas & coffee", brands:[
+    {id:"N1052",name:"Special Chaipatti",unit:"1 kg",emoji:"🍵",special:499,mrp:499,barcode:null},
+    {id:"N1053",name:"CTC Tea",unit:"1 kg",emoji:"🍵",special:300,mrp:300,barcode:null},
+    {id:"N1054",name:"CTC Tea",unit:"500 g",emoji:"🍵",special:150,mrp:150,barcode:null},
+    {id:"N1055",name:"CTC Tea",unit:"250 g",emoji:"🍵",special:75,mrp:75,barcode:null},
+    {id:"N1056",name:"Darjeeling Mix Tea",unit:"250 g",emoji:"🍵",special:100,mrp:100,barcode:null},
+    {id:"N1057",name:"Darjeeling Mix Tea",unit:"500 g",emoji:"🍵",special:200,mrp:200,barcode:null},
+    {id:"N1058",name:"Darjeeling Mix Tea",unit:"1 kg",emoji:"🍵",special:400,mrp:400,barcode:null},
+    {id:"N1059",name:"Darjeeling Mix Tea (Assam)",unit:"250 g",emoji:"🍵",special:125,mrp:125,barcode:null},
+    {id:"N1060",name:"Darjeeling Mix Tea (Assam)",unit:"500 g",emoji:"🍵",special:250,mrp:250,barcode:null},
+    {id:"N1061",name:"Darjeeling Mix Tea (Assam)",unit:"1 kg",emoji:"🍵",special:500,mrp:500,barcode:null},
+    {id:"N1062",name:"Kesar Tea",unit:"250 g",emoji:"🍵",special:175,mrp:175,barcode:null},
+    {id:"N1063",name:"Kesar Tea",unit:"500 g",emoji:"🍵",special:350,mrp:350,barcode:null},
+    {id:"N1064",name:"Kesar Tea",unit:"1 kg",emoji:"🍵",special:600,mrp:600,barcode:null},
+    {id:"N1065",name:"Masala Tea",unit:"250 g",emoji:"🍵",special:175,mrp:175,barcode:null},
+    {id:"N1066",name:"Masala Tea",unit:"500 g",emoji:"🍵",special:300,mrp:300,barcode:null},
+    {id:"N1067",name:"Masala Tea",unit:"1 kg",emoji:"🍵",special:600,mrp:600,barcode:null},
+    {id:"N1068",name:"Elaichi Tea (Cardamom Chai)",unit:"250 g",emoji:"🍵",special:120,mrp:120,barcode:null},
+    {id:"N1069",name:"Elaichi Tea (Cardamom Chai)",unit:"500 g",emoji:"🍵",special:220,mrp:220,barcode:null},
+    {id:"N1070",name:"Elaichi Tea (Cardamom Chai)",unit:"1 kg",emoji:"🍵",special:440,mrp:440,barcode:null},
+    {id:"N1071",name:"Plain Tea",unit:"250 g",emoji:"🍵",special:100,mrp:100,barcode:null},
+    {id:"N1072",name:"Plain Tea",unit:"500 g",emoji:"🍵",special:200,mrp:200,barcode:null},
+    {id:"N1073",name:"Plain Tea",unit:"1 kg",emoji:"🍵",special:400,mrp:400,barcode:null},
+    {id:"N1074",name:"Rajbari Tea (Pouch)",unit:"250 g",emoji:"🍵",special:125,mrp:125,barcode:null},
+    {id:"N1075",name:"Rajbari Tea (Pouch)",unit:"500 g",emoji:"🍵",special:250,mrp:250,barcode:null},
+    {id:"N1076",name:"Rajbari Tea (Pouch)",unit:"1 kg",emoji:"🍵",special:500,mrp:500,barcode:null},
+    {id:"N1077",name:"Rajbari Tea (Jar)",unit:"250 g",emoji:"🍵",special:130,mrp:130,barcode:null},
+    {id:"N1078",name:"Rajbari Tea (Jar)",unit:"500 g",emoji:"🍵",special:260,mrp:260,barcode:null},
+    {id:"N1079",name:"Rajbari Tea (Jar)",unit:"1 kg",emoji:"🍵",special:520,mrp:520,barcode:null},
+    {id:"N1080",name:"Tea Max Darjeeling Saffron Tea (Green Tea) Jar",unit:"100 g",emoji:"🍵",special:600,mrp:600,barcode:null},
+    {id:"N1081",name:"Tea Max Darjeeling (Green Tea) Jar",unit:"50 g",emoji:"🍵",special:300,mrp:300,barcode:null},
+    {id:"N1082",name:"Tea Max Darjeeling (Green Tea) Jar",unit:"100 g",emoji:"🍵",special:600,mrp:600,barcode:null},
+    {id:"N1083",name:"Lipton Green Tea 25 Tea Bags ( )",unit:"32.5 g",emoji:"🍵",special:200,mrp:200,barcode:null},
+    {id:"N1084",name:"Lipton Green Tea 100 Tea Bags ( )",unit:"130 g",emoji:"🍵",special:600,mrp:600,barcode:null},
+    {id:"N1085",name:"White Tea (Super)",unit:"100 g",emoji:"🍵",special:1000,mrp:1000,barcode:null},
+    {id:"N1086",name:"White Tea",unit:"100 g",emoji:"🍵",special:500,mrp:500,barcode:null},
+    {id:"N1087",name:"Nescafe Classic Instant Coffee Powder Jar",unit:"25 g",emoji:"☕",special:124,mrp:124,barcode:null},
+    {id:"N1088",name:"Nestle Classic Coffee Soluble Instant Coffee Jar",unit:"50 g",emoji:"☕",special:235,mrp:235,barcode:null},
+  ]},
+  { name:"Juices", emoji:"🧃", sub:"Refreshing fruit juices", brands:[
+    {id:"N1089",name:"Real Fruit Juice Pomegranate (Anar)",unit:"1 L",emoji:"🧃",special:125,mrp:125,barcode:null},
   ]},
 ];
 
@@ -717,9 +813,8 @@ function cartTotals() {
   const items = Object.values(cart);
   const qty = items.reduce((s,i)=>s+i.qty,0);
   const subtotal = items.reduce((s,i)=>s+(i.special*i.qty),0);
-  const wt = items.reduce((s,i)=>s+(extractWeightGrams(i.unit)*i.qty),0);
-  const delivery = items.length===0 ? {charge:0,label:"",tier:""} : getDelivery(wt);
-  return {qty,subtotal,wt,delivery};
+  const delivery = items.length===0 ? 0 : FLAT_DELIVERY_CHARGE;
+  return {qty,subtotal,delivery};
 }
 
 function renderDeals() {
@@ -823,23 +918,81 @@ function buildCatRow() {
   document.getElementById("catRow").innerHTML = chips + pills;
 }
 
-function scrollToSec(i) { 
-  const yOffset = -180; 
-  const element = document.getElementById(`sec_${i}`);
-  if(element) {
-    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-    window.scrollTo({top: y, behavior: 'smooth'});
+// Measures the real combined height of the sticky header + search bar + category row,
+// so short categories don't get scrolled past. Recomputed on load/resize since the
+// stack's height can change across breakpoints.
+let stickyOffset = 190;
+function computeStickyOffset() {
+  const header = document.querySelector('header');
+  const search = document.querySelector('.search-wrap');
+  const catRow = document.getElementById('catRowContainer');
+  let total = 14; // small breathing-room buffer
+  if (header) total += header.getBoundingClientRect().height;
+  if (search) total += search.getBoundingClientRect().height;
+  if (catRow) total += catRow.getBoundingClientRect().height;
+  stickyOffset = total;
+}
+
+// --- Scroll-spy / click-to-scroll coordination -----------------------------
+// While a user taps a pill we drive the scroll + active-pill state directly.
+// We temporarily suppress the IntersectionObserver's own "which section is
+// active" updates during that programmatic scroll. Without this, the
+// observer (and its own pill.scrollIntoView call, which shifts the
+// horizontally-scrolling pill row) can fire mid-scroll and either re-tag the
+// wrong pill as active or shift the pill row right as a second tap lands,
+// making it look like "the next category opens" instead of the one tapped.
+let isProgrammaticScroll = false;
+let scrollSettleTimer = null;
+
+function setActivePill(id) {
+  document.querySelectorAll(".cat-pill").forEach(c => c.classList.remove("active"));
+  const pill = document.getElementById(`pill_${id}`);
+  if (pill) {
+    pill.classList.add("active");
+    pill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   }
+}
+
+function scrollToSec(i) {
+  const element = document.getElementById(`sec_${i}`);
+  if (!element) return;
+
+  // Re-measure right before navigating: layout (fonts/images) can shift the
+  // sticky stack's height after first load, and a stale offset is exactly
+  // what causes landing a section or two off from the one that was tapped.
+  computeStickyOffset();
+
+  isProgrammaticScroll = true;
+  clearTimeout(scrollSettleTimer);
+  setActivePill(i);
+
+  const y = element.getBoundingClientRect().top + window.pageYOffset - stickyOffset;
+  window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+
+  // Resume scroll-spy only once the smooth scroll has actually finished
+  // (position stops changing), rather than on a fixed guess-timer.
+  let lastY = window.pageYOffset;
+  const checkSettled = () => {
+    if (Math.abs(window.pageYOffset - lastY) < 2) {
+      isProgrammaticScroll = false;
+    } else {
+      lastY = window.pageYOffset;
+      scrollSettleTimer = setTimeout(checkSettled, 100);
+    }
+  };
+  scrollSettleTimer = setTimeout(checkSettled, 350);
 }
 
 // Scroll Spy Implementation
 function initScrollSpy() {
+  computeStickyOffset();
   const observer = new IntersectionObserver((entries) => {
+    if (isProgrammaticScroll) return; // ignore while a tap-triggered scroll is in flight
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        document.querySelectorAll(".cat-pill").forEach(c => c.classList.remove("active"));
-        const secId = entry.target.id; 
+        const secId = entry.target.id;
         const identifier = secId.replace('sec_', '');
+        document.querySelectorAll(".cat-pill").forEach(c => c.classList.remove("active"));
         const pill = document.getElementById(`pill_${identifier}`);
         if(pill) {
           pill.classList.add("active");
@@ -847,13 +1000,15 @@ function initScrollSpy() {
         }
       }
     });
-  }, { rootMargin: "-150px 0px -60% 0px" });
+  }, { rootMargin: `-${Math.round(stickyOffset)}px 0px -60% 0px` });
 
   observer.observe(document.getElementById('sec_deals'));
   categories.forEach((_, i) => {
     const el = document.getElementById(`sec_${i}`);
     if(el) observer.observe(el);
   });
+
+  window.addEventListener('resize', computeStickyOffset);
 }
 
 function doSearch(q) {
@@ -895,7 +1050,7 @@ function reSearch(){const v=document.getElementById("searchInput").value;if(v.tr
 function clearSearch(){document.getElementById("searchInput").value="";doSearch("");}
 
 function updateUI() {
-  const {qty,subtotal,wt,delivery}=cartTotals();
+  const {qty,subtotal,delivery}=cartTotals();
   
   // Trigger Cart Badge Bounce Animation
   const badge = document.getElementById("cartBadge");
@@ -906,7 +1061,7 @@ function updateUI() {
   
   document.getElementById("fbCount").textContent=`${qty} ITEM${qty!==1?"S":""}`;
   document.getElementById("fbTotal").textContent=subtotal;
-  document.getElementById("fbDelivery").textContent=qty>0?`+ ₹${delivery.charge} Delivery`:"+ ₹0 Delivery";
+  document.getElementById("fbDelivery").textContent=qty>0?`+ ₹${delivery} Delivery`:"+ ₹0 Delivery";
   document.getElementById("floatingBar").classList.toggle("visible", qty>0);
   
   // Save cart to Local Storage
@@ -942,14 +1097,13 @@ function renderCartDrawer() {
       </button>
     </div>`).join("");
     
-  const {subtotal,wt,delivery}=cartTotals();
-  const grand=subtotal+delivery.charge;
+  const {subtotal,delivery}=cartTotals();
+  const grand=subtotal+delivery;
   footer.innerHTML=`
     <div class="delivery-box">
       <div class="db-title">Bill Summary</div>
       <div class="db-row"><span class="lbl">Subtotal</span><span class="val">₹${subtotal}</span></div>
-      <div class="db-row"><span class="lbl">Total Weight</span><span class="val">${(wt/1000).toFixed(2)} kg</span></div>
-      <div class="db-row"><span class="lbl">Delivery Charge</span><span class="val">₹${delivery.charge}</span></div>
+      <div class="db-row"><span class="lbl">Delivery Charge</span><span class="val">₹${delivery}</span></div>
       <div class="db-row grand"><span class="lbl">To Pay</span><span class="val">₹${grand}</span></div>
     </div>
     <button class="wa-send-btn" onclick="sendWhatsApp()">
@@ -979,13 +1133,13 @@ function confirmOrder(){
   if(!/^\d{10}$/.test(phone))show("phoneErr","custPhone");else hide("phoneErr","custPhone");
   if(!ok)return;
   const items=Object.values(cart);
-  const {subtotal,wt,delivery}=cartTotals();
-  const grand=subtotal+delivery.charge;
+  const {subtotal,delivery}=cartTotals();
+  const grand=subtotal+delivery;
   let msg="🛒 *New Order – Order Kaaro*\n━━━━━━━━━━━━━━━━━━━━\n\n*👤 Customer Details:*\n";
   msg+=`• Name: ${name}\n• Mobile: ${phone}\n• Address: ${addr}\n\n`;
   msg+="━━━━━━━━━━━━━━━━━━━━\n*🛍️ Order:*\n\n";
   items.forEach(i=>msg+=`• ${i.name} (${i.unit||"1 pcs"})\n  Qty: ${i.qty}  |  ₹${i.special} each  |  *₹${i.special*i.qty}*\n\n`);
-  msg+=`━━━━━━━━━━━━━━━━━━━━\n🧾 Subtotal: ₹${subtotal}\n⚖️ Weight: ${(wt/1000).toFixed(2)} kg\n🚚 Delivery: ₹${delivery.charge}\n━━━━━━━━━━━━━━━━━━━━\n💰 *Grand Total: ₹${grand}*\n\nThank you! 🙏`;
+  msg+=`━━━━━━━━━━━━━━━━━━━━\n🧾 Subtotal: ₹${subtotal}\n🚚 Delivery: ₹${delivery}\n━━━━━━━━━━━━━━━━━━━━\n💰 *Grand Total: ₹${grand}*\n\nThank you! 🙏`;
   closeModal();
   
   // Clear cart upon successful checkout intent
