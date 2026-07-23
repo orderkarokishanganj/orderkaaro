@@ -535,11 +535,19 @@ function offImgUrl(barcode) {
 }
 
 // Updated to include img-skeleton class which removes itself onload
-function imgEl(barcode, emoji, cls) {
+function imgEl(barcode, emoji, cls, fallbackUrl) {
+  // Primary: OpenFoodFacts (when barcode exists)
   const url = offImgUrl(barcode);
-  if (!url) return `<div class="${cls}"><span class="emoji-fallback" style="display:block">${emoji}</span></div>`;
+
+  // If no barcode or primary URL missing, use fallback so images always show.
+  const finalUrl = url || fallbackUrl;
+
+  if (!finalUrl) {
+    return `<div class="${cls}"><span class="emoji-fallback" style="display:block">${emoji}</span></div>`;
+  }
+
   return `<div class="${cls} img-skeleton">
-    <img src="${url}" alt="" loading="lazy" onload="this.parentElement.classList.remove('img-skeleton')" onerror="this.classList.add('error'); this.parentElement.classList.remove('img-skeleton');">
+    <img src="${finalUrl}" alt="" loading="lazy" onload="this.parentElement.classList.remove('img-skeleton')" onerror="this.classList.add('error'); this.parentElement.classList.remove('img-skeleton');">
     <span class="emoji-fallback">${emoji}</span>
   </div>`;
 }
@@ -827,7 +835,12 @@ function renderDeals() {
       : `<div class="deal-qty-ctrl"><button class="dqc-btn" onclick="decDeal(${d.id})">−</button><span class="dqc-num">${qty}</span><button class="dqc-btn" onclick="incDeal(${d.id})">+</button></div>`;
     return `<div class="deal-card">
       ${dp>0?`<div class="deal-discount">${dp}% OFF</div>`:""}
-      ${imgEl(d.barcode, d.emoji, 'deal-img-wrap')}
+      ${imgEl(d.barcode, d.emoji, 'deal-img-wrap',
+        (d.name==="Dodo Noodle's Special") ? '/catalog/Chips/Puffcorn Yummy Cheese.png' :
+        (d.name.startsWith('Glucon-D')) ? '/catalog/Energy/Energy.png' :
+        (d.name.includes('Fruit Cake') || d.name.includes('Sliced Fruit Cake') || d.name.includes('Tiffun Slice')) ? '/catalog/Biscuits/Fruit Cake.png' :
+        null
+      )}
       <div class="deal-name">${d.name}</div>
       <div class="deal-unit-text">${d.unit}</div>
       <div class="deal-price-row"><span class="deal-price">₹${d.special}</span>${d.mrp>d.special?`<span class="deal-mrp">₹${d.mrp}</span>`:""}</div>
@@ -873,7 +886,12 @@ function renderBrandSections() {
             : `<div class="product-qty-ctrl"><button class="pqc-btn" onclick="decBrand('${key}')">−</button><span class="pqc-num">${qty}</span><button class="pqc-btn" onclick="incBrand('${key}')">+</button></div>`;
           return `<div class="product-card">
             ${dp>0?`<div class="product-discount-tag">${dp}% OFF</div>`:""}
-            ${imgEl(b.barcode, b.emoji, 'product-img-wrap')}
+            ${imgEl(b.barcode, b.emoji, 'product-img-wrap',
+              (b.name==="Dodo Noodle's Special") ? '/catalog/Chips/Puffcorn Yummy Cheese.png' :
+              (b.name.startsWith('Glucon-D')) ? '/catalog/Energy/Energy.png' :
+              (b.name.includes('Sliced Fruit Cake') || b.name.includes('Tiffun Slice')) ? '/catalog/Biscuits/Fruit Cake.png' :
+              null
+            )}
             <div class="product-unit">${b.unit}</div>
             <div class="product-name">${b.name}</div>
             <div style="margin-top:auto">
@@ -1033,7 +1051,12 @@ function doSearch(q) {
       : `<div class="product-qty-ctrl"><button class="pqc-btn" onclick="srDec('${item.key}')">−</button><span class="pqc-num">${qty}</span><button class="pqc-btn" onclick="srInc('${item.key}')">+</button></div>`;
     return `<div class="product-card">
       ${dp>0?`<div class="product-discount-tag">${dp}% OFF</div>`:""}
-      ${imgEl(item.barcode, item.emoji, 'product-img-wrap')}
+      ${imgEl(item.barcode, item.emoji, 'product-img-wrap',
+        (item.name==="Dodo Noodle's Special") ? '/catalog/Chips/Puffcorn Yummy Cheese.png' :
+        (item.name.startsWith('Glucon-D')) ? '/catalog/Energy/Energy.png' :
+        (item.name.includes('Sliced Fruit Cake') || item.name.includes('Fruit Cake') || item.name.includes('Tiffun Slice')) ? '/catalog/Biscuits/Fruit Cake.png' :
+        null
+      )}
       <div class="product-unit">${item.unit}</div>
       <div class="product-name">${item.name}</div>
       <div style="margin-top:auto">
