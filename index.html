@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Order Kaaro – Kishanganj Grocery Delivery</title>
-  <meta name="description" content="Order 160+ daily groceries, atta, oil, dal, snacks, tea, and household essentials in Kishanganj with fast 30-minute delivery via WhatsApp." />
+  <title>Catalogue – Order Kaaro Kishanganj Grocery</title>
+  <meta name="description" content="Browse full 160+ grocery catalog in Kishanganj. Best prices on Atta, Dal, Oils, Tea, Biscuits & Snacks." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -28,8 +28,8 @@
       </div>
     </div>
     <nav class="nav-links" aria-label="Primary navigation">
-      <a href="index.html" class="active">Home</a>
-      <a href="Catelog.html">Catalogue</a>
+      <a href="index.html">Home</a>
+      <a href="Catelog.html" class="active">Catalogue</a>
       <a href="javascript:void(0)" onclick="openWishlist()">Wishlist (<span id="navWishlistBadge">0</span>)</a>
       <a href="javascript:void(0)" onclick="openOrders()">Orders (<span id="navOrdersBadge">0</span>)</a>
       <a href="javascript:void(0)" onclick="openProfile()">Account</a>
@@ -48,7 +48,7 @@
   <div class="search-inner">
     <div class="search-box">
       <span style="opacity:0.5;font-size:1.1rem;flex-shrink:0">🔍</span>
-      <input type="text" id="searchInput" placeholder="Search 160+ items (atta, ghee, dal, tea, biscuits...)" oninput="doSearch(this.value)" />
+      <input type="text" id="searchInput" placeholder="Search 160+ items in catalogue..." oninput="doSearch(this.value)" />
       <button class="search-clear" id="clearBtn" onclick="clearSearch()">✕</button>
     </div>
   </div>
@@ -61,73 +61,11 @@
 
 <!-- MAIN CONTENT -->
 <main id="mainContent">
-  <!-- HERO BANNER -->
-  <div class="hero-card">
-    <div class="hero-grid">
-      <div>
-        <div class="hero-kicker">🚀 Express Grocery Delivery</div>
-        <h1 class="hero-title">Fresh Groceries Delivered in 30 Mins</h1>
-        <p class="hero-copy">Order 160+ authentic daily essentials, pulses, oils, teas & snacks at wholesale prices right to your doorstep in Kishanganj.</p>
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <span class="value">160+</span>
-            <span class="label">Products</span>
-          </div>
-          <div class="hero-stat">
-            <span class="value">⚡ 30 Min</span>
-            <span class="label">Delivery</span>
-          </div>
-          <div class="hero-stat">
-            <span class="value">₹0</span>
-            <span class="label">Above ₹500</span>
-          </div>
-        </div>
-      </div>
-      <div class="hero-side">
-        <div class="hero-side-title">Why Order Kaaro?</div>
-        <div class="hero-side-list">
-          <div class="hero-side-item">
-            <span class="icon">✅</span>
-            <div>
-              <strong>100% Genuine Quality</strong>
-              <span>Guaranteed fresh staples & brands</span>
-            </div>
-          </div>
-          <div class="hero-side-item">
-            <span class="icon">📱</span>
-            <div>
-              <strong>Instant WhatsApp Order</strong>
-              <span>No complicated payment steps</span>
-            </div>
-          </div>
-          <div class="hero-side-item">
-            <span class="icon">💵</span>
-            <div>
-              <strong>Cash on Delivery</strong>
-              <span>Pay upon inspect & delivery</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOP PICKS / FEATURED DEALS -->
-  <div class="section-head" id="sec_deals">
-    <div class="section-head-left">
-      <span class="section-title">Top Picks</span>
-      <span class="section-badge">Popular</span>
-    </div>
-  </div>
-  <div class="deals-scroll-wrap">
-    <div class="deals-scroll" id="dealsRow"></div>
-  </div>
-
-  <!-- DYNAMIC PRODUCT CATEGORY SECTIONS -->
+  <!-- Dynamic Category Products Grid -->
   <div id="brandSections"></div>
 </main>
 
-<!-- FLOATING CART BAR (QUICK ACCESS) -->
+<!-- FLOATING CART BAR -->
 <div class="floating-bar" id="floatingBar">
   <div class="floating-bar-inner" onclick="openCart()">
     <div class="fb-left">
@@ -146,11 +84,11 @@
 
 <!-- MOBILE BOTTOM 5-TAB NAVIGATION BAR -->
 <nav class="mobile-bottom-nav" aria-label="Mobile bottom navigation">
-  <a href="index.html" class="mb-nav-item active">
+  <a href="index.html" class="mb-nav-item">
     <span class="mb-nav-icon">🏠</span>
     <span>Home</span>
   </a>
-  <a href="Catelog.html" class="mb-nav-item">
+  <a href="Catelog.html" class="mb-nav-item active">
     <span class="mb-nav-icon">🏷️</span>
     <span>Catalog</span>
   </a>
