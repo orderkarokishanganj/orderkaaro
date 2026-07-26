@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us – Order Kaaro Kishanganj</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="page-backdrop" aria-hidden="true"></div>
+
+<header>
+  <div class="header-inner">
+    <div class="header-left">
+      <a href="index.html" class="logo-wrap">
+        <span class="logo-name">🛒 Order Kaaro</span>
+        <span class="logo-tagline">Kishanganj Grocery Delivery</span>
+      </a>
+      <div class="header-location">
+        <span class="loc-label">Deliver to</span>
+        <span class="loc-value">📍 Kishanganj, Bihar</span>
+      </div>
+    </div>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="index.html">Home</a>
+      <a href="Catelog.html">Catalogue</a>
+      <a href="about.html" class="active">About Us</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <button class="header-cart-btn" onclick="openCart()" id="openCartHeaderBtn">
+      🛒 <span class="cart-count-badge" id="cartBadge">0</span>
+      <span style="display:inline-block; margin-left:2px">Cart</span>
+    </button>
+  </div>
+</header>
+
+<main style="max-width:800px;margin:40px auto;padding:0 20px">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);padding:32px;box-shadow:var(--shadow-md)">
+    <h1 style="font-size:2rem;margin-bottom:14px;color:var(--primary-dark)">About Order Kaaro</h1>
+    <p style="font-size:1rem;color:var(--text-muted);line-height:1.7;margin-bottom:20px">
+      Order Kaaro is Kishanganj’s premier local grocery ordering service. We bring fresh pulses, premium atta, authentic teas, cooking oils, daily dairy products, and household essentials directly to your doorstep in 30 minutes.
+    </p>
+    
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:30px">
+      <div style="background:var(--bg-body);padding:20px;border-radius:var(--radius-md);border:1px solid var(--border)">
+        <div style="font-size:2rem;margin-bottom:8px">⚡</div>
+        <h3 style="font-size:1.1rem;margin-bottom:6px">Superfast 30-Min Delivery</h3>
+        <p style="font-size:0.85rem;color:var(--text-muted)">Delivered directly to your home anywhere in Kishanganj city.</p>
+      </div>
+      <div style="background:var(--bg-body);padding:20px;border-radius:var(--radius-md);border:1px solid var(--border)">
+        <div style="font-size:2rem;margin-bottom:8px">🏷️</div>
+        <h3 style="font-size:1.1rem;margin-bottom:6px">Wholesale Best Prices</h3>
+        <p style="font-size:0.85rem;color:var(--text-muted)">Over 160+ items priced directly from local mandis & top brands.</p>
+      </div>
+      <div style="background:var(--bg-body);padding:20px;border-radius:var(--radius-md);border:1px solid var(--border)">
+        <div style="font-size:2rem;margin-bottom:8px">💬</div>
+        <h3 style="font-size:1.1rem;margin-bottom:6px">Direct WhatsApp Checkout</h3>
+        <p style="font-size:0.85rem;color:var(--text-muted)">Order easily in seconds without complicated logins or app downloads.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="catalogue-footer">
+  <div class="catalogue-footer-inner">
+    <div class="catalogue-footer-brand">
+      <div class="logo-wrap">
+        <span class="logo-name">🛒 Order Kaaro</span>
+        <span class="logo-tagline">Kishanganj Grocery Delivery</span>
+      </div>
+      <p>Fresh groceries, daily essentials, and fast WhatsApp ordering for Kishanganj.</p>
+    </div>
+    <div class="catalogue-footer-links">
+      <a href="index.html">Home</a>
+      <a href="Catelog.html">Catalogue</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <a class="catalogue-footer-cta" href="https://wa.me/919942089120?text=Hello%20Order%20Kaaro" target="_blank" rel="noreferrer">
+      Order on WhatsApp
+    </a>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
