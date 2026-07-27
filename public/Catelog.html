@@ -280,6 +280,14 @@
 
 
 
+<!-- PRODUCT DETAIL & RELATED PRODUCTS MODAL -->
+<div class="modal-overlay" id="productDetailModal" onclick="closeProductDetailModal(event)">
+  <div class="modal-sheet product-detail-sheet" onclick="event.stopPropagation()">
+    <button class="drawer-close detail-close-btn" onclick="closeProductDetailModal()">✕</button>
+    <div id="productDetailContent"></div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer class="catalogue-footer">
   <div class="catalogue-footer-inner">
