@@ -47,8 +47,8 @@ const translations = {
    ========================================================================== */
 
 const WA_NUMBER = "919942089120";
-const FLAT_DELIVERY_CHARGE = 50;
-const FREE_DELIVERY_THRESHOLD = 500;
+const FLAT_DELIVERY_CHARGE = 0;
+const FREE_DELIVERY_THRESHOLD = 0;
 
 // ==========================================================================
 // COMPLETE 164-ITEM PRODUCT DATABASE
@@ -62,15 +62,15 @@ const productsDatabase = [
   // --- ATTA, RICE & GRAINS ---
   { id: "P001", nameHi: "आशीर्वाद शुद्ध चक्की आटा", name: "Aashirvaad Shud Chakki Aata", unit: "5 kg", price: 240, mrp: 276, category: "Atta, Rice & Grains", image: "/Catalog/Grains/aashirvaad-aata.png", emoji: "🌾" },
   { id: "P002", nameHi: "अमृत भोग आटा", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, mrp: 252, category: "Atta, Rice & Grains", image: "/Catalog/Grains/amirt-bhog-atta.jpg", emoji: "🌾" },
-  { id: "P009", nameHi: "बेसन", name: "Besan", unit: "1 kg", price: 115, mrp: 132, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Besan.png", emoji: "🟡" },
+  { id: "P009", nameHi: "बेसन", name: "Besan", unit: "1 kg", price: 115, mrp: 132, category: "Atta, Rice & Grains", image: "/Catalog/Grains/besan.png", emoji: "🟡" },
   { id: "P055", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "500 g", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🍚" },
   { id: "P056", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "1 kg", price: 90, mrp: 100, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🍚" },
-  { id: "P071", nameHi: "सत्तू", name: "Sattu", unit: "200 g", price: 31, mrp: 41, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sattu.png", emoji: "💪" },
-  { id: "P072", nameHi: "सत्तू", name: "Sattu", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sattu.png", emoji: "💪" },
-  { id: "P075", nameHi: "अमृत भोग सूजी", name: "Amrit Bhog Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sooji.png", emoji: "🌾" },
-  { id: "P077", nameHi: "चीनी / शक्कर", name: "Sugar", unit: "1 kg", price: 55, mrp: 65, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sugar.png", emoji: "🍬" },
+  { id: "P071", nameHi: "सत्तू", name: "Sattu", unit: "200 g", price: 31, mrp: 41, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sattu.png", emoji: "💪" },
+  { id: "P072", nameHi: "सत्तू", name: "Sattu", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sattu.png", emoji: "💪" },
+  { id: "P075", nameHi: "अमृत भोग सूजी", name: "Amrit Bhog Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sooji.png", emoji: "🌾" },
+  { id: "P077", nameHi: "चीनी / शक्कर", name: "Sugar", unit: "1 kg", price: 55, mrp: 65, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sugar.png", emoji: "🍬" },
   { id: "P083", nameHi: "चावल", name: "Chawal", unit: "1 kg", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/chawal.png", emoji: "🍚" },
-  { id: "P084", nameHi: "सूजी", name: "Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sooji.png", emoji: "🌾" },
+  { id: "P084", nameHi: "सूजी", name: "Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sooji.png", emoji: "🌾" },
   { id: "P103", nameHi: "पॉपकॉर्न मक्की", name: "Popcorn Makki Loose", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/Grains/popcorn-makki-loose.jpg", emoji: "🌽" },
   { id: "P115", nameHi: "सेवई (वर्मिसेली)", name: "Vermicelli", unit: "1 kg", price: 120, mrp: 138, category: "Atta, Rice & Grains", image: "/Catalog/noodles/vermicelli.png", emoji: "🍜" },
   { id: "P119", nameHi: "मैदा", name: "Maida", unit: "1 kg", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/Grains/maida.png", emoji: "🌾" },
@@ -98,8 +98,8 @@ const productsDatabase = [
   { id: "P061", nameHi: "मसूर दाल", name: "Massor Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/masoor-dal.png", emoji: "🟠" },
   { id: "P062", nameHi: "मसूर दाल", name: "Massor Dal", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "/Catalog/pulses-chana/masoor-dal.png", emoji: "🟠" },
   { id: "P063", nameHi: "मूंग दाल", name: "Moong Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/moong-dal.png", emoji: "💛" },
-  { id: "P064", nameHi: "मोठ", name: "Moth", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "/Catalog/Grains/Moth.png", emoji: "🌾" },
-  { id: "P086", nameHi: "Mouth", name: "Mouth", unit: "500 g", price: 45, mrp: 55, category: "Pulses & Dal", image: "/Catalog/Grains/Moth.png", emoji: "🌾" },
+  { id: "P064", nameHi: "मोठ", name: "Moth", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "/Catalog/Grains/moth.png", emoji: "🌾" },
+  { id: "P086", nameHi: "Mouth", name: "Mouth", unit: "500 g", price: 45, mrp: 55, category: "Pulses & Dal", image: "/Catalog/Grains/moth.png", emoji: "🌾" },
   { id: "P097", nameHi: "चना दाल", name: "Chana Dal", unit: "1 kg", price: 96, mrp: 106, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chana-dal.png", emoji: "🫘" },
   { id: "P108", nameHi: "चना दाल", name: "Chana Dal", unit: "500 g", price: 40, mrp: 50, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chana-dal.png", emoji: "🫘" },
   { id: "P109", nameHi: "छोले चना", name: "Chole Chana", unit: "500 g", price: 48, mrp: 58, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chole-chana.png", emoji: "🫘" },
@@ -142,10 +142,10 @@ const productsDatabase = [
   { id: "P044", nameHi: "होम बेक प्रीमियम कुकीज (रेड)", name: "Home Bake Premium Cookies Mix Flavours Red", unit: "1 pcs", price: 55, mrp: 65, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/homebread-premium-cookies-mix-flavours-red.png", emoji: "🍪" },
   { id: "P045", nameHi: "होमब्रेड कुकीज", name: "Homebread Cookies", unit: "1 pcs", price: 80, mrp: 90, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/homebread-cookies.png", emoji: "🍪" },
   { id: "P060", nameHi: "मालकिस्ट चीज बिस्कुट", name: "Malkist Cheese Flavoured", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/malkist-cheese-flavoured.png", emoji: "🧀" },
-  { id: "P068", nameHi: "ओरियो चॉकलेट बिस्कुट", name: "Oreo", unit: "1 pcs", price: 10, mrp: 20, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/OREO.png", emoji: "⚫" },
+  { id: "P068", nameHi: "ओरियो चॉकलेट बिस्कुट", name: "Oreo", unit: "1 pcs", price: 10, mrp: 20, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/oreo.png", emoji: "⚫" },
   { id: "P069", nameHi: "पारले मोनाको क्लासिक", name: "Parle Monaco Classic", unit: "1 pcs", price: 70, mrp: 80, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/parle-monaco-classic.png", emoji: "🍪" },
   { id: "P070", nameHi: "रस्क", name: "Ruskit", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-ruskit.png", emoji: "🍞" },
-  { id: "P074", nameHi: "सनफीस्ट मॉम्स मैजिक घी रोस्टेड", name: "Sunfeast Mom's Magic Ghee Roasted", unit: "1 pcs", price: 64, mrp: 74, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/sunfeast-mom's-magic-ghee-rosted.png", emoji: "🍪" },
+  { id: "P074", nameHi: "सनफीस्ट मॉम्स मैजिक घी रोस्टेड", name: "Sunfeast Mom's Magic Ghee Roasted", unit: "1 pcs", price: 64, mrp: 74, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/sunfeast-moms-magic-ghee-rosted.png", emoji: "🍪" },
   { id: "P081", nameHi: "बिस्क फार्म मस्त जीरा", name: "Bisk Farm Mast Jeera", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-mast-jeera.png", emoji: "🌾" },
   { id: "P120", nameHi: "मिल्क बिकिस", name: "Milk Bikis", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/milk-bikis.webp", emoji: "🥛" },
   { id: "P121", nameHi: "टाइम पास 50-50", name: "Time Pass 50-50", unit: "1 pcs", price: 25, mrp: 35, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/time-pass-50-50.jpg", emoji: "🍪" },
@@ -197,14 +197,14 @@ const productsDatabase = [
 
   // --- SNACKS & INSTANT FOOD ---
   { id: "P059", nameHi: "कुरकुरे पफकॉर्न", name: "Kurkure Puffcorn", unit: "1 pcs", price: 10, mrp: 20, category: "Snacks & Instant", image: "/Catalog/chips/puffcorn-yummy-cheese.png", emoji: "🍿" },
-  { id: "P065", nameHi: "नायलॉन ग्रीन चिली सॉस", name: "Nilon’s Green Chilly Sauce", unit: "90 g", price: 25, mrp: 35, category: "Snacks & Instant", image: "/Catalog/sauce/nilon's-green-chilly-sauce.png", emoji: "🌶️" },
-  { id: "P066", nameHi: "नायलॉन रेड चिली सॉस", name: "Nilon’s Red Chilly Sauce", unit: "80 g", price: 25, mrp: 35, category: "Snacks & Instant", image: "/Catalog/sauce/nilon's-red-chilly-sauce.png", emoji: "🌶️" },
-  { id: "P067", nameHi: "नायलॉन शेज़वान चटनी", name: "Nilon’s Schezwan Chutney", unit: "80 g", price: 35, mrp: 45, category: "Snacks & Instant", image: "/Catalog/sauce/nilon's-schezwan-chutney.png", emoji: "🌶️" },
+  { id: "P065", nameHi: "नायलॉन ग्रीन चिली सॉस", name: "Nilon’s Green Chilly Sauce", unit: "90 g", price: 25, mrp: 35, category: "Snacks & Instant", image: "/Catalog/sauce/nilons-green-chilly-sauce.png", emoji: "🌶️" },
+  { id: "P066", nameHi: "नायलॉन रेड चिली सॉस", name: "Nilon’s Red Chilly Sauce", unit: "80 g", price: 25, mrp: 35, category: "Snacks & Instant", image: "/Catalog/sauce/nilons-red-chilly-sauce.png", emoji: "🌶️" },
+  { id: "P067", nameHi: "नायलॉन शेज़वान चटनी", name: "Nilon’s Schezwan Chutney", unit: "80 g", price: 35, mrp: 45, category: "Snacks & Instant", image: "/Catalog/sauce/nilons-schezwan-chutney.png", emoji: "🌶️" },
   { id: "P079", nameHi: "बिंगो टेढ़े मेढ़े", name: "Bingo Tedhe Medhe", unit: "1 pcs", price: 5, mrp: 15, category: "Snacks & Instant", image: "/Catalog/chips/bingo-tedhe-medhe.png", emoji: "🍟" },
-  { id: "P080", nameHi: "लेज पोटैटो चिप्स साल्टेड", name: "Lay's Potato Chips - Simple Classic Salted", unit: "1 pcs", price: 20, mrp: 30, category: "Snacks & Instant", image: "/Catalog/chips/lay's-potato-chips-simple-classic-salted.png", emoji: "🥔" },
-  { id: "P082", nameHi: "हल्दीराम पंजाबी तड़का", name: "Punjabi Tadka", unit: "1 pcs", price: 10, mrp: 20, category: "Snacks & Instant", image: "/Catalog/chips/haldiram's-punjabi-tadka.png", emoji: "🥨" },
+  { id: "P080", nameHi: "लेज पोटैटो चिप्स साल्टेड", name: "Lay's Potato Chips - Simple Classic Salted", unit: "1 pcs", price: 20, mrp: 30, category: "Snacks & Instant", image: "/Catalog/chips/lays-potato-chips-simple-classic-salted.png", emoji: "🥔" },
+  { id: "P082", nameHi: "हल्दीराम पंजाबी तड़का", name: "Punjabi Tadka", unit: "1 pcs", price: 10, mrp: 20, category: "Snacks & Instant", image: "/Catalog/chips/haldirams-punjabi-tadka.png", emoji: "🥨" },
   { id: "P094", nameHi: "मैगी नूडल्स", name: "Maggi", unit: "1 pcs", price: 15, mrp: 25, category: "Snacks & Instant", image: "/Catalog/noodles/maggi.png", emoji: "🍜" },
-  { id: "P106", nameHi: "हल्दीराम दिल्ली भुजिया", name: "Haldirams Delhi Bhujiya", unit: "1 kg", price: 280, mrp: 322, category: "Snacks & Instant", image: "/Catalog/chips/haldiram's-delhi-bhujiya.png", emoji: "🥨" },
+  { id: "P106", nameHi: "हल्दीराम दिल्ली भुजिया", name: "Haldirams Delhi Bhujiya", unit: "1 kg", price: 280, mrp: 322, category: "Snacks & Instant", image: "/Catalog/chips/haldirams-delhi-bhujiya.png", emoji: "🥨" },
   { id: "P113", nameHi: "माला चनाचूर", name: "Mala Chanachur", unit: "400 g", price: 100, mrp: 110, category: "Snacks & Instant", image: "/Catalog/chips/mala-chanachur.png", emoji: "🥜" },
 
   // --- SPICES & DRY FRUITS ---
@@ -225,7 +225,7 @@ const productsDatabase = [
   // --- DAIRY, PERSONAL & HOUSEHOLD ---
   { id: "P003", nameHi: "अमूल चीज़ क्यूब्स", name: "Amul Cheese Cubes", unit: "1 pcs", price: 22, mrp: 32, category: "Dairy & Household", image: "/Catalog/dairy/amul-cheese-cubes.png", emoji: "🧀" },
   { id: "P073", nameHi: "सर्फ एक्सेल डिटर्जेंट", name: "Surf Excel", unit: "500 g", price: 71, mrp: 81, category: "Dairy & Household", image: "/Catalog/detergent/sirf-excel.png", emoji: "🧼" },
-  { id: "P078", nameHi: "सेटाफिल मॉइस्चराइजर", name: "Cetaphil", unit: "1 pcs", price: 414, mrp: 476, category: "Dairy & Household", image: "/Catalog/Sanitary/CETAPHIL.png", emoji: "🧴" },
+  { id: "P078", nameHi: "सेटाफिल मॉइस्चराइजर", name: "Cetaphil", unit: "1 pcs", price: 414, mrp: 476, category: "Dairy & Household", image: "/Catalog/Sanitary/cetaphil.png", emoji: "🧴" },
   { id: "P088", nameHi: "विम बार डिशवाश", name: "Vim Bar", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/soap/vim-bar.png", emoji: "🧼" },
   { id: "P089", nameHi: "रिन बार कपड़े धोने का साबुन", name: "Rin Bar", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/soap/rin-bar.png", emoji: "🧼" },
   { id: "P091", nameHi: "सेलोटेप", name: "Cellotape", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/stationary/cellotape.png", emoji: "📦" },
@@ -426,7 +426,7 @@ function productCardHTML(p) {
         ${isWishlisted ? '❤️' : '🤍'}
       </button>
       <div class="product-img-wrap">
-        ${p.image ? `<img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />` : ''}
+        ${p.image ? `<img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" />` : ''}
         <span class="emoji-icon" style="${p.image ? 'display:none' : ''}">${p.emoji}</span>
       </div>
       <span class="product-unit">${p.unit}</span>
@@ -473,7 +473,7 @@ function renderTopDeals() {
           </button>
         </div>
         <div class="product-img-wrap" style="height:70px;margin-bottom:8px">
-          ${p.image ? `<img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />` : ''}
+          ${p.image ? `<img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" />` : ''}
           <span class="emoji-icon" style="font-size:2.4rem;${p.image ? 'display:none' : ''}">${p.emoji}</span>
         </div>
         <div class="product-name" style="font-size:0.82rem">${currentLang === "hi" ? (p.nameHi || p.name) : p.name}</div>
@@ -548,9 +548,7 @@ function updateHeaderBadges() {
   if (fbTotal) fbTotal.innerText = subtotal;
   
   const delivery = subtotal >= FREE_DELIVERY_THRESHOLD || subtotal === 0 ? 0 : FLAT_DELIVERY_CHARGE;
-  if (fbDelivery) {
-    fbDelivery.innerText = delivery === 0 ? "FREE delivery" : `+ ₹${delivery} delivery`;
-  }
+  if (fbDelivery) { fbDelivery.innerText = currentLang === 'hi' ? 'मुफ्त डिलीवरी 🚚' : 'FREE Delivery 🚚'; }
   
   if (floatingBar) {
     if (totalCount > 0) {
@@ -589,7 +587,7 @@ function renderCart() {
     
     return `
       <div class="cart-item-row">
-        <div class="ci-emoji">${p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><span style="display:none">${p.emoji}</span>` : p.emoji}</div>
+        <div class="ci-emoji">${p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" /><span style="display:none">${p.emoji}</span>` : p.emoji}</div>
         <div class="ci-info">
           <div class="ci-name">${currentLang === "hi" ? (p.nameHi || p.name) : p.name}</div>
           <div class="ci-unit">${p.unit} • ₹${p.price}</div>
@@ -605,33 +603,26 @@ function renderCart() {
     `;
   }).join('');
   
-  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : FLAT_DELIVERY_CHARGE;
-  const grandTotal = subtotal + delivery;
+  const delivery = 0;
+  const grandTotal = subtotal;
   
   cartFooter.innerHTML = `
     <div class="delivery-box">
       <div class="db-row">
-        <span class="lbl">Item Subtotal</span>
+        <span class="lbl">${currentLang === 'hi' ? 'सामान का कुल मूल्य' : 'Item Subtotal'}</span>
         <span class="val">₹${subtotal}</span>
       </div>
       <div class="db-row">
-        <span class="lbl">Delivery Fee</span>
-        <span class="val" style="${delivery === 0 ? 'color:var(--primary)' : ''}">
-          ${delivery === 0 ? 'FREE' : '₹' + delivery}
-        </span>
+        <span class="lbl">${currentLang === 'hi' ? 'डिलीवरी शुल्क' : 'Delivery Fee'}</span>
+        <span class="val" style="color:var(--primary);font-weight:700">FREE 🎉</span>
       </div>
-      ${subtotal < FREE_DELIVERY_THRESHOLD ? `
-        <div style="font-size:0.75rem;color:var(--accent);margin-top:4px">
-          💡 Add ₹${FREE_DELIVERY_THRESHOLD - subtotal} more for FREE Delivery!
-        </div>
-      ` : ''}
       <div class="db-row grand">
-        <span class="lbl">Grand Total</span>
+        <span class="lbl">${currentLang === 'hi' ? 'कुल योग' : 'Grand Total'}</span>
         <span class="val">₹${grandTotal}</span>
       </div>
     </div>
     <button class="wa-send-btn" onclick="openModal()">
-      <span>📲 Proceed to Delivery Details</span>
+      <span>📲 ${currentLang === 'hi' ? 'डिलीवरी विवरण भरें →' : 'Proceed to Delivery Details →'}</span>
     </button>
   `;
 }
@@ -660,7 +651,7 @@ function renderWishlistModal() {
     const qty = cart[p.id] || 0;
     return `
       <div class="cart-item-row">
-        <div class="ci-emoji">${p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><span style="display:none">${p.emoji}</span>` : p.emoji}</div>
+        <div class="ci-emoji">${p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" /><span style="display:none">${p.emoji}</span>` : p.emoji}</div>
         <div class="ci-info">
           <div class="ci-name">${currentLang === "hi" ? (p.nameHi || p.name) : p.name}</div>
           <div class="ci-unit">${p.unit}</div>
@@ -927,7 +918,7 @@ function confirmOrder() {
   
   text += `------------------------------------\n`;
   text += `💰 *Subtotal*: ₹${subtotal}\n`;
-  text += `🚚 *Delivery Fee*: ${delivery === 0 ? "FREE" : "₹" + delivery}\n`;
+  text += `🚚 *Delivery Fee*: FREE 🎉\n`;
   text += `💵 *GRAND TOTAL*: ₹${grandTotal}\n`;
   text += `------------------------------------\n`;
   text += `Please confirm my order delivery in Kishanganj. Thank you!`;
