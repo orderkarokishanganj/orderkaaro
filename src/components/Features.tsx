@@ -5,7 +5,7 @@ const features: { icon: LucideIcon; title: string; description: string; color: s
   {
     icon: MessageCircle,
     title: 'WhatsApp Magic',
-    description: 'Bas kuch hi magical taps aur bina kisi stress ke apne daily essentials WhatsApp se order karo. Ghar baithe sab kuch easily aur hassle-free mil jaata hai.',
+    description: 'Bas kuch hi magical taps aur bina kisi stress ke apne daily essentials WhatsApp se order karo. Ghar baithe sab kuch easily aur hassle-free mil jAtta hai.',
     color: 'green',
     gradient: 'from-green-500 to-emerald-600',
   },

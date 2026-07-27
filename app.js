@@ -11,7 +11,7 @@ const FREE_DELIVERY_THRESHOLD = 500;
 // ==========================================================================
 const productsDatabase = [
   // --- ATTA, RICE & GRAINS ---
-  { id: "P001", name: "Aashirvaad Shud Chakki Aata", unit: "5 kg", price: 240, category: "Atta, Rice & Grains", emoji: "🌾" },
+  { id: "P001", name: "Aashirvaad Shud Chakki Atta", unit: "5 kg", price: 240, category: "Atta, Rice & Grains", emoji: "🌾" },
   { id: "P002", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, category: "Atta, Rice & Grains", emoji: "🌾" },
   { id: "P009", name: "Besan", unit: "1 kg", price: 115, category: "Atta, Rice & Grains", emoji: "🟡" },
   { id: "P055", name: "Katarni Chura", unit: "500 g", price: 50, category: "Atta, Rice & Grains", emoji: "🍚" },
