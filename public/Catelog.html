@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="manifest" href="/manifest.json" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -18,7 +19,7 @@
 <header>
   <div class="header-inner">
     <div class="header-left">
-      <a href="index.html" class="logo-wrap">
+      <a href="/home" target="_top" class="logo-wrap">
         <span class="logo-name">🛒 Order Kaaro</span>
         <span class="logo-tagline">Kishanganj Grocery Delivery</span>
       </a>
@@ -28,18 +29,23 @@
       </div>
     </div>
     <nav class="nav-links" aria-label="Primary navigation">
-      <a href="index.html" class="active">Home</a>
-      <a href="Catelog.html">Catalogue</a>
+      <a href="/home" target="_top">Home</a>
+      <a href="/catalogue" class="active">Catalogue</a>
       <a href="javascript:void(0)" onclick="openWishlist()">Wishlist (<span id="navWishlistBadge">0</span>)</a>
       <a href="javascript:void(0)" onclick="openOrders()">Orders (<span id="navOrdersBadge">0</span>)</a>
       <a href="javascript:void(0)" onclick="openProfile()">Account</a>
-      <a href="about.html">About Us</a>
-      <a href="contact.html">Contact</a>
+      <a href="/about" target="_top">About Us</a>
+      <a href="/contact" target="_top">Contact</a>
     </nav>
-    <button class="header-cart-btn" onclick="openCart()" id="openCartHeaderBtn">
-      🛒 <span class="cart-count-badge" id="cartBadge">0</span>
-      <span style="display:inline-block; margin-left:2px">Cart</span>
-    </button>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="lang-toggle-btn" id="langToggleBtn" onclick="toggleLanguage()" title="Switch Language (Hindi/English)">
+        🌐 <span id="langLabel">हिंदी</span>
+      </button>
+      <button class="header-cart-btn" onclick="openCart()" id="openCartHeaderBtn">
+        🛒 <span class="cart-count-badge" id="cartBadge">0</span>
+        <span style="display:inline-block; margin-left:2px">Cart</span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -48,9 +54,11 @@
   <div class="search-inner">
     <div class="search-box">
       <span style="opacity:0.5;font-size:1.1rem;flex-shrink:0">🔍</span>
-      <input type="text" id="searchInput" placeholder="Search 160+ items (atta, ghee, dal, tea, biscuits...)" oninput="doSearch(this.value)" />
+      <input type="text" id="searchInput" placeholder="Search 160+ items (atta, ghee, dal, tea, biscuits...)" oninput="doSearch(this.value)" onfocus="showAutocomplete()" />
+      <button class="voice-search-btn" id="voiceBtn" onclick="startVoiceSearch()" title="Voice Search (Hindi / English)">🎙️</button>
       <button class="search-clear" id="clearBtn" onclick="clearSearch()">✕</button>
     </div>
+    <div class="search-autocomplete-dropdown" id="autocompleteDropdown" style="display:none"></div>
   </div>
 </div>
 
@@ -76,10 +84,6 @@
           <div class="hero-stat">
             <span class="value">⚡ 30 Min</span>
             <span class="label">Delivery</span>
-          </div>
-          <div class="hero-stat">
-            <span class="value">₹0</span>
-            <span class="label">Above ₹500</span>
           </div>
         </div>
       </div>
@@ -137,7 +141,7 @@
     <div class="fb-right">
       <div style="text-align:right">
         <div class="fb-total">₹<span id="fbTotal">0</span></div>
-        <div class="fb-delivery" id="fbDelivery">+ ₹50 delivery</div>
+        <div class="fb-delivery" id="fbDelivery">FREE Delivery 🚚</div>
       </div>
       <span style="font-size:1.4rem;font-weight:400;margin-left:4px">›</span>
     </div>
@@ -146,11 +150,11 @@
 
 <!-- MOBILE BOTTOM 5-TAB NAVIGATION BAR -->
 <nav class="mobile-bottom-nav" aria-label="Mobile bottom navigation">
-  <a href="index.html" class="mb-nav-item active">
+  <a href="/home" target="_top" class="mb-nav-item">
     <span class="mb-nav-icon">🏠</span>
     <span>Home</span>
   </a>
-  <a href="Catelog.html" class="mb-nav-item">
+  <a href="/catalogue" class="mb-nav-item active">
     <span class="mb-nav-icon">🏷️</span>
     <span>Catalog</span>
   </a>
@@ -274,6 +278,8 @@
   </div>
 </div>
 
+
+
 <!-- FOOTER -->
 <footer class="catalogue-footer">
   <div class="catalogue-footer-inner">
@@ -287,10 +293,10 @@
       </p>
     </div>
     <div class="catalogue-footer-links">
-      <a href="index.html">Home</a>
-      <a href="Catelog.html">Catalogue</a>
-      <a href="about.html">About Us</a>
-      <a href="contact.html">Contact</a>
+      <a href="/home" target="_top">Home</a>
+      <a href="/catalogue">Catalogue</a>
+      <a href="/about" target="_top">About Us</a>
+      <a href="/contact" target="_top">Contact</a>
     </div>
     <a class="catalogue-footer-cta" href="https://wa.me/919942089120?text=I%20want%20to%20order%20groceries%20in%20Kishanganj" target="_blank" rel="noreferrer">
       Order on WhatsApp
@@ -299,5 +305,12 @@
 </footer>
 
 <script src="app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+  }
+</script>
 </body>
 </html>

@@ -1,241 +1,35 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Catalogue – Order Kaaro Kishanganj Grocery</title>
-  <meta name="description" content="Browse full 160+ grocery catalog in Kishanganj. Best prices on Atta, Dal, Oils, Tea, Biscuits & Snacks." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-
-<div class="page-backdrop" aria-hidden="true"></div>
-
-<!-- HEADER -->
-<header>
-  <div class="header-inner">
-    <div class="header-left">
-      <a href="index.html" class="logo-wrap">
-        <span class="logo-name">🛒 Order Kaaro</span>
-        <span class="logo-tagline">Kishanganj Grocery Delivery</span>
-      </a>
-      <div class="header-location">
-        <span class="loc-label">Deliver to</span>
-        <span class="loc-value">📍 Kishanganj, Bihar</span>
-      </div>
-    </div>
-    <nav class="nav-links" aria-label="Primary navigation">
-      <a href="index.html">Home</a>
-      <a href="Catelog.html" class="active">Catalogue</a>
-      <a href="javascript:void(0)" onclick="openWishlist()">Wishlist (<span id="navWishlistBadge">0</span>)</a>
-      <a href="javascript:void(0)" onclick="openOrders()">Orders (<span id="navOrdersBadge">0</span>)</a>
-      <a href="javascript:void(0)" onclick="openProfile()">Account</a>
-      <a href="about.html">About Us</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-    <button class="header-cart-btn" onclick="openCart()" id="openCartHeaderBtn">
-      🛒 <span class="cart-count-badge" id="cartBadge">0</span>
-      <span style="display:inline-block; margin-left:2px">Cart</span>
-    </button>
-  </div>
-</header>
-
-<!-- SEARCH BAR -->
-<div class="search-wrap">
-  <div class="search-inner">
-    <div class="search-box">
-      <span style="opacity:0.5;font-size:1.1rem;flex-shrink:0">🔍</span>
-      <input type="text" id="searchInput" placeholder="Search 160+ items in catalogue..." oninput="doSearch(this.value)" />
-      <button class="search-clear" id="clearBtn" onclick="clearSearch()">✕</button>
-    </div>
-  </div>
-</div>
-
-<!-- CATEGORY PILLS -->
-<div class="cat-row" id="catRowContainer">
-  <div class="cat-row-inner" id="catRow"></div>
-</div>
-
-<!-- MAIN CONTENT -->
-<main id="mainContent">
-  <!-- Dynamic Category Products Grid -->
-  <div id="brandSections"></div>
-</main>
-
-<!-- FLOATING CART BAR -->
-<div class="floating-bar" id="floatingBar">
-  <div class="floating-bar-inner" onclick="openCart()">
-    <div class="fb-left">
-      <span class="fb-count" id="fbCount">0 items</span>
-      <span class="fb-label">View Cart</span>
-    </div>
-    <div class="fb-right">
-      <div style="text-align:right">
-        <div class="fb-total">₹<span id="fbTotal">0</span></div>
-        <div class="fb-delivery" id="fbDelivery">+ ₹50 delivery</div>
-      </div>
-      <span style="font-size:1.4rem;font-weight:400;margin-left:4px">›</span>
-    </div>
-  </div>
-</div>
-
-<!-- MOBILE BOTTOM 5-TAB NAVIGATION BAR -->
-<nav class="mobile-bottom-nav" aria-label="Mobile bottom navigation">
-  <a href="index.html" class="mb-nav-item">
-    <span class="mb-nav-icon">🏠</span>
-    <span>Home</span>
-  </a>
-  <a href="Catelog.html" class="mb-nav-item active">
-    <span class="mb-nav-icon">🏷️</span>
-    <span>Catalog</span>
-  </a>
-  <button class="mb-nav-item" onclick="openWishlist()">
-    <span class="mb-nav-icon">❤️</span>
-    <span>Wishlist</span>
-    <span class="mb-nav-badge" id="navWishlistBadge">0</span>
-  </button>
-  <button class="mb-nav-item" onclick="openOrders()">
-    <span class="mb-nav-icon">📦</span>
-    <span>Orders</span>
-    <span class="mb-nav-badge" id="navOrdersBadge">0</span>
-  </button>
-  <button class="mb-nav-item" onclick="openProfile()">
-    <span class="mb-nav-icon">👤</span>
-    <span>Account</span>
-  </button>
-</nav>
-
-<!-- CART DRAWER OVERLAY -->
-<div class="overlay" id="overlay" onclick="closeCart();closeWishlist();closeOrders();closeProfile()"></div>
-
-<!-- CART DRAWER -->
-<div class="cart-drawer" id="cartDrawer">
-  <div class="drawer-pill"></div>
-  <div class="drawer-header">
-    <h2>Your Shopping Cart</h2>
-    <button class="drawer-close" onclick="closeCart()" title="Close Cart">✕</button>
-  </div>
-  <div class="cart-list" id="cartList"></div>
-  <div class="cart-footer-panel" id="cartFooter"></div>
-</div>
-
-<!-- WISHLIST MODAL -->
-<div class="modal-overlay" id="wishlistModal">
-  <div class="modal-sheet" style="max-width:500px">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div class="modal-title" style="margin-bottom:0">Saved Wishlist ❤️</div>
-      <button class="drawer-close" onclick="closeWishlist()">✕</button>
-    </div>
-    <p class="modal-sub">Items you saved to purchase later</p>
-    <div id="wishlistList" style="max-height:350px;overflow-y:auto;margin-bottom:16px"></div>
-    <div style="display:flex;gap:10px">
-      <button class="modal-cancel" onclick="closeWishlist()">Close</button>
-      <button class="modal-confirm" onclick="addAllWishlistToCart()">
-        🛒 Add All to Cart
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ORDERS HISTORY MODAL -->
-<div class="modal-overlay" id="ordersModal">
-  <div class="modal-sheet" style="max-width:500px">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div class="modal-title" style="margin-bottom:0">Past Orders 📦</div>
-      <button class="drawer-close" onclick="closeOrders()">✕</button>
-    </div>
-    <p class="modal-sub">Recent WhatsApp order history & quick reorders</p>
-    <div id="ordersList" style="max-height:380px;overflow-y:auto;margin-bottom:16px"></div>
-    <button class="modal-cancel" style="width:100%" onclick="closeOrders()">Close</button>
-  </div>
-</div>
-
-<!-- ACCOUNT PROFILE MODAL -->
-<div class="modal-overlay" id="profileModal">
-  <div class="modal-sheet">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div class="modal-title" style="margin-bottom:0">My Account Profile 👤</div>
-      <button class="drawer-close" onclick="closeProfile()">✕</button>
-    </div>
-    <p class="modal-sub">Save your default delivery address for instant 1-click checkout.</p>
-    <div class="field">
-      <label>Full Name</label>
-      <input type="text" id="profName" placeholder="e.g. Rahul Kumar" />
-    </div>
-    <div class="field">
-      <label>Mobile Number</label>
-      <input type="tel" id="profPhone" placeholder="10-digit number" maxlength="10" />
-    </div>
-    <div class="field">
-      <label>Default Delivery Address</label>
-      <textarea id="profAddress" placeholder="Enter complete address, landmark, and pincode"></textarea>
-    </div>
-    <div class="modal-actions">
-      <button class="modal-cancel" onclick="closeProfile()">Cancel</button>
-      <button class="modal-confirm" onclick="submitProfileForm()">
-        💾 Save Profile
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- DELIVERY DETAILS MODAL -->
-<div class="modal-overlay" id="orderModal">
-  <div class="modal-sheet">
-    <div class="modal-title">Delivery Details</div>
-    <p class="modal-sub">Please enter your details to complete your order in Kishanganj.</p>
-    <div class="field">
-      <label>Full Name *</label>
-      <input type="text" id="custName" placeholder="e.g. Rahul Kumar" autocomplete="name" />
-      <div class="err-msg" id="nameErr">Full name is required</div>
-    </div>
-    <div class="field">
-      <label>Delivery Address with Landmark *</label>
-      <textarea id="custAddress" placeholder="e.g. Line Bazar, near Hanuman Temple, Kishanganj - 855107"></textarea>
-      <div class="err-msg" id="addrErr">Delivery address is required</div>
-    </div>
-    <div class="field">
-      <label>Mobile Number *</label>
-      <input type="tel" id="custPhone" placeholder="10-digit mobile number" maxlength="10" />
-      <div class="err-msg" id="phoneErr">Enter a valid 10-digit mobile number</div>
-    </div>
-    <div class="modal-actions">
-      <button class="modal-cancel" onclick="closeModal()">Cancel</button>
-      <button class="modal-confirm" onclick="confirmOrder()">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Send Order
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer class="catalogue-footer">
-  <div class="catalogue-footer-inner">
-    <div class="catalogue-footer-brand">
-      <div class="logo-wrap">
-        <span class="logo-name">🛒 Order Kaaro</span>
-        <span class="logo-tagline">Kishanganj Grocery Delivery</span>
-      </div>
-      <p>
-        Fresh groceries, daily essentials, staples, teas, and fast 30-minute WhatsApp ordering for Kishanganj, Bihar.
-      </p>
-    </div>
-    <div class="catalogue-footer-links">
-      <a href="index.html">Home</a>
-      <a href="Catelog.html">Catalogue</a>
-      <a href="about.html">About Us</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <a class="catalogue-footer-cta" href="https://wa.me/919942089120?text=I%20want%20to%20order%20groceries%20in%20Kishanganj" target="_blank" rel="noreferrer">
-      Order on WhatsApp
-    </a>
-  </div>
-</footer>
-
-<script src="app.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/jpeg" href="/logo.jpeg" />
+    <link rel="apple-touch-icon" href="/logo.jpeg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#16a34a" />
+    <title>Order Kaaro | Official WhatsApp Grocery Delivery</title>
+    <meta name="description" content="Official Order Kaaro website for WhatsApp grocery delivery. Order fresh produce, daily essentials, snacks and more with fast doorstep delivery in Kishanganj." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Order Kaaro | Official WhatsApp Grocery Delivery" />
+    <meta property="og:description" content="Order fresh groceries and daily essentials on WhatsApp with Order Kaaro in Kishanganj." />
+    <meta property="og:image" content="/logo.jpeg" />
+    <meta name="twitter:title" content="Order Kaaro | Official WhatsApp Grocery Delivery" />
+    <meta name="twitter:description" content="Order fresh groceries and daily essentials on WhatsApp with Order Kaaro in Kishanganj." />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="/logo.jpeg">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
+  </body>
 </html>

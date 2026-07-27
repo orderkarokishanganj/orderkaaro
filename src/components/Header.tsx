@@ -26,7 +26,7 @@ const Header = () => {
   | { href: string; label: string; to?: undefined };
 
 const navLinks: NavLink[] = [
-  { to: '/', label: 'Home' },
+  { to: '/home', label: 'Home' },
   { href: CATALOGUE_URL, label: 'Order Now' },
   { to: '/about', label: 'About Us' },
   { to: '/contact', label: 'Contact' },
@@ -44,7 +44,7 @@ const navLinks: NavLink[] = [
         <div className="container-custom flex items-center justify-between">
           {/* Logo */}
           <Link
-            to="/"
+            to="/home"
             className="flex items-center gap-3 group"
           >
             <div className="relative w-11 h-11 rounded-xl overflow-hidden shadow-lg ring-1 ring-black/5 group-hover:shadow-primary-500/30 transition-all duration-300 group-hover:scale-110 bg-white">

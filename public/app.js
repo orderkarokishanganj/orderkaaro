@@ -60,22 +60,6 @@ const productsDatabase = [
   { id: "B003", nameHi: "चाय व स्नैक्स सुपर सेवर कॉम्बो (5 सामान)", name: "Family Tea & Snacks Super Saver", unit: "Combo Pack (5 Items)", price: 280, mrp: 330, category: "Biscuits & Bakery", image: "/Catalog/tea/masala-tea.png", emoji: "☕", isBundle: true },
 
   // --- ATTA, RICE & GRAINS ---
-<<<<<<< HEAD
-  { id: "P001", name: "Aashirvaad Shud Chakki Atta", unit: "5 kg", price: 240, category: "Atta, Rice & Grains", emoji: "🌾" },
-  { id: "P002", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, category: "Atta, Rice & Grains", emoji: "🌾" },
-  { id: "P009", name: "Besan", unit: "1 kg", price: 115, category: "Atta, Rice & Grains", emoji: "🟡" },
-  { id: "P055", name: "Katarni Chura", unit: "500 g", price: 50, category: "Atta, Rice & Grains", emoji: "🍚" },
-  { id: "P056", name: "Katarni Chura", unit: "1 kg", price: 90, category: "Atta, Rice & Grains", emoji: "🍚" },
-  { id: "P071", name: "Sattu", unit: "200 g", price: 31, category: "Atta, Rice & Grains", emoji: "💪" },
-  { id: "P072", name: "Sattu", unit: "500 g", price: 70, category: "Atta, Rice & Grains", emoji: "💪" },
-  { id: "P075", name: "Amrit Bhog Sooji", unit: "1 kg", price: 60, category: "Atta, Rice & Grains", emoji: "🌾" },
-  { id: "P077", name: "Sugar", unit: "1 kg", price: 55, category: "Atta, Rice & Grains", emoji: "🍬" },
-  { id: "P083", name: "Chawal", unit: "1 kg", price: 70, category: "Atta, Rice & Grains", emoji: "🍚" },
-  { id: "P084", name: "Sooji", unit: "1 kg", price: 60, category: "Atta, Rice & Grains", emoji: "🌾" },
-  { id: "P103", name: "Popcorn Makki Loose", unit: "500 g", price: 70, category: "Atta, Rice & Grains", emoji: "🌽" },
-  { id: "P115", name: "Vermicelli", unit: "1 kg", price: 120, category: "Atta, Rice & Grains", emoji: "🍜" },
-  { id: "P119", name: "Maida", unit: "1 kg", price: 50, category: "Atta, Rice & Grains", emoji: "🌾" },
-=======
   { id: "P001", nameHi: "आशीर्वाद शुद्ध चक्की आटा", name: "Aashirvaad Shud Chakki Aata", unit: "5 kg", price: 240, mrp: 276, category: "Atta, Rice & Grains", image: "/Catalog/Grains/aashirvaad-aata.png", emoji: "🌾" },
   { id: "P002", nameHi: "अमृत भोग आटा", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, mrp: 252, category: "Atta, Rice & Grains", image: "/Catalog/Grains/amirt-bhog-atta.jpg", emoji: "🌾" },
   { id: "P009", nameHi: "बेसन", name: "Besan", unit: "1 kg", price: 115, mrp: 132, category: "Atta, Rice & Grains", image: "/Catalog/Grains/besan.png", emoji: "🟡" },
@@ -90,7 +74,6 @@ const productsDatabase = [
   { id: "P103", nameHi: "पॉपकॉर्न मक्की", name: "Popcorn Makki Loose", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/Grains/popcorn-makki-loose.jpg", emoji: "🌽" },
   { id: "P115", nameHi: "सेवई (वर्मिसेली)", name: "Vermicelli", unit: "1 kg", price: 120, mrp: 138, category: "Atta, Rice & Grains", image: "/Catalog/noodles/vermicelli.png", emoji: "🍜" },
   { id: "P119", nameHi: "मैदा", name: "Maida", unit: "1 kg", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/Grains/maida.png", emoji: "🌾" },
->>>>>>> d5f98d0bb3ed09d6063a0dc5552b96a4e7185ef8
 
   // --- PULSES, DAL & CHANA ---
   { id: "P006", nameHi: "अरहर दाल", name: "Arahar Dal", unit: "1 kg", price: 130, mrp: 149, category: "Pulses & Dal", image: "/Catalog/pulses-chana/arhar-dal.png", emoji: "🫘" },
