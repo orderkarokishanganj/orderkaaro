@@ -34,7 +34,6 @@
       <a href="javascript:void(0)" onclick="openWishlist()">Wishlist (<span id="navWishlistBadge">0</span>)</a>
       <a href="javascript:void(0)" onclick="openOrders()">Orders (<span id="navOrdersBadge">0</span>)</a>
       <a href="javascript:void(0)" onclick="openProfile()">Account</a>
-      <a href="javascript:void(0)" onclick="openAdminModal()">⚙️ Stock Admin</a>
       <a href="/about" target="_top">About Us</a>
       <a href="/contact" target="_top">Contact</a>
     </nav>
@@ -85,10 +84,6 @@
           <div class="hero-stat">
             <span class="value">⚡ 30 Min</span>
             <span class="label">Delivery</span>
-          </div>
-          <div class="hero-stat">
-            <span class="value">₹0</span>
-            <span class="label">Above ₹500</span>
           </div>
         </div>
       </div>
@@ -283,25 +278,7 @@
   </div>
 </div>
 
-<!-- ADMIN STOCK MANAGER MODAL -->
-<div class="modal-overlay" id="adminModal">
-  <div class="modal-sheet" style="max-width:540px">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <div class="modal-title" style="margin-bottom:0">⚙️ Shop Owner Stock Manager</div>
-      <button class="drawer-close" onclick="closeAdminModal()">✕</button>
-    </div>
-    <p class="modal-sub">Toggle product availability (In Stock / Out of Stock) or update prices dynamically for Kishanganj store.</p>
-    <div class="search-box" style="margin-bottom:12px;background:#f1f5f9">
-      <span style="opacity:0.5">🔍</span>
-      <input type="text" id="adminSearchInput" placeholder="Filter items in stock manager..." oninput="filterAdminProducts(this.value)" style="font-size:0.88rem" />
-    </div>
-    <div id="adminProductList" style="max-height:340px;overflow-y:auto;padding-right:4px"></div>
-    <div class="modal-actions" style="margin-top:16px">
-      <button class="modal-cancel" onclick="closeAdminModal()">Done</button>
-      <button class="modal-confirm" onclick="saveAdminSettings()">💾 Save Stock Changes</button>
-    </div>
-  </div>
-</div>
+
 
 <!-- FOOTER -->
 <footer class="catalogue-footer">
@@ -318,7 +295,6 @@
     <div class="catalogue-footer-links">
       <a href="/home" target="_top">Home</a>
       <a href="/catalogue">Catalogue</a>
-      <a href="javascript:void(0)" onclick="openAdminModal()">⚙️ Stock Admin</a>
       <a href="/about" target="_top">About Us</a>
       <a href="/contact" target="_top">Contact</a>
     </div>
