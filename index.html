@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Order Kaaro | Official WhatsApp Grocery Delivery" />
     <meta property="og:description" content="Order fresh groceries and daily essentials on WhatsApp with Order Kaaro in Kishanganj." />
@@ -23,5 +24,12 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>

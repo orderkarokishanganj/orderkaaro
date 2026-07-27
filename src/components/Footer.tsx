@@ -4,7 +4,7 @@ import { Instagram, Mail, MapPin, Phone, Heart } from 'lucide-react';
 const CATALOGUE_URL = '/catalogue';
 
 const quickLinks = [
-  { to: '/', label: 'Home' },
+  { to: '/home', label: 'Home' },
   { to: '/about', label: 'About Us' },
   { to: '/contact', label: 'Contact' },
   { href: CATALOGUE_URL, label: 'Order Now' },

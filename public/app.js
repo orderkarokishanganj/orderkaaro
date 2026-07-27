@@ -1,3 +1,35 @@
+
+// Language & PWA & Admin State Globals
+let currentLang = localStorage.getItem('orderkaaro_lang') || 'en';
+let outOfStockItems = JSON.parse(localStorage.getItem('orderkaaro_outofstock') || '[]');
+let orderHistory = JSON.parse(localStorage.getItem('orderkaaro_history') || '[]');
+
+const translations = {
+  en: {
+    searchPlaceholder: "Search 160+ items (atta, ghee, dal, tea, biscuits...)",
+    cartTitle: "Your Shopping Cart 🛒",
+    deliveryFee: "Delivery Fee",
+    freeDelivery: "FREE Delivery",
+    checkoutBtn: "Proceed to Delivery Details →",
+    langName: "हिंदी",
+    inStock: "In Stock",
+    outOfStock: "OUT OF STOCK",
+    saveMsg: "Save",
+    reorderBtn: "🔁 Reorder All Items"
+  },
+  hi: {
+    searchPlaceholder: "160+ आइटम खोजें (आटा, घी, दाल, चाय...)",
+    cartTitle: "आपकी शॉपिंग कार्ट 🛒",
+    deliveryFee: "डिलीवरी शुल्क",
+    freeDelivery: "मुफ्त डिलीवरी",
+    checkoutBtn: "डिलीवरी विवरण भरें →",
+    langName: "English",
+    inStock: "स्टॉक में है",
+    outOfStock: "आउट ऑफ स्टॉक",
+    saveMsg: "बचत",
+    reorderBtn: "🔁 दोबारा ऑर्डर करें"
+  }
+};
 /* ==========================================================================
    Order Kaaro – Kishanganj Grocery Delivery Application Core JavaScript
    ========================================================================== */
@@ -10,184 +42,189 @@ const FREE_DELIVERY_THRESHOLD = 500;
 // COMPLETE 164-ITEM PRODUCT DATABASE
 // ==========================================================================
 const productsDatabase = [
+  // --- SPECIAL SAVINGS BUNDLES & COMBOS ---
+  { id: "B001", name: "Monthly Family Rashan Package", unit: "Combo Pack (10 Items)", price: 1450, mrp: 1650, category: "Atta, Rice & Grains", image: "/Catalog/Grains/aashirvaad-aata.png", emoji: "📦", isBundle: true },
+  { id: "B002", name: "Festive & Puja Special Combo", unit: "Combo Pack (6 Items)", price: 420, mrp: 490, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🪔", isBundle: true },
+  { id: "B003", name: "Family Tea & Snacks Super Saver", unit: "Combo Pack (5 Items)", price: 280, mrp: 330, category: "Biscuits & Bakery", image: "/Catalog/tea/masala-tea.png", emoji: "☕", isBundle: true },
+
   // --- ATTA, RICE & GRAINS ---
-  { id: "P001", name: "Aashirvaad Shud Chakki Aata", unit: "5 kg", price: 240, category: "Atta, Rice & Grains", image: "/Catalog/Grains/aashirvaad-aata.png", emoji: "🌾" },
-  { id: "P002", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, category: "Atta, Rice & Grains", image: "/Catalog/Grains/amirt-bhog-atta.jpg", emoji: "🌾" },
-  { id: "P009", name: "Besan", unit: "1 kg", price: 115, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Besan.png", emoji: "🟡" },
-  { id: "P055", name: "Katarni Chura", unit: "500 g", price: 50, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🍚" },
-  { id: "P056", name: "Katarni Chura", unit: "1 kg", price: 90, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🍚" },
-  { id: "P071", name: "Sattu", unit: "200 g", price: 31, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sattu.png", emoji: "💪" },
-  { id: "P072", name: "Sattu", unit: "500 g", price: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sattu.png", emoji: "💪" },
-  { id: "P075", name: "Amrit Bhog Sooji", unit: "1 kg", price: 60, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sooji.png", emoji: "🌾" },
-  { id: "P077", name: "Sugar", unit: "1 kg", price: 55, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sugar.png", emoji: "🍬" },
-  { id: "P083", name: "Chawal", unit: "1 kg", price: 70, category: "Atta, Rice & Grains", image: "/Catalog/chawal.png", emoji: "🍚" },
-  { id: "P084", name: "Sooji", unit: "1 kg", price: 60, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sooji.png", emoji: "🌾" },
-  { id: "P103", name: "Popcorn Makki Loose", unit: "500 g", price: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/popcorn-makki-loose.jpg", emoji: "🌽" },
-  { id: "P115", name: "Vermicelli", unit: "1 kg", price: 120, category: "Atta, Rice & Grains", image: "/Catalog/noodles/vermicelli.png", emoji: "🍜" },
-  { id: "P119", name: "Maida", unit: "1 kg", price: 50, category: "Atta, Rice & Grains", image: "/Catalog/Grains/maida.png", emoji: "🌾" },
+  { id: "P001", name: "Aashirvaad Shud Chakki Aata", unit: "5 kg", price: 240, mrp: 276, category: "Atta, Rice & Grains", image: "/Catalog/Grains/aashirvaad-aata.png", emoji: "🌾" },
+  { id: "P002", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, mrp: 252, category: "Atta, Rice & Grains", image: "/Catalog/Grains/amirt-bhog-atta.jpg", emoji: "🌾" },
+  { id: "P009", name: "Besan", unit: "1 kg", price: 115, mrp: 132, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Besan.png", emoji: "🟡" },
+  { id: "P055", name: "Katarni Chura", unit: "500 g", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🍚" },
+  { id: "P056", name: "Katarni Chura", unit: "1 kg", price: 90, mrp: 100, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🍚" },
+  { id: "P071", name: "Sattu", unit: "200 g", price: 31, mrp: 41, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sattu.png", emoji: "💪" },
+  { id: "P072", name: "Sattu", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sattu.png", emoji: "💪" },
+  { id: "P075", name: "Amrit Bhog Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sooji.png", emoji: "🌾" },
+  { id: "P077", name: "Sugar", unit: "1 kg", price: 55, mrp: 65, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sugar.png", emoji: "🍬" },
+  { id: "P083", name: "Chawal", unit: "1 kg", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/chawal.png", emoji: "🍚" },
+  { id: "P084", name: "Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/Sooji.png", emoji: "🌾" },
+  { id: "P103", name: "Popcorn Makki Loose", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/Grains/popcorn-makki-loose.jpg", emoji: "🌽" },
+  { id: "P115", name: "Vermicelli", unit: "1 kg", price: 120, mrp: 138, category: "Atta, Rice & Grains", image: "/Catalog/noodles/vermicelli.png", emoji: "🍜" },
+  { id: "P119", name: "Maida", unit: "1 kg", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/Grains/maida.png", emoji: "🌾" },
 
   // --- PULSES, DAL & CHANA ---
-  { id: "P006", name: "Arahar Dal", unit: "1 kg", price: 130, category: "Pulses & Dal", image: "/Catalog/pulses-chana/arhar-dal.png", emoji: "🫘" },
-  { id: "P007", name: "Arahar Dal", unit: "500 g", price: 65, category: "Pulses & Dal", image: "/Catalog/pulses-chana/arhar-dal.png", emoji: "🫘" },
-  { id: "P027", name: "Dal Makhani Special Dal", unit: "400 g", price: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/mix-dal-dalmakhani-special.png", emoji: "🍛" },
-  { id: "P028", name: "Dal Makhani Special Dal", unit: "800 g", price: 140, category: "Pulses & Dal", image: "/Catalog/pulses-chana/mix-dal-dalmakhani-special.png", emoji: "🍛" },
-  { id: "P036", name: "Gota Kalai Dal", unit: "500 g", price: 60, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
-  { id: "P037", name: "Gota Kalai Dal", unit: "1 kg", price: 120, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
-  { id: "P038", name: "Chilka Wali Masoor Dal", unit: "1 kg", price: 140, category: "Pulses & Dal", image: "/Catalog/pulses-chana/masoor-dal.png", emoji: "🫘" },
-  { id: "P039", name: "Gota Massor Dal", unit: "1 kg", price: 140, category: "Pulses & Dal", image: "/Catalog/pulses-chana/gota-masoor-dal.png", emoji: "🟠" },
-  { id: "P040", name: "Gota Massor Dal", unit: "500 g", price: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/gota-masoor-dal.png", emoji: "🟠" },
-  { id: "P041", name: "Gota Moong Dal", unit: "500 g", price: 60, category: "Pulses & Dal", image: "/Catalog/pulses-chana/moong-dal.png", emoji: "💛" },
-  { id: "P042", name: "Gota Moong Dal", unit: "1 kg", price: 120, category: "Pulses & Dal", image: "/Catalog/pulses-chana/moong-dal.png", emoji: "💛" },
-  { id: "P047", name: "Gota Kala Channa", unit: "500 g", price: 45, category: "Pulses & Dal", image: "/Catalog/pulses-chana/gota-kala-chana.png", emoji: "🟤" },
-  { id: "P048", name: "Gota Kala Channa", unit: "1 kg", price: 90, category: "Pulses & Dal", image: "/Catalog/pulses-chana/gota-kala-chana.png", emoji: "🟤" },
-  { id: "P049", name: "Kabuli Channa", unit: "1 kg", price: 95, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kabuli-chana.png", emoji: "⚪" },
-  { id: "P050", name: "Kabuli Channa", unit: "500 g", price: 50, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kabuli-chana.png", emoji: "⚪" },
-  { id: "P051", name: "Kala Chana", unit: "1 kg", price: 80, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kala-chana.png", emoji: "🟤" },
-  { id: "P052", name: "Kala Chana", unit: "500 g", price: 40, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kala-chana.png", emoji: "🟤" },
-  { id: "P053", name: "Kalai Dal", unit: "500 g", price: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
-  { id: "P054", name: "Kalai Dal", unit: "1 kg", price: 140, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
-  { id: "P061", name: "Massor Dal", unit: "500 g", price: 60, category: "Pulses & Dal", image: "/Catalog/pulses-chana/masoor-dal.png", emoji: "🟠" },
-  { id: "P062", name: "Massor Dal", unit: "1 kg", price: 120, category: "Pulses & Dal", image: "/Catalog/pulses-chana/masoor-dal.png", emoji: "🟠" },
-  { id: "P063", name: "Moong Dal", unit: "500 g", price: 60, category: "Pulses & Dal", image: "/Catalog/pulses-chana/moong-dal.png", emoji: "💛" },
-  { id: "P064", name: "Moth", unit: "1 kg", price: 120, category: "Pulses & Dal", image: "/Catalog/Grains/Moth.png", emoji: "🌾" },
-  { id: "P086", name: "Mouth", unit: "500 g", price: 45, category: "Pulses & Dal", image: "/Catalog/Grains/Moth.png", emoji: "🌾" },
-  { id: "P097", name: "Chana Dal", unit: "1 kg", price: 96, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chana-dal.png", emoji: "🫘" },
-  { id: "P108", name: "Chana Dal", unit: "500 g", price: 40, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chana-dal.png", emoji: "🫘" },
-  { id: "P109", name: "Chole Chana", unit: "500 g", price: 48, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chole-chana.png", emoji: "🫘" },
-  { id: "P123", name: "Gota Kalai Dal", unit: "250 g", price: 30, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
-  { id: "P124", name: "Kalai Dal", unit: "250 g", price: 35, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
+  { id: "P006", name: "Arahar Dal", unit: "1 kg", price: 130, mrp: 149, category: "Pulses & Dal", image: "/Catalog/pulses-chana/arhar-dal.png", emoji: "🫘" },
+  { id: "P007", name: "Arahar Dal", unit: "500 g", price: 65, mrp: 75, category: "Pulses & Dal", image: "/Catalog/pulses-chana/arhar-dal.png", emoji: "🫘" },
+  { id: "P027", name: "Dal Makhani Special Dal", unit: "400 g", price: 70, mrp: 80, category: "Pulses & Dal", image: "/Catalog/pulses-chana/mix-dal-dalmakhani-special.png", emoji: "🍛" },
+  { id: "P028", name: "Dal Makhani Special Dal", unit: "800 g", price: 140, mrp: 161, category: "Pulses & Dal", image: "/Catalog/pulses-chana/mix-dal-dalmakhani-special.png", emoji: "🍛" },
+  { id: "P036", name: "Gota Kalai Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
+  { id: "P037", name: "Gota Kalai Dal", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
+  { id: "P038", name: "Chilka Wali Masoor Dal", unit: "1 kg", price: 140, mrp: 161, category: "Pulses & Dal", image: "/Catalog/pulses-chana/masoor-dal.png", emoji: "🫘" },
+  { id: "P039", name: "Gota Massor Dal", unit: "1 kg", price: 140, mrp: 161, category: "Pulses & Dal", image: "/Catalog/pulses-chana/gota-masoor-dal.png", emoji: "🟠" },
+  { id: "P040", name: "Gota Massor Dal", unit: "500 g", price: 70, mrp: 80, category: "Pulses & Dal", image: "/Catalog/pulses-chana/gota-masoor-dal.png", emoji: "🟠" },
+  { id: "P041", name: "Gota Moong Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/moong-dal.png", emoji: "💛" },
+  { id: "P042", name: "Gota Moong Dal", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "/Catalog/pulses-chana/moong-dal.png", emoji: "💛" },
+  { id: "P047", name: "Gota Kala Channa", unit: "500 g", price: 45, mrp: 55, category: "Pulses & Dal", image: "/Catalog/pulses-chana/gota-kala-chana.png", emoji: "🟤" },
+  { id: "P048", name: "Gota Kala Channa", unit: "1 kg", price: 90, mrp: 100, category: "Pulses & Dal", image: "/Catalog/pulses-chana/gota-kala-chana.png", emoji: "🟤" },
+  { id: "P049", name: "Kabuli Channa", unit: "1 kg", price: 95, mrp: 105, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kabuli-chana.png", emoji: "⚪" },
+  { id: "P050", name: "Kabuli Channa", unit: "500 g", price: 50, mrp: 60, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kabuli-chana.png", emoji: "⚪" },
+  { id: "P051", name: "Kala Chana", unit: "1 kg", price: 80, mrp: 90, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kala-chana.png", emoji: "🟤" },
+  { id: "P052", name: "Kala Chana", unit: "500 g", price: 40, mrp: 50, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kala-chana.png", emoji: "🟤" },
+  { id: "P053", name: "Kalai Dal", unit: "500 g", price: 70, mrp: 80, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
+  { id: "P054", name: "Kalai Dal", unit: "1 kg", price: 140, mrp: 161, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
+  { id: "P061", name: "Massor Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/masoor-dal.png", emoji: "🟠" },
+  { id: "P062", name: "Massor Dal", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "/Catalog/pulses-chana/masoor-dal.png", emoji: "🟠" },
+  { id: "P063", name: "Moong Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/moong-dal.png", emoji: "💛" },
+  { id: "P064", name: "Moth", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "/Catalog/Grains/Moth.png", emoji: "🌾" },
+  { id: "P086", name: "Mouth", unit: "500 g", price: 45, mrp: 55, category: "Pulses & Dal", image: "/Catalog/Grains/Moth.png", emoji: "🌾" },
+  { id: "P097", name: "Chana Dal", unit: "1 kg", price: 96, mrp: 106, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chana-dal.png", emoji: "🫘" },
+  { id: "P108", name: "Chana Dal", unit: "500 g", price: 40, mrp: 50, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chana-dal.png", emoji: "🫘" },
+  { id: "P109", name: "Chole Chana", unit: "500 g", price: 48, mrp: 58, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chole-chana.png", emoji: "🫘" },
+  { id: "P123", name: "Gota Kalai Dal", unit: "250 g", price: 30, mrp: 40, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
+  { id: "P124", name: "Kalai Dal", unit: "250 g", price: 35, mrp: 45, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
 
   // --- COOKING OILS & GHEE ---
-  { id: "P004", name: "Amul Ghee", unit: "1 kg", price: 649, category: "Cooking Oils & Ghee", image: "/Catalog/dairy/amul-pure-ghee-1kg.png", emoji: "🧈" },
-  { id: "P029", name: "Dhara Kachi Gani", unit: "1 L", price: 179, category: "Cooking Oils & Ghee", image: "/Catalog/oil/dhara-kacchi-ghani.png", emoji: "🛢️" },
-  { id: "P030", name: "Fortune Kachi Gani", unit: "1 L", price: 178, category: "Cooking Oils & Ghee", image: "/Catalog/oil/fortune-kacchi-ghani.png", emoji: "🛢️" },
-  { id: "P031", name: "Fortune Kachi Ghanni Jar 15kg", unit: "15 kg", price: 3000, category: "Cooking Oils & Ghee", image: "/Catalog/oil/fortune-kacchi-ghani-15l.png", emoji: "🛢️" },
-  { id: "P032", name: "Fortune Soya Refine", unit: "1 L", price: 145, category: "Cooking Oils & Ghee", image: "/Catalog/oil/fortune-soya-health.png", emoji: "🍳" },
-  { id: "P057", name: "King Kachi Ghani", unit: "1 L", price: 175, category: "Cooking Oils & Ghee", image: "/Catalog/oil/kings-kacchi-ghani.png", emoji: "👑" },
-  { id: "P058", name: "King Soya Refine", unit: "1 L", price: 130, category: "Cooking Oils & Ghee", image: "/Catalog/oil/kings-soyabean-oil.png", emoji: "👑" },
-  { id: "P085", name: "Rice Bran Oil", unit: "1 L", price: 175, category: "Cooking Oils & Ghee", image: "/Catalog/oil/rice-bran-oil.png", emoji: "🌾" },
-  { id: "P122", name: "Engine Kacchi Ghani Oil", unit: "1 L", price: 215, category: "Cooking Oils & Ghee", image: "/Catalog/oil/engine-kacchi-ghani.jpg", emoji: "🛢️" },
+  { id: "P004", name: "Amul Ghee", unit: "1 kg", price: 649, mrp: 746, category: "Cooking Oils & Ghee", image: "/Catalog/dairy/amul-pure-ghee-1kg.png", emoji: "🧈" },
+  { id: "P029", name: "Dhara Kachi Gani", unit: "1 L", price: 179, mrp: 205, category: "Cooking Oils & Ghee", image: "/Catalog/oil/dhara-kacchi-ghani.png", emoji: "🛢️" },
+  { id: "P030", name: "Fortune Kachi Gani", unit: "1 L", price: 178, mrp: 204, category: "Cooking Oils & Ghee", image: "/Catalog/oil/fortune-kacchi-ghani.png", emoji: "🛢️" },
+  { id: "P031", name: "Fortune Kachi Ghanni Jar 15kg", unit: "15 kg", price: 3000, mrp: 3449, category: "Cooking Oils & Ghee", image: "/Catalog/oil/fortune-kacchi-ghani-15l.png", emoji: "🛢️" },
+  { id: "P032", name: "Fortune Soya Refine", unit: "1 L", price: 145, mrp: 166, category: "Cooking Oils & Ghee", image: "/Catalog/oil/fortune-soya-health.png", emoji: "🍳" },
+  { id: "P057", name: "King Kachi Ghani", unit: "1 L", price: 175, mrp: 201, category: "Cooking Oils & Ghee", image: "/Catalog/oil/kings-kacchi-ghani.png", emoji: "👑" },
+  { id: "P058", name: "King Soya Refine", unit: "1 L", price: 130, mrp: 149, category: "Cooking Oils & Ghee", image: "/Catalog/oil/kings-soyabean-oil.png", emoji: "👑" },
+  { id: "P085", name: "Rice Bran Oil", unit: "1 L", price: 175, mrp: 201, category: "Cooking Oils & Ghee", image: "/Catalog/oil/rice-bran-oil.png", emoji: "🌾" },
+  { id: "P122", name: "Engine Kacchi Ghani Oil", unit: "1 L", price: 215, mrp: 247, category: "Cooking Oils & Ghee", image: "/Catalog/oil/engine-kacchi-ghani.jpg", emoji: "🛢️" },
 
   // --- BISCUITS & COOKIES ---
-  { id: "P005", name: "Anmol Dream Lite Salty Butterly Crunch", unit: "1 pcs", price: 5, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/anmol-dreamlite-salty-butterfly-crunch.png", emoji: "🍪" },
-  { id: "P008", name: "Baba Elaichi Toast", unit: "1 pcs", price: 60, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/baba-elaichi-toast.png", emoji: "🍞" },
-  { id: "P010", name: "Bisk Farm Butter Biscotti", unit: "1 pcs", price: 30, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-butter-biscotti.png", emoji: "🍪" },
-  { id: "P011", name: "Bisk Farm Champ Milkuit", unit: "1 pcs", price: 25, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/biskfarm-champ-milkuit.png", emoji: "🥛" },
-  { id: "P012", name: "Bisk Farm Coco Wonder", unit: "1 pcs", price: 30, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/biskfarm-coco-wonder.png", emoji: "🍫" },
-  { id: "P013", name: "Bisk Farm Jeera Wonder", unit: "1 pcs", price: 30, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-jeera-wonder.png", emoji: "🌾" },
-  { id: "P014", name: "Bisk Farm Mast Jeera", unit: "1 pcs", price: 45, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-mast-jeera.png", emoji: "🌾" },
-  { id: "P015", name: "Bisk Farm Ruskit", unit: "1 pcs", price: 35, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-ruskit.png", emoji: "🍞" },
-  { id: "P016", name: "Bisk Farm Top Gold", unit: "1 pcs", price: 30, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-top-gold.png", emoji: "🥇" },
-  { id: "P017", name: "Bisk Farm Top Herbs", unit: "1 pcs", price: 35, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-top-farm.png", emoji: "🌿" },
-  { id: "P018", name: "Britannia 50-50 Golmaal Kala Jeera", unit: "1 pcs", price: 30, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-50-50-golmaal-kala-jeera.png", emoji: "🍪" },
-  { id: "P019", name: "Britannia 50-50 Marie Gold", unit: "1 pcs", price: 30, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-50-50-marie-gold.png", emoji: "🍪" },
-  { id: "P020", name: "Britannia 50-50 Top Butterly Bites", unit: "1 pcs", price: 30, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-50-50-top-butterfly-bites.png", emoji: "🧈" },
-  { id: "P021", name: "Britannia Bourbon", unit: "1 pcs", price: 35, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-bourbon.png", emoji: "🍫" },
-  { id: "P022", name: "Britannia GoodDay Butter Cookies", unit: "1 pcs", price: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-goodday-butter-cookies.png", emoji: "🧈" },
-  { id: "P023", name: "Britannia GoodDay Cashew Almond", unit: "1 pcs", price: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-gooday-cashew-almond.png", emoji: "🌰" },
-  { id: "P024", name: "Britannia Milk Bikis", unit: "1 pcs", price: 30, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-milk-bikis.png", emoji: "🥛" },
-  { id: "P025", name: "Britannia Nutri Choice Digestive High Fibre", unit: "1 pcs", price: 55, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-nutri-choice-digestive-high-fiber.png", emoji: "💚" },
-  { id: "P026", name: "Coco Wonder", unit: "1 pcs", price: 30, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/biskfarm-coco-wonder.png", emoji: "🍫" },
-  { id: "P033", name: "Fruit Cake", unit: "1 pcs", price: 80, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/fruit-cake.png", emoji: "🍰" },
-  { id: "P043", name: "Home Bake Premium Cookies Mix Flavours Green", unit: "1 pcs", price: 55, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/homebread-premium-cookies-mix-flavours-green.png", emoji: "🍪" },
-  { id: "P044", name: "Home Bake Premium Cookies Mix Flavours Red", unit: "1 pcs", price: 55, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/homebread-premium-cookies-mix-flavours-red.png", emoji: "🍪" },
-  { id: "P045", name: "Homebread Cookies", unit: "1 pcs", price: 80, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/homebread-cookies.png", emoji: "🍪" },
-  { id: "P060", name: "Malkist Cheese Flavoured", unit: "1 pcs", price: 45, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/malkist-cheese-flavoured.png", emoji: "🧀" },
-  { id: "P068", name: "Oreo", unit: "1 pcs", price: 10, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/OREO.png", emoji: "⚫" },
-  { id: "P069", name: "Parle Monaco Classic", unit: "1 pcs", price: 70, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/parle-monaco-classic.png", emoji: "🍪" },
-  { id: "P070", name: "Ruskit", unit: "1 pcs", price: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-ruskit.png", emoji: "🍞" },
-  { id: "P074", name: "Sunfeast Mom's Magic Ghee Roasted", unit: "1 pcs", price: 64, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/sunfeast-mom's-magic-ghee-rosted.png", emoji: "🍪" },
-  { id: "P081", name: "Bisk Farm Mast Jeera", unit: "1 pcs", price: 45, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-mast-jeera.png", emoji: "🌾" },
-  { id: "P120", name: "Milk Bikis", unit: "1 pcs", price: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/milk-bikis.webp", emoji: "🥛" },
-  { id: "P121", name: "Time Pass 50-50", unit: "1 pcs", price: 25, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/time-pass-50-50.jpg", emoji: "🍪" },
+  { id: "P005", name: "Anmol Dream Lite Salty Butterly Crunch", unit: "1 pcs", price: 5, mrp: 15, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/anmol-dreamlite-salty-butterfly-crunch.png", emoji: "🍪" },
+  { id: "P008", name: "Baba Elaichi Toast", unit: "1 pcs", price: 60, mrp: 70, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/baba-elaichi-toast.png", emoji: "🍞" },
+  { id: "P010", name: "Bisk Farm Butter Biscotti", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-butter-biscotti.png", emoji: "🍪" },
+  { id: "P011", name: "Bisk Farm Champ Milkuit", unit: "1 pcs", price: 25, mrp: 35, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/biskfarm-champ-milkuit.png", emoji: "🥛" },
+  { id: "P012", name: "Bisk Farm Coco Wonder", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/biskfarm-coco-wonder.png", emoji: "🍫" },
+  { id: "P013", name: "Bisk Farm Jeera Wonder", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-jeera-wonder.png", emoji: "🌾" },
+  { id: "P014", name: "Bisk Farm Mast Jeera", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-mast-jeera.png", emoji: "🌾" },
+  { id: "P015", name: "Bisk Farm Ruskit", unit: "1 pcs", price: 35, mrp: 45, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-ruskit.png", emoji: "🍞" },
+  { id: "P016", name: "Bisk Farm Top Gold", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-top-gold.png", emoji: "🥇" },
+  { id: "P017", name: "Bisk Farm Top Herbs", unit: "1 pcs", price: 35, mrp: 45, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-top-farm.png", emoji: "🌿" },
+  { id: "P018", name: "Britannia 50-50 Golmaal Kala Jeera", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-50-50-golmaal-kala-jeera.png", emoji: "🍪" },
+  { id: "P019", name: "Britannia 50-50 Marie Gold", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-50-50-marie-gold.png", emoji: "🍪" },
+  { id: "P020", name: "Britannia 50-50 Top Butterly Bites", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-50-50-top-butterfly-bites.png", emoji: "🧈" },
+  { id: "P021", name: "Britannia Bourbon", unit: "1 pcs", price: 35, mrp: 45, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-bourbon.png", emoji: "🍫" },
+  { id: "P022", name: "Britannia GoodDay Butter Cookies", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-goodday-butter-cookies.png", emoji: "🧈" },
+  { id: "P023", name: "Britannia GoodDay Cashew Almond", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-gooday-cashew-almond.png", emoji: "🌰" },
+  { id: "P024", name: "Britannia Milk Bikis", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-milk-bikis.png", emoji: "🥛" },
+  { id: "P025", name: "Britannia Nutri Choice Digestive High Fibre", unit: "1 pcs", price: 55, mrp: 65, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-nutri-choice-digestive-high-fiber.png", emoji: "💚" },
+  { id: "P026", name: "Coco Wonder", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/biskfarm-coco-wonder.png", emoji: "🍫" },
+  { id: "P033", name: "Fruit Cake", unit: "1 pcs", price: 80, mrp: 90, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/fruit-cake.png", emoji: "🍰" },
+  { id: "P043", name: "Home Bake Premium Cookies Mix Flavours Green", unit: "1 pcs", price: 55, mrp: 65, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/homebread-premium-cookies-mix-flavours-green.png", emoji: "🍪" },
+  { id: "P044", name: "Home Bake Premium Cookies Mix Flavours Red", unit: "1 pcs", price: 55, mrp: 65, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/homebread-premium-cookies-mix-flavours-red.png", emoji: "🍪" },
+  { id: "P045", name: "Homebread Cookies", unit: "1 pcs", price: 80, mrp: 90, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/homebread-cookies.png", emoji: "🍪" },
+  { id: "P060", name: "Malkist Cheese Flavoured", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/malkist-cheese-flavoured.png", emoji: "🧀" },
+  { id: "P068", name: "Oreo", unit: "1 pcs", price: 10, mrp: 20, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/OREO.png", emoji: "⚫" },
+  { id: "P069", name: "Parle Monaco Classic", unit: "1 pcs", price: 70, mrp: 80, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/parle-monaco-classic.png", emoji: "🍪" },
+  { id: "P070", name: "Ruskit", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-ruskit.png", emoji: "🍞" },
+  { id: "P074", name: "Sunfeast Mom's Magic Ghee Roasted", unit: "1 pcs", price: 64, mrp: 74, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/sunfeast-mom's-magic-ghee-rosted.png", emoji: "🍪" },
+  { id: "P081", name: "Bisk Farm Mast Jeera", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-mast-jeera.png", emoji: "🌾" },
+  { id: "P120", name: "Milk Bikis", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/milk-bikis.webp", emoji: "🥛" },
+  { id: "P121", name: "Time Pass 50-50", unit: "1 pcs", price: 25, mrp: 35, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/time-pass-50-50.jpg", emoji: "🍪" },
 
   // --- TEA, COFFEE & BEVERAGES ---
-  { id: "P034", name: "Glucon-D Regular", unit: "1 pcs", price: 39, category: "Tea & Beverages", image: "/Catalog/energy/gulcon-d.png", emoji: "⚡" },
-  { id: "P035", name: "Glucon-D Tangy Orange", unit: "1 pcs", price: 55, category: "Tea & Beverages", image: "/Catalog/energy/glucon-d-tangy-orange.png", emoji: "🍊" },
-  { id: "P046", name: "Horlicks", unit: "1 kg", price: 264, category: "Tea & Beverages", image: "/Catalog/milk-powder/horlicks-classic-malt.png", emoji: "🥛" },
-  { id: "P087", name: "Independence Mineral Water", unit: "1.5 L", price: 20, category: "Tea & Beverages", image: "/Catalog/water/independence-mineral-water.png", emoji: "💧" },
-  { id: "P093", name: "Mogu Mogu", unit: "1 pcs", price: 70, category: "Tea & Beverages", image: "/Catalog/cold-drink/mogu-mogu.jpg", emoji: "🧃" },
-  { id: "P125", name: "Special Chaipatti", unit: "1 kg", price: 499, category: "Tea & Beverages", image: "/Catalog/tea/special-chaipatti.png", emoji: "☕" },
-  { id: "P128", name: "CTC Tea", unit: "1 kg", price: 300, category: "Tea & Beverages", image: "/Catalog/tea/ctc-tea.jpg", emoji: "☕" },
-  { id: "P129", name: "CTC Tea", unit: "500 g", price: 150, category: "Tea & Beverages", image: "/Catalog/tea/ctc-tea.jpg", emoji: "☕" },
-  { id: "P130", name: "CTC Tea", unit: "250 g", price: 75, category: "Tea & Beverages", image: "/Catalog/tea/ctc-tea.jpg", emoji: "☕" },
-  { id: "P131", name: "Darjeeling Mix Tea", unit: "250 g", price: 100, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea.png", emoji: "🫖" },
-  { id: "P132", name: "Darjeeling Mix Tea", unit: "500 g", price: 200, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea.png", emoji: "🫖" },
-  { id: "P133", name: "Darjeeling Mix Tea", unit: "1 kg", price: 400, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea.png", emoji: "🫖" },
-  { id: "P134", name: "Darjeeling Mix Tea (Assam)", unit: "250 g", price: 125, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea-assam.png", emoji: "🫖" },
-  { id: "P135", name: "Darjeeling Mix Tea (Assam)", unit: "500 g", price: 250, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea-assam.png", emoji: "🫖" },
-  { id: "P136", name: "Darjeeling Mix Tea (Assam)", unit: "1 kg", price: 500, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea-assam.png", emoji: "🫖" },
-  { id: "P137", name: "Kesar Tea", unit: "250 g", price: 175, category: "Tea & Beverages", image: "/Catalog/tea/kesar-tea.png", emoji: "🍵" },
-  { id: "P138", name: "Kesar Tea", unit: "500 g", price: 350, category: "Tea & Beverages", image: "/Catalog/tea/kesar-tea.png", emoji: "🍵" },
-  { id: "P139", name: "Kesar Tea", unit: "1 kg", price: 600, category: "Tea & Beverages", image: "/Catalog/tea/kesar-tea.png", emoji: "🍵" },
-  { id: "P140", name: "Masala Tea", unit: "250 g", price: 175, category: "Tea & Beverages", image: "/Catalog/tea/masala-tea.png", emoji: "☕" },
-  { id: "P141", name: "Masala Tea", unit: "500 g", price: 300, category: "Tea & Beverages", image: "/Catalog/tea/masala-tea.png", emoji: "☕" },
-  { id: "P142", name: "Masala Tea", unit: "1 kg", price: 600, category: "Tea & Beverages", image: "/Catalog/tea/masala-tea.png", emoji: "☕" },
-  { id: "P143", name: "Elaichi Tea (Cardamom Chai)", unit: "250 g", price: 120, category: "Tea & Beverages", image: "/Catalog/tea/elaichi-tea-cardamom-chai.png", emoji: "☕" },
-  { id: "P144", name: "Elaichi Tea (Cardamom Chai)", unit: "500 g", price: 220, category: "Tea & Beverages", image: "/Catalog/tea/elaichi-tea-cardamom-chai.png", emoji: "☕" },
-  { id: "P145", name: "Elaichi Tea (Cardamom Chai)", unit: "1 kg", price: 440, category: "Tea & Beverages", image: "/Catalog/tea/elaichi-tea-cardamom-chai.png", emoji: "☕" },
-  { id: "P146", name: "Plain Tea", unit: "250 g", price: 100, category: "Tea & Beverages", image: "/Catalog/tea/plain-tea.png", emoji: "☕" },
-  { id: "P147", name: "Plain Tea", unit: "500 g", price: 200, category: "Tea & Beverages", image: "/Catalog/tea/plain-tea.png", emoji: "☕" },
-  { id: "P148", name: "Plain Tea", unit: "1 kg", price: 400, category: "Tea & Beverages", image: "/Catalog/tea/plain-tea.png", emoji: "☕" },
-  { id: "P149", name: "Rajbari Tea Pouch", unit: "250 g", price: 125, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-pouch.png", emoji: "🫖" },
-  { id: "P150", name: "Rajbari Tea Pouch", unit: "500 g", price: 250, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-pouch.png", emoji: "🫖" },
-  { id: "P151", name: "Rajbari Tea Pouch", unit: "1 kg", price: 500, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-pouch.png", emoji: "🫖" },
-  { id: "P152", name: "Rajbari Tea Jar", unit: "250 g", price: 130, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-jar.png", emoji: "🫖" },
-  { id: "P153", name: "Rajbari Tea Jar", unit: "500 g", price: 260, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-jar.png", emoji: "🫖" },
-  { id: "P154", name: "Rajbari Tea Jar", unit: "1 kg", price: 520, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-jar.png", emoji: "🫖" },
-  { id: "P155", name: "Tea Max Darjeeling Saffron Green Tea", unit: "100 g", price: 600, category: "Tea & Beverages", image: "/Catalog/tea/tea-max-darjeeling-saffron-tea-green-tea.png", emoji: "🍵" },
-  { id: "P156", name: "Tea Max Darjeeling Green Tea Jar", unit: "50 g", price: 300, category: "Tea & Beverages", image: "/Catalog/tea/tea-max-darjeeling-saffron-tea-green-tea.png", emoji: "🍵" },
-  { id: "P157", name: "Tea Max Darjeeling Green Tea Jar", unit: "100 g", price: 600, category: "Tea & Beverages", image: "/Catalog/tea/tea-max-darjeeling-saffron-tea-green-tea.png", emoji: "🍵" },
-  { id: "P158", name: "Lipton Green Tea 25 Tea Bags", unit: "32.5 g", price: 200, category: "Tea & Beverages", image: "/Catalog/tea/lipton-green-tea-25-tea-bags.png", emoji: "🍵" },
-  { id: "P159", name: "Lipton Green Tea 100 Tea Bags", unit: "130 g", price: 600, category: "Tea & Beverages", image: "/Catalog/tea/lipton-green-tea-100-tea-bags.png", emoji: "🍵" },
-  { id: "P160", name: "White Tea Super", unit: "100 g", price: 1000, category: "Tea & Beverages", image: "/Catalog/tea/white-tea-super.png", emoji: "🍵" },
-  { id: "P161", name: "White Tea", unit: "100 g", price: 500, category: "Tea & Beverages", image: "/Catalog/tea/white-tea.png", emoji: "🍵" },
-  { id: "P162", name: "Nescafe Classic Instant Coffee Powder", unit: "25 g", price: 124, category: "Tea & Beverages", image: "/Catalog/tea/nescafe-classic-instant-coffee-powder.png", emoji: "☕" },
-  { id: "P163", name: "Nestle Classic Coffee Soluble Instant", unit: "50 g", price: 235, category: "Tea & Beverages", image: "/Catalog/tea/nestle-classic-coffee-soluble-instant-coffee.png", emoji: "☕" },
-  { id: "P164", name: "Real Fruit Juice Pomegranate Anar", unit: "1 L", price: 125, category: "Tea & Beverages", image: "/Catalog/energy/real-fruit-juice-pomegranate-anar.png", emoji: "🧃" },
+  { id: "P034", name: "Glucon-D Regular", unit: "1 pcs", price: 39, mrp: 49, category: "Tea & Beverages", image: "/Catalog/energy/gulcon-d.png", emoji: "⚡" },
+  { id: "P035", name: "Glucon-D Tangy Orange", unit: "1 pcs", price: 55, mrp: 65, category: "Tea & Beverages", image: "/Catalog/energy/glucon-d-tangy-orange.png", emoji: "🍊" },
+  { id: "P046", name: "Horlicks", unit: "1 kg", price: 264, mrp: 303, category: "Tea & Beverages", image: "/Catalog/milk-powder/horlicks-classic-malt.png", emoji: "🥛" },
+  { id: "P087", name: "Independence Mineral Water", unit: "1.5 L", price: 20, mrp: 30, category: "Tea & Beverages", image: "/Catalog/water/independence-mineral-water.png", emoji: "💧" },
+  { id: "P093", name: "Mogu Mogu", unit: "1 pcs", price: 70, mrp: 80, category: "Tea & Beverages", image: "/Catalog/cold-drink/mogu-mogu.jpg", emoji: "🧃" },
+  { id: "P125", name: "Special Chaipatti", unit: "1 kg", price: 499, mrp: 573, category: "Tea & Beverages", image: "/Catalog/tea/special-chaipatti.png", emoji: "☕" },
+  { id: "P128", name: "CTC Tea", unit: "1 kg", price: 300, mrp: 345, category: "Tea & Beverages", image: "/Catalog/tea/ctc-tea.jpg", emoji: "☕" },
+  { id: "P129", name: "CTC Tea", unit: "500 g", price: 150, mrp: 172, category: "Tea & Beverages", image: "/Catalog/tea/ctc-tea.jpg", emoji: "☕" },
+  { id: "P130", name: "CTC Tea", unit: "250 g", price: 75, mrp: 85, category: "Tea & Beverages", image: "/Catalog/tea/ctc-tea.jpg", emoji: "☕" },
+  { id: "P131", name: "Darjeeling Mix Tea", unit: "250 g", price: 100, mrp: 110, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea.png", emoji: "🫖" },
+  { id: "P132", name: "Darjeeling Mix Tea", unit: "500 g", price: 200, mrp: 229, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea.png", emoji: "🫖" },
+  { id: "P133", name: "Darjeeling Mix Tea", unit: "1 kg", price: 400, mrp: 459, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea.png", emoji: "🫖" },
+  { id: "P134", name: "Darjeeling Mix Tea (Assam)", unit: "250 g", price: 125, mrp: 143, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea-assam.png", emoji: "🫖" },
+  { id: "P135", name: "Darjeeling Mix Tea (Assam)", unit: "500 g", price: 250, mrp: 287, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea-assam.png", emoji: "🫖" },
+  { id: "P136", name: "Darjeeling Mix Tea (Assam)", unit: "1 kg", price: 500, mrp: 575, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea-assam.png", emoji: "🫖" },
+  { id: "P137", name: "Kesar Tea", unit: "250 g", price: 175, mrp: 201, category: "Tea & Beverages", image: "/Catalog/tea/kesar-tea.png", emoji: "🍵" },
+  { id: "P138", name: "Kesar Tea", unit: "500 g", price: 350, mrp: 402, category: "Tea & Beverages", image: "/Catalog/tea/kesar-tea.png", emoji: "🍵" },
+  { id: "P139", name: "Kesar Tea", unit: "1 kg", price: 600, mrp: 690, category: "Tea & Beverages", image: "/Catalog/tea/kesar-tea.png", emoji: "🍵" },
+  { id: "P140", name: "Masala Tea", unit: "250 g", price: 175, mrp: 201, category: "Tea & Beverages", image: "/Catalog/tea/masala-tea.png", emoji: "☕" },
+  { id: "P141", name: "Masala Tea", unit: "500 g", price: 300, mrp: 345, category: "Tea & Beverages", image: "/Catalog/tea/masala-tea.png", emoji: "☕" },
+  { id: "P142", name: "Masala Tea", unit: "1 kg", price: 600, mrp: 690, category: "Tea & Beverages", image: "/Catalog/tea/masala-tea.png", emoji: "☕" },
+  { id: "P143", name: "Elaichi Tea (Cardamom Chai)", unit: "250 g", price: 120, mrp: 138, category: "Tea & Beverages", image: "/Catalog/tea/elaichi-tea-cardamom-chai.png", emoji: "☕" },
+  { id: "P144", name: "Elaichi Tea (Cardamom Chai)", unit: "500 g", price: 220, mrp: 252, category: "Tea & Beverages", image: "/Catalog/tea/elaichi-tea-cardamom-chai.png", emoji: "☕" },
+  { id: "P145", name: "Elaichi Tea (Cardamom Chai)", unit: "1 kg", price: 440, mrp: 505, category: "Tea & Beverages", image: "/Catalog/tea/elaichi-tea-cardamom-chai.png", emoji: "☕" },
+  { id: "P146", name: "Plain Tea", unit: "250 g", price: 100, mrp: 110, category: "Tea & Beverages", image: "/Catalog/tea/plain-tea.png", emoji: "☕" },
+  { id: "P147", name: "Plain Tea", unit: "500 g", price: 200, mrp: 229, category: "Tea & Beverages", image: "/Catalog/tea/plain-tea.png", emoji: "☕" },
+  { id: "P148", name: "Plain Tea", unit: "1 kg", price: 400, mrp: 459, category: "Tea & Beverages", image: "/Catalog/tea/plain-tea.png", emoji: "☕" },
+  { id: "P149", name: "Rajbari Tea Pouch", unit: "250 g", price: 125, mrp: 143, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-pouch.png", emoji: "🫖" },
+  { id: "P150", name: "Rajbari Tea Pouch", unit: "500 g", price: 250, mrp: 287, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-pouch.png", emoji: "🫖" },
+  { id: "P151", name: "Rajbari Tea Pouch", unit: "1 kg", price: 500, mrp: 575, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-pouch.png", emoji: "🫖" },
+  { id: "P152", name: "Rajbari Tea Jar", unit: "250 g", price: 130, mrp: 149, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-jar.png", emoji: "🫖" },
+  { id: "P153", name: "Rajbari Tea Jar", unit: "500 g", price: 260, mrp: 299, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-jar.png", emoji: "🫖" },
+  { id: "P154", name: "Rajbari Tea Jar", unit: "1 kg", price: 520, mrp: 598, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-jar.png", emoji: "🫖" },
+  { id: "P155", name: "Tea Max Darjeeling Saffron Green Tea", unit: "100 g", price: 600, mrp: 690, category: "Tea & Beverages", image: "/Catalog/tea/tea-max-darjeeling-saffron-tea-green-tea.png", emoji: "🍵" },
+  { id: "P156", name: "Tea Max Darjeeling Green Tea Jar", unit: "50 g", price: 300, mrp: 345, category: "Tea & Beverages", image: "/Catalog/tea/tea-max-darjeeling-saffron-tea-green-tea.png", emoji: "🍵" },
+  { id: "P157", name: "Tea Max Darjeeling Green Tea Jar", unit: "100 g", price: 600, mrp: 690, category: "Tea & Beverages", image: "/Catalog/tea/tea-max-darjeeling-saffron-tea-green-tea.png", emoji: "🍵" },
+  { id: "P158", name: "Lipton Green Tea 25 Tea Bags", unit: "32.5 g", price: 200, mrp: 229, category: "Tea & Beverages", image: "/Catalog/tea/lipton-green-tea-25-tea-bags.png", emoji: "🍵" },
+  { id: "P159", name: "Lipton Green Tea 100 Tea Bags", unit: "130 g", price: 600, mrp: 690, category: "Tea & Beverages", image: "/Catalog/tea/lipton-green-tea-100-tea-bags.png", emoji: "🍵" },
+  { id: "P160", name: "White Tea Super", unit: "100 g", price: 1000, mrp: 1150, category: "Tea & Beverages", image: "/Catalog/tea/white-tea-super.png", emoji: "🍵" },
+  { id: "P161", name: "White Tea", unit: "100 g", price: 500, mrp: 575, category: "Tea & Beverages", image: "/Catalog/tea/white-tea.png", emoji: "🍵" },
+  { id: "P162", name: "Nescafe Classic Instant Coffee Powder", unit: "25 g", price: 124, mrp: 142, category: "Tea & Beverages", image: "/Catalog/tea/nescafe-classic-instant-coffee-powder.png", emoji: "☕" },
+  { id: "P163", name: "Nestle Classic Coffee Soluble Instant", unit: "50 g", price: 235, mrp: 270, category: "Tea & Beverages", image: "/Catalog/tea/nestle-classic-coffee-soluble-instant-coffee.png", emoji: "☕" },
+  { id: "P164", name: "Real Fruit Juice Pomegranate Anar", unit: "1 L", price: 125, mrp: 143, category: "Tea & Beverages", image: "/Catalog/energy/real-fruit-juice-pomegranate-anar.png", emoji: "🧃" },
 
   // --- SNACKS & INSTANT FOOD ---
-  { id: "P059", name: "Kurkure Puffcorn", unit: "1 pcs", price: 10, category: "Snacks & Instant", image: "/Catalog/chips/puffcorn-yummy-cheese.png", emoji: "🍿" },
-  { id: "P065", name: "Nilon’s Green Chilly Sauce", unit: "90 g", price: 25, category: "Snacks & Instant", image: "/Catalog/sauce/nilon's-green-chilly-sauce.png", emoji: "🌶️" },
-  { id: "P066", name: "Nilon’s Red Chilly Sauce", unit: "80 g", price: 25, category: "Snacks & Instant", image: "/Catalog/sauce/nilon's-red-chilly-sauce.png", emoji: "🌶️" },
-  { id: "P067", name: "Nilon’s Schezwan Chutney", unit: "80 g", price: 35, category: "Snacks & Instant", image: "/Catalog/sauce/nilon's-schezwan-chutney.png", emoji: "🌶️" },
-  { id: "P079", name: "Bingo Tedhe Medhe", unit: "1 pcs", price: 5, category: "Snacks & Instant", image: "/Catalog/chips/bingo-tedhe-medhe.png", emoji: "🍟" },
-  { id: "P080", name: "Lay's Potato Chips - Simple Classic Salted", unit: "1 pcs", price: 20, category: "Snacks & Instant", image: "/Catalog/chips/lay's-potato-chips-simple-classic-salted.png", emoji: "🥔" },
-  { id: "P082", name: "Punjabi Tadka", unit: "1 pcs", price: 10, category: "Snacks & Instant", image: "/Catalog/chips/haldiram's-punjabi-tadka.png", emoji: "🥨" },
-  { id: "P094", name: "Maggi", unit: "1 pcs", price: 15, category: "Snacks & Instant", image: "/Catalog/noodles/maggi.png", emoji: "🍜" },
-  { id: "P106", name: "Haldirams Delhi Bhujiya", unit: "1 kg", price: 280, category: "Snacks & Instant", image: "/Catalog/chips/haldiram's-delhi-bhujiya.png", emoji: "🥨" },
-  { id: "P113", name: "Mala Chanachur", unit: "400 g", price: 100, category: "Snacks & Instant", image: "/Catalog/chips/mala-chanachur.png", emoji: "🥜" },
+  { id: "P059", name: "Kurkure Puffcorn", unit: "1 pcs", price: 10, mrp: 20, category: "Snacks & Instant", image: "/Catalog/chips/puffcorn-yummy-cheese.png", emoji: "🍿" },
+  { id: "P065", name: "Nilon’s Green Chilly Sauce", unit: "90 g", price: 25, mrp: 35, category: "Snacks & Instant", image: "/Catalog/sauce/nilon's-green-chilly-sauce.png", emoji: "🌶️" },
+  { id: "P066", name: "Nilon’s Red Chilly Sauce", unit: "80 g", price: 25, mrp: 35, category: "Snacks & Instant", image: "/Catalog/sauce/nilon's-red-chilly-sauce.png", emoji: "🌶️" },
+  { id: "P067", name: "Nilon’s Schezwan Chutney", unit: "80 g", price: 35, mrp: 45, category: "Snacks & Instant", image: "/Catalog/sauce/nilon's-schezwan-chutney.png", emoji: "🌶️" },
+  { id: "P079", name: "Bingo Tedhe Medhe", unit: "1 pcs", price: 5, mrp: 15, category: "Snacks & Instant", image: "/Catalog/chips/bingo-tedhe-medhe.png", emoji: "🍟" },
+  { id: "P080", name: "Lay's Potato Chips - Simple Classic Salted", unit: "1 pcs", price: 20, mrp: 30, category: "Snacks & Instant", image: "/Catalog/chips/lay's-potato-chips-simple-classic-salted.png", emoji: "🥔" },
+  { id: "P082", name: "Punjabi Tadka", unit: "1 pcs", price: 10, mrp: 20, category: "Snacks & Instant", image: "/Catalog/chips/haldiram's-punjabi-tadka.png", emoji: "🥨" },
+  { id: "P094", name: "Maggi", unit: "1 pcs", price: 15, mrp: 25, category: "Snacks & Instant", image: "/Catalog/noodles/maggi.png", emoji: "🍜" },
+  { id: "P106", name: "Haldirams Delhi Bhujiya", unit: "1 kg", price: 280, mrp: 322, category: "Snacks & Instant", image: "/Catalog/chips/haldiram's-delhi-bhujiya.png", emoji: "🥨" },
+  { id: "P113", name: "Mala Chanachur", unit: "400 g", price: 100, mrp: 110, category: "Snacks & Instant", image: "/Catalog/chips/mala-chanachur.png", emoji: "🥜" },
 
   // --- SPICES & DRY FRUITS ---
-  { id: "P076", name: "Tata Salt", unit: "1 kg", price: 30, category: "Spices & Dry Fruits", image: "/Catalog/tata-salt/tata-salt.png", emoji: "🧂" },
-  { id: "P090", name: "Everest Chaat Masala", unit: "1 pcs", price: 44, category: "Spices & Dry Fruits", image: "/Catalog/masala/everest-chaat-masala.png", emoji: "🧂" },
-  { id: "P098", name: "Dhania Powder", unit: "1 pcs", price: 85, category: "Spices & Dry Fruits", image: "/Catalog/masala/dhania-powder.png", emoji: "🌿" },
-  { id: "P099", name: "Mirchi Powder", unit: "1 pcs", price: 130, category: "Spices & Dry Fruits", image: "/Catalog/masala/mirchi-powder.png", emoji: "🌶️" },
-  { id: "P100", name: "Geera Powder", unit: "1 pcs", price: 180, category: "Spices & Dry Fruits", image: "/Catalog/masala/geera-powder.webp", emoji: "🌾" },
-  { id: "P104", name: "Catch Dal Makhani Masala", unit: "1 pcs", price: 80, category: "Spices & Dry Fruits", image: "/Catalog/masala/catch-dal-makhani-masala.png", emoji: "🍛" },
-  { id: "P110", name: "Dhani Powder", unit: "1 box", price: 85, category: "Spices & Dry Fruits", image: "/Catalog/masala/dhania-powder.png", emoji: "🌿" },
-  { id: "P111", name: "Mirchi Powder", unit: "1 box", price: 130, category: "Spices & Dry Fruits", image: "/Catalog/masala/mirchi-powder.png", emoji: "🌶️" },
-  { id: "P112", name: "Geera Powder", unit: "1 box", price: 180, category: "Spices & Dry Fruits", image: "/Catalog/masala/geera-powder.webp", emoji: "🌾" },
-  { id: "P116", name: "Kismis / Raisins", unit: "250 g", price: 149, category: "Spices & Dry Fruits", image: "/Catalog/dry-fruit/kismis-raisins.jpg", emoji: "🍇" },
-  { id: "P118", name: "Coconut", unit: "1 pcs", price: 50, category: "Spices & Dry Fruits", image: "/Catalog/coconut.png", emoji: "🥥" },
-  { id: "P126", name: "Kaju", unit: "1 kg", price: 999, category: "Spices & Dry Fruits", image: "/Catalog/dry-fruit/kaju.png", emoji: "🌰" },
-  { id: "P127", name: "Gotta Jeera", unit: "1 kg", price: 260, category: "Spices & Dry Fruits", image: "/Catalog/masala/geera-powder.webp", emoji: "🌾" },
+  { id: "P076", name: "Tata Salt", unit: "1 kg", price: 30, mrp: 40, category: "Spices & Dry Fruits", image: "/Catalog/tata-salt/tata-salt.png", emoji: "🧂" },
+  { id: "P090", name: "Everest Chaat Masala", unit: "1 pcs", price: 44, mrp: 54, category: "Spices & Dry Fruits", image: "/Catalog/masala/everest-chaat-masala.png", emoji: "🧂" },
+  { id: "P098", name: "Dhania Powder", unit: "1 pcs", price: 85, mrp: 95, category: "Spices & Dry Fruits", image: "/Catalog/masala/dhania-powder.png", emoji: "🌿" },
+  { id: "P099", name: "Mirchi Powder", unit: "1 pcs", price: 130, mrp: 149, category: "Spices & Dry Fruits", image: "/Catalog/masala/mirchi-powder.png", emoji: "🌶️" },
+  { id: "P100", name: "Geera Powder", unit: "1 pcs", price: 180, mrp: 206, category: "Spices & Dry Fruits", image: "/Catalog/masala/geera-powder.webp", emoji: "🌾" },
+  { id: "P104", name: "Catch Dal Makhani Masala", unit: "1 pcs", price: 80, mrp: 90, category: "Spices & Dry Fruits", image: "/Catalog/masala/catch-dal-makhani-masala.png", emoji: "🍛" },
+  { id: "P110", name: "Dhani Powder", unit: "1 box", price: 85, mrp: 95, category: "Spices & Dry Fruits", image: "/Catalog/masala/dhania-powder.png", emoji: "🌿" },
+  { id: "P111", name: "Mirchi Powder", unit: "1 box", price: 130, mrp: 149, category: "Spices & Dry Fruits", image: "/Catalog/masala/mirchi-powder.png", emoji: "🌶️" },
+  { id: "P112", name: "Geera Powder", unit: "1 box", price: 180, mrp: 206, category: "Spices & Dry Fruits", image: "/Catalog/masala/geera-powder.webp", emoji: "🌾" },
+  { id: "P116", name: "Kismis / Raisins", unit: "250 g", price: 149, mrp: 171, category: "Spices & Dry Fruits", image: "/Catalog/dry-fruit/kismis-raisins.jpg", emoji: "🍇" },
+  { id: "P118", name: "Coconut", unit: "1 pcs", price: 50, mrp: 60, category: "Spices & Dry Fruits", image: "/Catalog/coconut.png", emoji: "🥥" },
+  { id: "P126", name: "Kaju", unit: "1 kg", price: 999, mrp: 1148, category: "Spices & Dry Fruits", image: "/Catalog/dry-fruit/kaju.png", emoji: "🌰" },
+  { id: "P127", name: "Gotta Jeera", unit: "1 kg", price: 260, mrp: 299, category: "Spices & Dry Fruits", image: "/Catalog/masala/geera-powder.webp", emoji: "🌾" },
 
   // --- DAIRY, PERSONAL & HOUSEHOLD ---
-  { id: "P003", name: "Amul Cheese Cubes", unit: "1 pcs", price: 22, category: "Dairy & Household", image: "/Catalog/dairy/amul-cheese-cubes.png", emoji: "🧀" },
-  { id: "P073", name: "Surf Excel", unit: "500 g", price: 71, category: "Dairy & Household", image: "/Catalog/detergent/sirf-excel.png", emoji: "🧼" },
-  { id: "P078", name: "Cetaphil", unit: "1 pcs", price: 414, category: "Dairy & Household", image: "/Catalog/Sanitary/CETAPHIL.png", emoji: "🧴" },
-  { id: "P088", name: "Vim Bar", unit: "1 pcs", price: 10, category: "Dairy & Household", image: "/Catalog/soap/vim-bar.png", emoji: "🧼" },
-  { id: "P089", name: "Rin Bar", unit: "1 pcs", price: 10, category: "Dairy & Household", image: "/Catalog/soap/rin-bar.png", emoji: "🧼" },
-  { id: "P091", name: "Cellotape", unit: "1 pcs", price: 10, category: "Dairy & Household", image: "/Catalog/stationary/cellotape.png", emoji: "📦" },
-  { id: "P092", name: "Korean Paper", unit: "1 pcs", price: 20, category: "Dairy & Household", image: "/Catalog/stationary/korean-paper.png", emoji: "📄" },
-  { id: "P095", name: "Streaks Argan Secrets Hair Colour", unit: "1 pcs", price: 205, category: "Dairy & Household", image: "/Catalog/hair-colour/streak-professional-argan-secrets-hair-colour.png", emoji: "💇" },
-  { id: "P096", name: "Streaks Argan Secrets Developer", unit: "1 pcs", price: 130, category: "Dairy & Household", image: "/Catalog/hair-colour/streak-professional-argan-secrets-developer.png", emoji: "💇" },
-  { id: "P101", name: "Aerial Surf", unit: "1 kg", price: 140, category: "Dairy & Household", image: "/Catalog/detergent/aerial-sirf.png", emoji: "🧼" },
-  { id: "P102", name: "Girigola", unit: "1 pcs", price: 38, category: "Dairy & Household", image: "/Catalog/girigola/girigola.png", emoji: "🛍️" },
-  { id: "P107", name: "Eno", unit: "1 pcs", price: 10, category: "Dairy & Household", image: "/Catalog/energy/eno.png", emoji: "💊" },
-  { id: "P114", name: "Lisol", unit: "945 ml", price: 249, category: "Dairy & Household", image: "/Catalog/floor-cleaner/lisol.png", emoji: "🧹" },
-  { id: "P117", name: "Wheel Surf", unit: "1 kg", price: 70, category: "Dairy & Household", emoji: "🧼" }
+  { id: "P003", name: "Amul Cheese Cubes", unit: "1 pcs", price: 22, mrp: 32, category: "Dairy & Household", image: "/Catalog/dairy/amul-cheese-cubes.png", emoji: "🧀" },
+  { id: "P073", name: "Surf Excel", unit: "500 g", price: 71, mrp: 81, category: "Dairy & Household", image: "/Catalog/detergent/sirf-excel.png", emoji: "🧼" },
+  { id: "P078", name: "Cetaphil", unit: "1 pcs", price: 414, mrp: 476, category: "Dairy & Household", image: "/Catalog/Sanitary/CETAPHIL.png", emoji: "🧴" },
+  { id: "P088", name: "Vim Bar", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/soap/vim-bar.png", emoji: "🧼" },
+  { id: "P089", name: "Rin Bar", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/soap/rin-bar.png", emoji: "🧼" },
+  { id: "P091", name: "Cellotape", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/stationary/cellotape.png", emoji: "📦" },
+  { id: "P092", name: "Korean Paper", unit: "1 pcs", price: 20, mrp: 30, category: "Dairy & Household", image: "/Catalog/stationary/korean-paper.png", emoji: "📄" },
+  { id: "P095", name: "Streaks Argan Secrets Hair Colour", unit: "1 pcs", price: 205, mrp: 235, category: "Dairy & Household", image: "/Catalog/hair-colour/streak-professional-argan-secrets-hair-colour.png", emoji: "💇" },
+  { id: "P096", name: "Streaks Argan Secrets Developer", unit: "1 pcs", price: 130, mrp: 149, category: "Dairy & Household", image: "/Catalog/hair-colour/streak-professional-argan-secrets-developer.png", emoji: "💇" },
+  { id: "P101", name: "Aerial Surf", unit: "1 kg", price: 140, mrp: 161, category: "Dairy & Household", image: "/Catalog/detergent/aerial-sirf.png", emoji: "🧼" },
+  { id: "P102", name: "Girigola", unit: "1 pcs", price: 38, mrp: 48, category: "Dairy & Household", image: "/Catalog/girigola/girigola.png", emoji: "🛍️" },
+  { id: "P107", name: "Eno", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/energy/eno.png", emoji: "💊" },
+  { id: "P114", name: "Lisol", unit: "945 ml", price: 249, mrp: 286, category: "Dairy & Household", image: "/Catalog/floor-cleaner/lisol.png", emoji: "🧹" },
+  { id: "P117", name: "Wheel Surf", unit: "1 kg", price: 70, mrp: 80, category: "Dairy & Household", emoji: "🧼" }
 ];
 
 // State Management (Persisted in localStorage)
@@ -335,8 +372,13 @@ function renderProducts() {
 function productCardHTML(p) {
   const qty = cart[p.id] || 0;
   const isWishlisted = wishlist.includes(p.id);
+  const isOutOfStock = outOfStockItems.includes(p.id);
+  const mrp = p.mrp || Math.round(p.price * 1.15);
+  const savings = mrp - p.price;
+
   return `
-    <div class="product-card" id="card_${p.id}">
+    <div class="product-card ${isOutOfStock ? 'out-of-stock' : ''}" id="card_${p.id}">
+      ${isOutOfStock ? `<div class="out-of-stock-overlay">Out of Stock</div>` : ''}
       <span class="product-badge-id">${p.id}</span>
       <button class="product-wishlist-btn ${isWishlisted ? 'active' : ''}" id="wl_btn_${p.id}" onclick="toggleWishlist('${p.id}', event)" title="Add to Wishlist">
         ${isWishlisted ? '❤️' : '🤍'}
@@ -348,10 +390,12 @@ function productCardHTML(p) {
       <span class="product-unit">${p.unit}</span>
       <div class="product-name">${p.name}</div>
       <div class="product-price-row">
+        <span class="mrp-badge">₹${mrp}</span>
         <span class="product-price">₹${p.price}</span>
+        ${savings > 0 ? `<span class="savings-pill">Save ₹${savings}</span>` : ''}
       </div>
       ${qty === 0 ? `
-        <button class="product-add-btn" onclick="addToCart('${p.id}')">
+        <button class="product-add-btn" ${isOutOfStock ? 'disabled' : ''} onclick="addToCart('${p.id}')">
           <span>+ Add to Cart</span>
         </button>
       ` : `
@@ -879,3 +923,191 @@ document.addEventListener('DOMContentLoaded', () => {
   renderProfileModal();
   updateHeaderBadges();
 });
+
+
+// ==========================================================================
+// BILINGUAL LANGUAGE TOGGLE
+// ==========================================================================
+function toggleLanguage() {
+  currentLang = currentLang === 'en' ? 'hi' : 'en';
+  localStorage.setItem('orderkaaro_lang', currentLang);
+  updateUILanguage();
+}
+
+function updateUILanguage() {
+  const t = translations[currentLang];
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.placeholder = t.searchPlaceholder;
+  const langLabel = document.getElementById('langLabel');
+  if (langLabel) langLabel.textContent = t.langName;
+}
+
+// ==========================================================================
+// VOICE SEARCH (HINDI / ENGLISH)
+// ==========================================================================
+function startVoiceSearch() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert('Voice Search is supported on Chrome, Edge, and Safari mobile browsers.');
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = currentLang === 'hi' ? 'hi-IN' : 'en-IN';
+  recognition.interimResults = false;
+
+  const btn = document.getElementById('voiceBtn');
+  if (btn) btn.classList.add('listening');
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    const input = document.getElementById('searchInput');
+    if (input) {
+      input.value = transcript;
+      doSearch(transcript);
+    }
+    if (btn) btn.classList.remove('listening');
+  };
+
+  recognition.onerror = () => {
+    if (btn) btn.classList.remove('listening');
+  };
+
+  recognition.onend = () => {
+    if (btn) btn.classList.remove('listening');
+  };
+
+  recognition.start();
+}
+
+// ==========================================================================
+// LIVE AUTOCOMPLETE SEARCH DROPDOWN
+// ==========================================================================
+function showAutocomplete() {
+  const input = document.getElementById('searchInput');
+  if (!input) return;
+  const query = input.value.trim().toLowerCase();
+  const dropdown = document.getElementById('autocompleteDropdown');
+  if (!dropdown) return;
+
+  if (query.length < 2) {
+    dropdown.style.display = 'none';
+    return;
+  }
+
+  const matches = productsDatabase.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query)).slice(0, 6);
+
+  if (matches.length === 0) {
+    dropdown.style.display = 'none';
+    return;
+  }
+
+  dropdown.innerHTML = matches.map(p => `
+    <div class="auto-item" onclick="selectAutocomplete('${p.id}')">
+      ${p.image ? `<img src="${p.image}" class="auto-item-img" />` : `<span style="font-size:1.4rem;margin-right:8px">${p.emoji}</span>`}
+      <div class="auto-item-info">
+        <div class="auto-item-name">${p.name}</div>
+        <div class="auto-item-sub">${p.unit} • ₹${p.price}</div>
+      </div>
+      <button class="auto-item-add" onclick="event.stopPropagation(); addToCart('${p.id}')">+ Add</button>
+    </div>
+  `).join('');
+
+  dropdown.style.display = 'block';
+}
+
+function selectAutocomplete(pid) {
+  const dropdown = document.getElementById('autocompleteDropdown');
+  if (dropdown) dropdown.style.display = 'none';
+  const card = document.getElementById(`card_${pid}`);
+  if (card) {
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    card.style.ring = '2px solid #16a34a';
+    setTimeout(() => card.style.ring = 'none', 2000);
+  }
+}
+
+document.addEventListener('click', (e) => {
+  const dropdown = document.getElementById('autocompleteDropdown');
+  const searchInput = document.getElementById('searchInput');
+  if (dropdown && searchInput && !dropdown.contains(e.target) && !searchInput.contains(e.target)) {
+    dropdown.style.display = 'none';
+  }
+});
+
+// ==========================================================================
+// SHOP OWNER STOCK MANAGER ADMIN MODAL
+// ==========================================================================
+function openAdminModal() {
+  const modal = document.getElementById('adminModal');
+  if (modal) {
+    renderAdminProducts('');
+    modal.classList.add('active');
+  }
+}
+
+function closeAdminModal() {
+  const modal = document.getElementById('adminModal');
+  if (modal) modal.classList.remove('active');
+}
+
+function renderAdminProducts(filterQuery) {
+  const container = document.getElementById('adminProductList');
+  if (!container) return;
+
+  const query = filterQuery.toLowerCase();
+  const items = productsDatabase.filter(p => p.name.toLowerCase().includes(query) || p.id.toLowerCase().includes(query));
+
+  container.innerHTML = items.map(p => {
+    const isOut = outOfStockItems.includes(p.id);
+    return `
+      <div class="admin-item-row">
+        <div style="display:flex;align-items:center;gap:10px">
+          ${p.image ? `<img src="${p.image}" style="width:32px;height:32px;object-fit:contain" />` : `<span>${p.emoji}</span>`}
+          <div>
+            <div style="font-size:0.85rem;font-weight:600">${p.name}</div>
+            <div style="font-size:0.72rem;color:#64748b">${p.unit} • ₹${p.price}</div>
+          </div>
+        </div>
+        <button class="admin-stock-toggle ${isOut ? 'out-stock' : 'in-stock'}" onclick="toggleStockStatus('${p.id}')">
+          ${isOut ? 'Out of Stock' : 'In Stock'}
+        </button>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleStockStatus(pid) {
+  if (outOfStockItems.includes(pid)) {
+    outOfStockItems = outOfStockItems.filter(id => id !== pid);
+  } else {
+    outOfStockItems.push(pid);
+  }
+  localStorage.setItem('orderkaaro_outofstock', JSON.stringify(outOfStockItems));
+  renderAdminProducts(document.getElementById('adminSearchInput')?.value || '');
+  renderBrandSections();
+}
+
+function saveAdminSettings() {
+  closeAdminModal();
+}
+
+// Share Cart via WhatsApp
+function shareCartWhatsApp() {
+  const cartItemIds = Object.keys(cart).filter(id => cart[id] > 0);
+  if (cartItemIds.length === 0) return alert('Your cart is empty');
+
+  let listText = "🛒 Order Kaaro Shopping List:\n";
+  let total = 0;
+  cartItemIds.forEach(id => {
+    const p = productsDatabase.find(item => item.id === id);
+    if (p) {
+      const q = cart[id];
+      listText += `• ${p.name} (${p.unit}) x${q} = ₹${p.price * q}\n`;
+      total += p.price * q;
+    }
+  });
+  listText += `\nTotal: ₹${total}`;
+
+  window.open(`https://wa.me/?text=${encodeURIComponent(listText)}`, '_blank');
+}

@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="manifest" href="/manifest.json" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -18,7 +19,7 @@
 <header>
   <div class="header-inner">
     <div class="header-left">
-      <a href="/" target="_top" class="logo-wrap">
+      <a href="/home" target="_top" class="logo-wrap">
         <span class="logo-name">🛒 Order Kaaro</span>
         <span class="logo-tagline">Kishanganj Grocery Delivery</span>
       </a>
@@ -28,18 +29,24 @@
       </div>
     </div>
     <nav class="nav-links" aria-label="Primary navigation">
-      <a href="/" target="_top">Home</a>
+      <a href="/home" target="_top">Home</a>
       <a href="/catalogue" class="active">Catalogue</a>
       <a href="javascript:void(0)" onclick="openWishlist()">Wishlist (<span id="navWishlistBadge">0</span>)</a>
       <a href="javascript:void(0)" onclick="openOrders()">Orders (<span id="navOrdersBadge">0</span>)</a>
       <a href="javascript:void(0)" onclick="openProfile()">Account</a>
+      <a href="javascript:void(0)" onclick="openAdminModal()">⚙️ Stock Admin</a>
       <a href="/about" target="_top">About Us</a>
       <a href="/contact" target="_top">Contact</a>
     </nav>
-    <button class="header-cart-btn" onclick="openCart()" id="openCartHeaderBtn">
-      🛒 <span class="cart-count-badge" id="cartBadge">0</span>
-      <span style="display:inline-block; margin-left:2px">Cart</span>
-    </button>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="lang-toggle-btn" id="langToggleBtn" onclick="toggleLanguage()" title="Switch Language (Hindi/English)">
+        🌐 <span id="langLabel">हिंदी</span>
+      </button>
+      <button class="header-cart-btn" onclick="openCart()" id="openCartHeaderBtn">
+        🛒 <span class="cart-count-badge" id="cartBadge">0</span>
+        <span style="display:inline-block; margin-left:2px">Cart</span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -48,9 +55,11 @@
   <div class="search-inner">
     <div class="search-box">
       <span style="opacity:0.5;font-size:1.1rem;flex-shrink:0">🔍</span>
-      <input type="text" id="searchInput" placeholder="Search 160+ items (atta, ghee, dal, tea, biscuits...)" oninput="doSearch(this.value)" />
+      <input type="text" id="searchInput" placeholder="Search 160+ items (atta, ghee, dal, tea, biscuits...)" oninput="doSearch(this.value)" onfocus="showAutocomplete()" />
+      <button class="voice-search-btn" id="voiceBtn" onclick="startVoiceSearch()" title="Voice Search (Hindi / English)">🎙️</button>
       <button class="search-clear" id="clearBtn" onclick="clearSearch()">✕</button>
     </div>
+    <div class="search-autocomplete-dropdown" id="autocompleteDropdown" style="display:none"></div>
   </div>
 </div>
 
@@ -146,7 +155,7 @@
 
 <!-- MOBILE BOTTOM 5-TAB NAVIGATION BAR -->
 <nav class="mobile-bottom-nav" aria-label="Mobile bottom navigation">
-  <a href="/" target="_top" class="mb-nav-item">
+  <a href="/home" target="_top" class="mb-nav-item">
     <span class="mb-nav-icon">🏠</span>
     <span>Home</span>
   </a>
@@ -274,6 +283,26 @@
   </div>
 </div>
 
+<!-- ADMIN STOCK MANAGER MODAL -->
+<div class="modal-overlay" id="adminModal">
+  <div class="modal-sheet" style="max-width:540px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div class="modal-title" style="margin-bottom:0">⚙️ Shop Owner Stock Manager</div>
+      <button class="drawer-close" onclick="closeAdminModal()">✕</button>
+    </div>
+    <p class="modal-sub">Toggle product availability (In Stock / Out of Stock) or update prices dynamically for Kishanganj store.</p>
+    <div class="search-box" style="margin-bottom:12px;background:#f1f5f9">
+      <span style="opacity:0.5">🔍</span>
+      <input type="text" id="adminSearchInput" placeholder="Filter items in stock manager..." oninput="filterAdminProducts(this.value)" style="font-size:0.88rem" />
+    </div>
+    <div id="adminProductList" style="max-height:340px;overflow-y:auto;padding-right:4px"></div>
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="modal-cancel" onclick="closeAdminModal()">Done</button>
+      <button class="modal-confirm" onclick="saveAdminSettings()">💾 Save Stock Changes</button>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer class="catalogue-footer">
   <div class="catalogue-footer-inner">
@@ -287,8 +316,9 @@
       </p>
     </div>
     <div class="catalogue-footer-links">
-      <a href="/" target="_top">Home</a>
+      <a href="/home" target="_top">Home</a>
       <a href="/catalogue">Catalogue</a>
+      <a href="javascript:void(0)" onclick="openAdminModal()">⚙️ Stock Admin</a>
       <a href="/about" target="_top">About Us</a>
       <a href="/contact" target="_top">Contact</a>
     </div>
@@ -299,5 +329,12 @@
 </footer>
 
 <script src="app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+  }
+</script>
 </body>
 </html>

@@ -1537,7 +1537,208 @@ button, .cat-pill, .product-card, .floating-bar-inner, .nav-links a {
   text-decoration: none;
   font-weight: 700;
   font-size: 0.9rem;
-  box-shadow: 0 10px 24px rgba(22, 163, 74, 0.2);
+}
+
+/* ==========================================================================
+   NEW FEATURE STYLES: Language Toggle, Voice Search, Autocomplete & MRP Badges
+   ========================================================================== */
+
+.lang-toggle-btn {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--text-main);
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s;
+}
+
+.lang-toggle-btn:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary-dark);
+}
+
+.voice-search-btn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.voice-search-btn:hover {
+  transform: scale(1.15);
+  background: #f1f5f9;
+}
+
+.voice-search-btn.listening {
+  animation: pulse-mic 1s infinite alternate;
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+@keyframes pulse-mic {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.25); }
+}
+
+.search-autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  max-height: 320px;
+  overflow-y: auto;
+  z-index: 100;
+  padding: 6px 0;
+}
+
+.auto-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.15s;
+}
+
+.auto-item:hover {
+  background: var(--bg-body);
+}
+
+.auto-item-img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.auto-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.auto-item-name {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.auto-item-sub {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+.auto-item-add {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.auto-item-add:hover {
+  background: var(--primary-dark);
+}
+
+.mrp-badge {
+  text-decoration: line-through;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  margin-right: 6px;
+  font-weight: 500;
+}
+
+.savings-pill {
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-left: 4px;
+}
+
+.out-of-stock-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: var(--danger);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 5;
+  border-radius: var(--radius-lg);
+}
+
+.admin-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+
+.admin-stock-toggle {
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+}
+
+.admin-stock-toggle.in-stock {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.admin-stock-toggle.out-stock {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.free-del-bar-wrap {
+  width: 100%;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.free-del-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #16a34a, #22c55e);
+  transition: width 0.3s ease;
 }
 
 .catalogue-footer-cta:hover { transform: translateY(-1px); }
