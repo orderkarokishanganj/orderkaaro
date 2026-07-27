@@ -1,6 +1,6 @@
 import { ShoppingBag, Truck, Clock, Shield, ChevronRight } from 'lucide-react';
 
-const CATALOGUE_URL = '/Catelog.html';
+const CATALOGUE_URL = '/catalogue';
 
 const stats = [
   { value: '45', suffix: 'min', label: 'Delivery Time' },

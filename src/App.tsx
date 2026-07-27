@@ -12,14 +12,14 @@ import CookiePage from './pages/CookiePage';
 
 function AppContent() {
   const location = useLocation();
-  const isCataloguePage = location.pathname === '/' || location.pathname === '/catalogue';
+  const isCataloguePage = location.pathname === '/catalogue';
 
   return (
     <div className="min-h-screen bg-white">
       <ScrollToTop />
       {!isCataloguePage && <Header />}
       <Routes>
-        <Route path="/" element={<CataloguePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/catalogue" element={<CataloguePage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -36,21 +36,7 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-white">
-        <ScrollToTop />
-        <Header />
-        <Routes>
-          <Route path="/" element={<HomePage  />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/catalogue" element={<CataloguePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/cookies" element={<CookiePage />} />
-        </Routes>
-        <Footer />
-        <ScrollToTopButton />
-      </div>
+      <AppContent />
     </BrowserRouter>
   );
 }

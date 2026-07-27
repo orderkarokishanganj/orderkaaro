@@ -1,6 +1,6 @@
 import { ShoppingCart, Sparkles, ArrowRight } from 'lucide-react';
 
-const CATALOGUE_URL = '/Catelog.html';
+const CATALOGUE_URL = '/catalogue';
 
 const CTABanner = () => {
   return (

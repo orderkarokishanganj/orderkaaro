@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Instagram, Mail, MapPin, Phone, Heart } from 'lucide-react';
 
-const CATALOGUE_URL = '/Catelog.html';
+const CATALOGUE_URL = '/catalogue';
 
 const quickLinks = [
   { to: '/', label: 'Home' },
