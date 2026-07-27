@@ -62,6 +62,7 @@ const productsDatabase = [
   // --- ATTA, RICE & GRAINS ---
   { id: "P001", nameHi: "आशीर्वाद शुद्ध चक्की आटा", name: "Aashirvaad Shud Chakki Aata", unit: "5 kg", price: 240, mrp: 276, category: "Atta, Rice & Grains", image: "/Catalog/Grains/aashirvaad-aata.png", emoji: "🌾" },
   { id: "P002", nameHi: "अमृत भोग आटा", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, mrp: 252, category: "Atta, Rice & Grains", image: "/Catalog/Grains/amirt-bhog-atta.jpg", emoji: "🌾" },
+  { id: "P002", nameHi: "अमृत भोग आटा", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, mrp: 252, category: "Atta, Rice & Grains", image: "/Catalog/Grains/amrit-bhog-atta.jpg", emoji: "🌾" },
   { id: "P009", nameHi: "बेसन", name: "Besan", unit: "1 kg", price: 115, mrp: 132, category: "Atta, Rice & Grains", image: "/Catalog/Grains/besan.png", emoji: "🟡" },
   { id: "P055", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "500 g", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🍚" },
   { id: "P056", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "1 kg", price: 90, mrp: 100, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🍚" },
