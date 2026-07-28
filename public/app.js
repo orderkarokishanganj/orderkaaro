@@ -47,8 +47,34 @@ const translations = {
    ========================================================================== */
 
 const WA_NUMBER = "919942089120";
-const FLAT_DELIVERY_CHARGE = 0;
-const FREE_DELIVERY_THRESHOLD = 0;
+const CONVENIENCE_FEE = 20; // ₹20 convenience fee for all orders
+
+// Helper function to calculate Delivery Charges & Convenience Fee
+function calculateOrderFees(subtotal) {
+  if (subtotal === 0) {
+    return { deliveryCharge: 0, convenienceFee: 0, total: 0 };
+  }
+
+  let deliveryCharge = 0;
+
+  // Delivery Tiers:
+  if (subtotal < 149) {
+    deliveryCharge = 49; // Under ₹149 -> ₹49 delivery
+  } else if (subtotal < 499) {
+    deliveryCharge = 29; // ₹149 to ₹498 -> ₹29 delivery
+  } else {
+    deliveryCharge = 0;  // ₹499 & above -> FREE delivery
+  }
+
+  const convenienceFee = CONVENIENCE_FEE; // ₹20
+  const total = subtotal + deliveryCharge + convenienceFee;
+
+  return {
+    deliveryCharge,
+    convenienceFee,
+    total
+  };
+}
 
 // ==========================================================================
 // COMPLETE 164-ITEM PRODUCT DATABASE
@@ -252,6 +278,84 @@ function saveCart() {
   renderCart();
   updateHeaderBadges();
   renderProducts();
+}
+
+// Function to get complete bill breakdown for cart/checkout
+function getCartBillDetails() {
+  let subtotal = 0;
+  Object.keys(cart).forEach(id => {
+    const product = productsDatabase.find(p => p.id === id);
+    if (product) {
+      subtotal += product.price * cart[id];
+    }
+  });
+
+  return calculateOrderFees(subtotal);
+}
+
+// Function to get complete bill breakdown for cart/checkout
+function getCartBillDetails() {
+  let subtotal = 0;
+  Object.keys(cart).forEach(id => {
+    const product = productsDatabase.find(p => p.id === id);
+    if (product) {
+      subtotal += product.price * cart[id];
+    }
+  });
+
+  return calculateOrderFees(subtotal);
+}
+
+// Function to get complete bill breakdown for cart/checkout
+function getCartBillDetails() {
+  let subtotal = 0;
+  Object.keys(cart).forEach(id => {
+    const product = productsDatabase.find(p => p.id === id);
+    if (product) {
+      subtotal += product.price * cart[id];
+    }
+  });
+
+  return calculateOrderFees(subtotal);
+}
+
+// Function to get complete bill breakdown for cart/checkout
+function getCartBillDetails() {
+  let subtotal = 0;
+  Object.keys(cart).forEach(id => {
+    const product = productsDatabase.find(p => p.id === id);
+    if (product) {
+      subtotal += product.price * cart[id];
+    }
+  });
+
+  return calculateOrderFees(subtotal);
+}
+
+// Function to get complete bill breakdown for cart/checkout
+function getCartBillDetails() {
+  let subtotal = 0;
+  Object.keys(cart).forEach(id => {
+    const product = productsDatabase.find(p => p.id === id);
+    if (product) {
+      subtotal += product.price * cart[id];
+    }
+  });
+
+  return calculateOrderFees(subtotal);
+}
+
+// Function to get complete bill breakdown for cart/checkout
+function getCartBillDetails() {
+  let subtotal = 0;
+  Object.keys(cart).forEach(id => {
+    const product = productsDatabase.find(p => p.id === id);
+    if (product) {
+      subtotal += product.price * cart[id];
+    }
+  });
+
+  return calculateOrderFees(subtotal);
 }
 
 function saveWishlist() {
