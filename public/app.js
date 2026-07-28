@@ -1,4 +1,4 @@
-const catHiMap = {
+ const catHiMap = {
   "All": "सभी श्रेणी",
   "Atta, Rice & Grains": "आटा, चावल व अनाज",
   "Pulses & Dal": "दाल व चना",
@@ -198,218 +198,209 @@ const productsDatabase = [
 
   // --- SNACKS & INSTANT FOOD ---
   { id: "P059", nameHi: "कुरकुरे पफकॉर्न", name: "Kurkure Puffcorn", unit: "1 pcs", price: 10, mrp: 20, category: "Snacks & Instant", image: "/Catalog/chips/puffcorn-yummy-cheese.png", emoji: "🍿" },
-  { id: "P065", nameHi: "नायलॉन ग्रीन चिली सॉस", name: "Nilon’s Green Chilly Sauce", unit: "90 g", price: 25, mrp: 35, category: "Snacks & Instant", image: "/Catalog/sauce/nilons-green-chilly-sauce.png", emoji: "🌶️" },
-  { id: "P066", nameHi: "नायलॉन रेड चिली सॉस", name: "Nilon’s Red Chilly Sauce", unit: "80 g", price: 25, mrp: 35, category: "Snacks & Instant", image: "/Catalog/sauce/nilons-red-chilly-sauce.png", emoji: "🌶️" },
-  { id: "P067", nameHi: "नायलॉन शेज़वान चटनी", name: "Nilon’s Schezwan Chutney", unit: "80 g", price: 35, mrp: 45, category: "Snacks & Instant", image: "/Catalog/sauce/nilons-schezwan-chutney.png", emoji: "🌶️" },
-  { id: "P079", nameHi: "बिंगो टेढ़े मेढ़े", name: "Bingo Tedhe Medhe", unit: "1 pcs", price: 5, mrp: 15, category: "Snacks & Instant", image: "/Catalog/chips/bingo-tedhe-medhe.png", emoji: "🍟" },
-  { id: "P080", nameHi: "लेज पोटैटो चिप्स साल्टेड", name: "Lay's Potato Chips - Simple Classic Salted", unit: "1 pcs", price: 20, mrp: 30, category: "Snacks & Instant", image: "/Catalog/chips/lays-potato-chips-simple-classic-salted.png", emoji: "🥔" },
-  { id: "P082", nameHi: "हल्दीराम पंजाबी तड़का", name: "Punjabi Tadka", unit: "1 pcs", price: 10, mrp: 20, category: "Snacks & Instant", image: "/Catalog/chips/haldirams-punjabi-tadka.png", emoji: "🥨" },
-  { id: "P094", nameHi: "मैगी नूडल्स", name: "Maggi", unit: "1 pcs", price: 15, mrp: 25, category: "Snacks & Instant", image: "/Catalog/noodles/maggi.png", emoji: "🍜" },
-  { id: "P106", nameHi: "हल्दीराम दिल्ली भुजिया", name: "Haldirams Delhi Bhujiya", unit: "1 kg", price: 280, mrp: 322, category: "Snacks & Instant", image: "/Catalog/chips/haldirams-delhi-bhujiya.png", emoji: "🥨" },
-  { id: "P113", nameHi: "माला चनाचूर", name: "Mala Chanachur", unit: "400 g", price: 100, mrp: 110, category: "Snacks & Instant", image: "/Catalog/chips/mala-chanachur.png", emoji: "🥜" },
+  { id: "P076", nameHi: "सोया चंक्स", name: "Soya Chunks", unit: "1 kg", price: 120, mrp: 138, category: "Snacks & Instant", image: "/Catalog/Grains/soya-chunk.png", emoji: "🧆" },
+  { id: "P078", nameHi: "टाटा समपन्न पोहा", name: "Tata Sampann Poha", unit: "500 g", price: 55, mrp: 65, category: "Snacks & Instant", image: "/Catalog/Grains/tata-sampann-poha.png", emoji: "🥣" },
+  { id: "P079", nameHi: "वाइ वाइ नूडल्स (चिकन)", name: "Wai Wai Noodles Chicken", unit: "1 pcs", price: 15, mrp: 20, category: "Snacks & Instant", image: "/Catalog/noodles/wai-wai-noodles-chicken.png", emoji: "🍜" },
+  { id: "P080", nameHi: "वाइ वाइ नूडल्स (वेज)", name: "Wai Wai Noodles Veg", unit: "1 pcs", price: 15, mrp: 20, category: "Snacks & Instant", image: "/Catalog/noodles/wai-wai-noodles-veg.png", emoji: "🍜" },
+  { id: "P082", nameHi: "मैगी 2-मिनट नूडल्स", name: "Maggi 2-Minute Noodles", unit: "1 pcs", price: 14, mrp: 18, category: "Snacks & Instant", image: "/Catalog/noodles/maggi.png", emoji: "🍜" },
+  { id: "P088", nameHi: "किटकैट चॉकलेट", name: "KitKat", unit: "1 pcs", price: 30, mrp: 40, category: "Snacks & Instant", image: "/Catalog/chocolate/kitkat.png", emoji: "🍫" },
+  { id: "P089", nameHi: "डेयरी मिल्क फ्रूट एंड नट", name: "Dairy Milk Fruit & Nut", unit: "1 pcs", price: 45, mrp: 55, category: "Snacks & Instant", image: "/Catalog/chocolate/dairy-milk-fruit-and-nut.png", emoji: "🍫" },
+  { id: "P090", nameHi: "डेयरी मिल्क रोस्ट आल्मंड", name: "Dairy Milk Roast Almond", unit: "1 pcs", price: 45, mrp: 55, category: "Snacks & Instant", image: "/Catalog/chocolate/dairy-milk-roast-almond.png", emoji: "🍫" },
+  { id: "P091", nameHi: "डेयरी मिल्क सिल्क", name: "Dairy Milk Silk", unit: "1 pcs", price: 80, mrp: 90, category: "Snacks & Instant", image: "/Catalog/chocolate/dairy-milk-silk.png", emoji: "🍫" },
+  { id: "P092", nameHi: "लेज़ पोटैटो चिप्स", name: "Lay's Chips Classic", unit: "1 pcs", price: 20, mrp: 30, category: "Snacks & Instant", image: "/Catalog/chips/lays.jpg", emoji: "🥔" },
+  { id: "P094", nameHi: "हल्दीराम भुजिया सेव", name: "Haldiram Bhujia Sev", unit: "400 g", price: 110, mrp: 125, category: "Snacks & Instant", image: "/Catalog/namkeen/haldiram-bhujia.jpg", emoji: "🥨" },
+  { id: "P095", nameHi: "हल्दीराम आलु भुजिया", name: "Haldiram Aloo Bhujia", unit: "400 g", price: 110, mrp: 125, category: "Snacks & Instant", image: "/Catalog/namkeen/haldiram-aloo-bhujia.jpg", emoji: "🥨" },
 
   // --- SPICES & DRY FRUITS ---
-  { id: "P076", nameHi: "टाटा नमक", name: "Tata Salt", unit: "1 kg", price: 30, mrp: 40, category: "Spices & Dry Fruits", image: "/Catalog/tata-salt/tata-salt.png", emoji: "🧂" },
-  { id: "P090", nameHi: "एवरेस्ट चाट मसाला", name: "Everest Chaat Masala", unit: "1 pcs", price: 44, mrp: 54, category: "Spices & Dry Fruits", image: "/Catalog/masala/everest-chaat-masala.png", emoji: "🧂" },
-  { id: "P098", nameHi: "धनिया पाउडर", name: "Dhania Powder", unit: "1 pcs", price: 85, mrp: 95, category: "Spices & Dry Fruits", image: "/Catalog/masala/dhania-powder.png", emoji: "🌿" },
-  { id: "P099", nameHi: "मिर्च पाउडर", name: "Mirchi Powder", unit: "1 pcs", price: 130, mrp: 149, category: "Spices & Dry Fruits", image: "/Catalog/masala/mirchi-powder.png", emoji: "🌶️" },
-  { id: "P100", nameHi: "जीरा पाउडर", name: "Geera Powder", unit: "1 pcs", price: 180, mrp: 206, category: "Spices & Dry Fruits", image: "/Catalog/masala/geera-powder.webp", emoji: "🌾" },
-  { id: "P104", nameHi: "कैच दाल मखनी मसाला", name: "Catch Dal Makhani Masala", unit: "1 pcs", price: 80, mrp: 90, category: "Spices & Dry Fruits", image: "/Catalog/masala/catch-dal-makhani-masala.png", emoji: "🍛" },
-  { id: "P110", nameHi: "धनिया पाउडर", name: "Dhani Powder", unit: "1 box", price: 85, mrp: 95, category: "Spices & Dry Fruits", image: "/Catalog/masala/dhania-powder.png", emoji: "🌿" },
-  { id: "P111", nameHi: "मिर्च पाउडर", name: "Mirchi Powder", unit: "1 box", price: 130, mrp: 149, category: "Spices & Dry Fruits", image: "/Catalog/masala/mirchi-powder.png", emoji: "🌶️" },
-  { id: "P112", nameHi: "जीरा पाउडर", name: "Geera Powder", unit: "1 box", price: 180, mrp: 206, category: "Spices & Dry Fruits", image: "/Catalog/masala/geera-powder.webp", emoji: "🌾" },
-  { id: "P116", nameHi: "किसमिस / किशमिश", name: "Kismis / Raisins", unit: "250 g", price: 149, mrp: 171, category: "Spices & Dry Fruits", image: "/Catalog/dry-fruit/kismis-raisins.jpg", emoji: "🍇" },
-  { id: "P118", nameHi: "सूखा नारियल / गरीगोला", name: "Coconut", unit: "1 pcs", price: 50, mrp: 60, category: "Spices & Dry Fruits", image: "/Catalog/coconut.png", emoji: "🥥" },
-  { id: "P126", nameHi: "काजू", name: "Kaju", unit: "1 kg", price: 999, mrp: 1148, category: "Spices & Dry Fruits", image: "/Catalog/dry-fruit/kaju.png", emoji: "🌰" },
-  { id: "P127", nameHi: "गोटा जीरा", name: "Gotta Jeera", unit: "1 kg", price: 260, mrp: 299, category: "Spices & Dry Fruits", image: "/Catalog/masala/geera-powder.webp", emoji: "🌾" },
+  { id: "P003", nameHi: "अमूल बटर", name: "Amul Butter", unit: "100 g", price: 58, mrp: 68, category: "Spices & Dry Fruits", image: "/Catalog/dairy/amul-butter.png", emoji: "🧈" },
+  { id: "P065", nameHi: "एवरेस्ट गरम मसाला", name: "Everest Garam Masala", unit: "100 g", price: 85, mrp: 95, category: "Spices & Dry Fruits", image: "/Catalog/Spices/everest-garam-masala.png", emoji: "🌶️" },
+  { id: "P066", nameHi: "एवरेस्ट तीखा लाल मिर्च", name: "Everest Tikhalal Chilly Powder", unit: "100 g", price: 65, mrp: 75, category: "Spices & Dry Fruits", image: "/Catalog/Spices/everest-tikhala-chilly-powder.png", emoji: "🌶️" },
+  { id: "P067", nameHi: "एवरेस्ट हल्दी पाउडर", name: "Everest Turmeric Powder", unit: "100 g", price: 42, mrp: 52, category: "Spices & Dry Fruits", image: "/Catalog/Spices/everest-turmeric-powder.png", emoji: "🟡" },
+  { id: "P073", nameHi: "टाटा नमक नमकीन", name: "Tata Salt Vacuum Evaporated", unit: "1 kg", price: 28, mrp: 32, category: "Spices & Dry Fruits", image: "/Catalog/Spices/tata-salt.png", emoji: "🧂" },
+  { id: "P096", nameHi: "काजू प्रीमियम", name: "Cashew Nuts (Kaju)", unit: "250 g", price: 220, mrp: 250, category: "Spices & Dry Fruits", image: "/Catalog/dry-fruits/kaju.jpg", emoji: "🌰" },
+  { id: "P098", nameHi: "बादाम", name: "Almonds (Badam)", unit: "250 g", price: 210, mrp: 240, category: "Spices & Dry Fruits", image: "/Catalog/dry-fruits/badam.jpg", emoji: "🌰" },
+  { id: "P099", nameHi: "किशमिश", name: "Raisins (Kishmish)", unit: "250 g", price: 90, mrp: 110, category: "Spices & Dry Fruits", image: "/Catalog/dry-fruits/kishmish.jpg", emoji: "🍇" },
+  { id: "P100", nameHi: "अखरोट गिरी", name: "Walnut Kernels (Akhrot)", unit: "250 g", price: 320, mrp: 360, category: "Spices & Dry Fruits", image: "/Catalog/dry-fruits/akhrot.jpg", emoji: "🧠" },
+  { id: "P101", nameHi: "एमडीएच चाट मसाला", name: "MDH Chunky Chat Masala", unit: "100 g", price: 72, mrp: 82, category: "Spices & Dry Fruits", image: "/Catalog/Spices/mdh-chat-masala.jpg", emoji: "🧂" },
+  { id: "P102", nameHi: "एमडीएच किचन किंग मसाला", name: "MDH Kitchen King Masala", unit: "100 g", price: 82, mrp: 92, category: "Spices & Dry Fruits", image: "/Catalog/Spices/mdh-kitchen-king.jpg", emoji: "🍛" },
+  { id: "P104", nameHi: "काली मिर्च गोटा", name: "Black Pepper Whole Loose", unit: "100 g", price: 95, mrp: 110, category: "Spices & Dry Fruits", image: "/Catalog/Spices/black-pepper.jpg", emoji: "🫘" },
+  { id: "P105", nameHi: "जीरा साबुत", name: "Cumin Seeds (Jeera Whole)", unit: "200 g", price: 85, mrp: 100, category: "Spices & Dry Fruits", image: "/Catalog/Spices/jeera.jpg", emoji: "🌾" },
+  { id: "P106", nameHi: "हरी इलाइची", name: "Green Cardamom (Elaichi)", unit: "50 g", price: 140, mrp: 165, category: "Spices & Dry Fruits", image: "/Catalog/Spices/elaichi.jpg", emoji: "🌿" },
+  { id: "P107", nameHi: "लौंग", name: "Cloves (Laung)", unit: "50 g", price: 65, mrp: 75, category: "Spices & Dry Fruits", image: "/Catalog/Spices/laung.jpg", emoji: "🌱" },
+  { id: "P110", nameHi: "धनिया पाउडर Loose", name: "Coriander Powder Loose", unit: "200 g", price: 45, mrp: 55, category: "Spices & Dry Fruits", image: "/Catalog/Spices/dhaniya-powder.jpg", emoji: "🌿" },
+  { id: "P111", nameHi: "हल्दी पाउडर Loose", name: "Turmeric Powder Loose", unit: "200 g", price: 40, mrp: 50, category: "Spices & Dry Fruits", image: "/Catalog/Spices/haldi-powder.jpg", emoji: "🟡" },
+  { id: "P112", nameHi: "लाल मिर्च पाउडर Loose", name: "Red Chilli Powder Loose", unit: "200 g", price: 60, mrp: 70, category: "Spices & Dry Fruits", image: "/Catalog/Spices/mirch-powder.jpg", emoji: "🌶️" },
 
-  // --- DAIRY, PERSONAL & HOUSEHOLD ---
-  { id: "P003", nameHi: "अमूल चीज़ क्यूब्स", name: "Amul Cheese Cubes", unit: "1 pcs", price: 22, mrp: 32, category: "Dairy & Household", image: "/Catalog/dairy/amul-cheese-cubes.png", emoji: "🧀" },
-  { id: "P073", nameHi: "सर्फ एक्सेल डिटर्जेंट", name: "Surf Excel", unit: "500 g", price: 71, mrp: 81, category: "Dairy & Household", image: "/Catalog/detergent/sirf-excel.png", emoji: "🧼" },
-  { id: "P078", nameHi: "सेटाफिल मॉइस्चराइजर", name: "Cetaphil", unit: "1 pcs", price: 414, mrp: 476, category: "Dairy & Household", image: "/Catalog/Sanitary/cetaphil.png", emoji: "🧴" },
-  { id: "P088", nameHi: "विम बार डिशवाश", name: "Vim Bar", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/soap/vim-bar.png", emoji: "🧼" },
-  { id: "P089", nameHi: "रिन बार कपड़े धोने का साबुन", name: "Rin Bar", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/soap/rin-bar.png", emoji: "🧼" },
-  { id: "P091", nameHi: "सेलोटेप", name: "Cellotape", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/stationary/cellotape.png", emoji: "📦" },
-  { id: "P092", nameHi: "कोरियन पेपर", name: "Korean Paper", unit: "1 pcs", price: 20, mrp: 30, category: "Dairy & Household", image: "/Catalog/stationary/korean-paper.png", emoji: "📄" },
-  { id: "P095", nameHi: "स्ट्रीक्स हेयर कलर", name: "Streaks Argan Secrets Hair Colour", unit: "1 pcs", price: 205, mrp: 235, category: "Dairy & Household", image: "/Catalog/hair-colour/streak-professional-argan-secrets-hair-colour.png", emoji: "💇" },
-  { id: "P096", nameHi: "स्ट्रीक्स डेवलपर", name: "Streaks Argan Secrets Developer", unit: "1 pcs", price: 130, mrp: 149, category: "Dairy & Household", image: "/Catalog/hair-colour/streak-professional-argan-secrets-developer.png", emoji: "💇" },
-  { id: "P101", nameHi: "एरियल डिटर्जेंट पाउडर", name: "Aerial Surf", unit: "1 kg", price: 140, mrp: 161, category: "Dairy & Household", image: "/Catalog/detergent/aerial-sirf.png", emoji: "🧼" },
-  { id: "P102", nameHi: "गरीगोला", name: "Girigola", unit: "1 pcs", price: 38, mrp: 48, category: "Dairy & Household", image: "/Catalog/girigola/girigola.png", emoji: "🛍️" },
-  { id: "P107", nameHi: "ईनो फ्रूट साल्ट", name: "Eno", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/energy/eno.png", emoji: "💊" },
-  { id: "P114", nameHi: "लाइजॉल फ्लोर क्लीनर", name: "Lisol", unit: "945 ml", price: 249, mrp: 286, category: "Dairy & Household", image: "/Catalog/floor-cleaner/lisol.png", emoji: "🧹" },
-  { id: "P117", nameHi: "Wheel Surf", name: "Wheel Surf", unit: "1 kg", price: 70, mrp: 80, category: "Dairy & Household", emoji: "🧼" }
+  // --- DAIRY & HOUSEHOLD ---
+  { id: "P113", nameHi: "विम डिशवॉश बार", name: "Vim Dishwash Bar", unit: "200 g", price: 20, mrp: 25, category: "Dairy & Household", image: "/Catalog/cleaners/vim-bar.png", emoji: "🧼" },
+  { id: "P114", nameHi: "रिन डिटर्जेंट बार", name: "Rin Detergent Soap Bar", unit: "250 g", price: 30, mrp: 35, category: "Dairy & Household", image: "/Catalog/cleaners/rin-soap.png", emoji: "🧼" },
+  { id: "P116", nameHi: "सरफ एक्सेल इजी वॉश", name: "Surf Excel Easy Wash Powder", unit: "1 kg", price: 140, mrp: 155, category: "Dairy & Household", image: "/Catalog/cleaners/surf-excel.jpg", emoji: "🧺" },
+  { id: "P117", nameHi: "हारपिक पावर प्लस टॉयलेट क्लीनर", name: "Harpic Power Plus Toilet Cleaner", unit: "500 ml", price: 105, mrp: 120, category: "Dairy & Household", image: "/Catalog/cleaners/harpic.jpg", emoji: "🚽" },
+  { id: "P118", nameHi: "ऑलआउट ऑल नाइट मच्छर रिपेलेंट", name: "All Out Mosquito Liquid Refill", unit: "1 pack", price: 85, mrp: 95, category: "Dairy & Household", image: "/Catalog/cleaners/allout.jpg", emoji: "🦟" },
+  { id: "P126", nameHi: "अमूल ताजा टोन्ड मिल्क", name: "Amul Taaza Toned Milk Pouch", unit: "500 ml", price: 27, mrp: 27, category: "Dairy & Household", image: "/Catalog/dairy/amul-taaza.jpg", emoji: "🥛" },
+  { id: "P127", nameHi: "अमूल मस्ती दही", name: "Amul Masti Dahi Pouch", unit: "400 g", price: 35, mrp: 35, category: "Dairy & Household", image: "/Catalog/dairy/amul-dahi.jpg", emoji: "🥛" }
 ];
 
-// State Management (Persisted in localStorage)
-let cart = JSON.parse(localStorage.getItem('order_kaaro_cart') || '{}');
-let wishlist = JSON.parse(localStorage.getItem('order_kaaro_wishlist') || '[]');
-let orders = JSON.parse(localStorage.getItem('order_kaaro_orders') || '[]');
-let profile = JSON.parse(localStorage.getItem('order_kaaro_profile') || '{"name":"","phone":"","address":""}');
+// App State Globals
+let cart = JSON.parse(localStorage.getItem('orderkaaro_cart') || '{}');
+let wishlist = JSON.parse(localStorage.getItem('orderkaaro_wishlist') || '[]');
+let orders = JSON.parse(localStorage.getItem('orderkaaro_orders') || '[]');
+let profile = JSON.parse(localStorage.getItem('orderkaaro_profile') || '{}');
 
-let activeCategory = "All";
+let currentCategory = "All";
+let searchQuery = "";
 
-// Save States Helpers
-function saveCart() {
-  localStorage.setItem('order_kaaro_cart', JSON.stringify(cart));
-  renderCart();
-  updateHeaderBadges();
+// ==========================================================================
+// INITIALIZATION
+// ==========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  initApp();
+});
+
+function initApp() {
+  updateLangUI();
+  renderCategoryPills();
   renderProducts();
-}
-
-function saveWishlist() {
-  localStorage.setItem('order_kaaro_wishlist', JSON.stringify(wishlist));
+  renderTopDeals();
   updateHeaderBadges();
-  renderWishlistModal();
-  renderProducts();
+  
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      doSearch(e.target.value);
+    });
+  }
 }
 
-function saveOrders() {
-  localStorage.setItem('order_kaaro_orders', JSON.stringify(orders));
-  updateHeaderBadges();
-  renderOrdersModal();
+function updateLangUI() {
+  const langBtn = document.getElementById('langToggleBtn');
+  if (langBtn) {
+    langBtn.innerText = translations[currentLang].langName;
+  }
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.placeholder = translations[currentLang].searchPlaceholder;
+  }
 }
 
-function saveProfile(name, phone, address) {
-  profile = { name, phone, address };
-  localStorage.setItem('order_kaaro_profile', JSON.stringify(profile));
-  renderProfileModal();
-}
-
-// Language Switcher
 function toggleLanguage() {
   currentLang = currentLang === 'en' ? 'hi' : 'en';
   localStorage.setItem('orderkaaro_lang', currentLang);
-  renderCategories();
+  updateLangUI();
+  renderCategoryPills();
   renderProducts();
   renderTopDeals();
-  renderCart();
+  if (document.getElementById('cartDrawer')?.classList.contains('open')) renderCart();
 }
 
-// Wishlist Toggle
+function saveCart() {
+  localStorage.setItem('orderkaaro_cart', JSON.stringify(cart));
+  updateHeaderBadges();
+  renderProducts();
+  renderTopDeals();
+  if (document.getElementById('cartDrawer')?.classList.contains('open')) renderCart();
+  if (document.getElementById('wishlistModal')?.classList.contains('open')) renderWishlistModal();
+}
+
+function saveWishlist() {
+  localStorage.setItem('orderkaaro_wishlist', JSON.stringify(wishlist));
+  updateHeaderBadges();
+  renderProducts();
+  renderTopDeals();
+  if (document.getElementById('wishlistModal')?.classList.contains('open')) renderWishlistModal();
+}
+
 function toggleWishlist(id, event) {
   if (event) event.stopPropagation();
   const idx = wishlist.indexOf(id);
-  const isWishlistedNow = idx === -1;
-  
   if (idx > -1) {
     wishlist.splice(idx, 1);
   } else {
     wishlist.push(id);
   }
   saveWishlist();
+}
 
-  const btns = [
-    document.getElementById(`wl_btn_${id}`),
-    document.getElementById(`wl_btn_deal_${id}`)
-  ];
-
-  btns.forEach(btn => {
-    if (btn) {
-      if (isWishlistedNow) {
-        btn.classList.add('active');
-        btn.innerHTML = '❤️';
-      } else {
-        btn.classList.remove('active');
-        btn.innerHTML = '🤍';
-      }
-      btn.classList.add('pop-anim');
-      setTimeout(() => btn.classList.remove('pop-anim'), 300);
-    }
-  });
-
-  renderWishlistModal();
+function saveProfile(name, phone, address) {
+  profile = { name, phone, address };
+  localStorage.setItem('orderkaaro_profile', JSON.stringify(profile));
 }
 
 // ==========================================================================
-// RENDER CATEGORY PILLS & SECTIONS
+// CATEGORY PILLS RENDER
 // ==========================================================================
-function getUniqueCategories() {
-  const cats = ["All"];
-  productsDatabase.forEach(p => {
-    if (!cats.includes(p.category)) cats.push(p.category);
-  });
-  return cats;
-}
-
-function renderCategories() {
+function renderCategoryPills() {
   const catRow = document.getElementById('catRow');
   if (!catRow) return;
-  
-  const categories = getUniqueCategories();
+
+  const categories = ["All", ...new Set(productsDatabase.map(p => p.category))];
+
   catRow.innerHTML = categories.map(cat => {
-    const label = currentLang === 'hi' ? (catHiMap[cat] || cat) : cat;
+    const isActive = cat === currentCategory;
+    const catLabel = currentLang === 'hi' ? (catHiMap[cat] || cat) : cat;
     return `
-      <button class="cat-pill ${cat === activeCategory ? 'active' : ''}" onclick="selectCategory('${cat}', this)">
-        ${label}
+      <button class="cat-pill ${isActive ? 'active' : ''}" onclick="selectCategory('${cat}')">
+        ${catLabel}
       </button>
     `;
   }).join('');
 }
 
-function selectCategory(cat, el) {
-  activeCategory = cat;
-  renderCategories();
+function selectCategory(category) {
+  currentCategory = category;
+  renderCategoryPills();
   renderProducts();
-  
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-  }
-
-  setTimeout(() => {
-    const secId = 'sec_' + cat.replace(/[^a-zA-Z0-9]/g, '_');
-    const targetSection = document.getElementById(secId) || document.getElementById('brandSections');
-    if (targetSection) {
-      const yOffset = -90;
-      const y = targetSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
-  }, 50);
 }
 
 // ==========================================================================
-// RENDER PRODUCTS
+// SEARCH & PRODUCTS RENDER
 // ==========================================================================
+function doSearch(val) {
+  searchQuery = val.toLowerCase().trim();
+  const clearBtn = document.getElementById('clearBtn');
+  if (clearBtn) {
+    clearBtn.style.display = searchQuery.length > 0 ? 'block' : 'none';
+  }
+  renderProducts();
+}
+
+function clearSearch() {
+  const input = document.getElementById('searchInput');
+  if (input) input.value = '';
+  doSearch('');
+}
+
 function renderProducts() {
   const brandSections = document.getElementById('brandSections');
   if (!brandSections) return;
-  
-  const searchInput = document.getElementById('searchInput');
-  const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
-  
-  let filtered = productsDatabase;
-  
-  if (activeCategory !== "All") {
-    filtered = filtered.filter(p => p.category === activeCategory);
-  }
-  
-  if (query) {
-    filtered = filtered.filter(p => 
-      p.name.toLowerCase().includes(query) || 
-      (p.nameHi && p.nameHi.toLowerCase().includes(query)) ||
-      p.id.toLowerCase().includes(query) || 
-      p.category.toLowerCase().includes(query) ||
-      p.unit.toLowerCase().includes(query)
-    );
-  }
-  
-  // Group by category for structured sections
+
+  let filtered = productsDatabase.filter(p => {
+    const matchCat = currentCategory === "All" || p.category === currentCategory;
+    const matchQuery = !searchQuery || 
+      p.name.toLowerCase().includes(searchQuery) ||
+      (p.nameHi && p.nameHi.includes(searchQuery)) ||
+      p.category.toLowerCase().includes(searchQuery) ||
+      p.id.toLowerCase().includes(searchQuery);
+    return matchCat && matchQuery;
+  });
+
   const grouped = {};
   filtered.forEach(p => {
     if (!grouped[p.category]) grouped[p.category] = [];
     grouped[p.category].push(p);
   });
-  
+
   if (filtered.length === 0) {
     brandSections.innerHTML = `
       <div class="no-results" style="text-align:center;padding:40px 20px;">
         <div style="font-size:3rem;margin-bottom:10px">🔍</div>
-        <h3 style="font-size:1.1rem;margin-bottom:6px">No products found for "${query}"</h3>
+        <h3 style="font-size:1.1rem;margin-bottom:6px">No products found for "${searchQuery}"</h3>
         <p style="font-size:0.85rem">Try searching for atta, dal, ghee, tea, or biscuits</p>
       </div>
     `;
     return;
   }
-  
+
   brandSections.innerHTML = Object.keys(grouped).map(catName => `
     <div class="section-head" id="sec_${catName.replace(/[^a-zA-Z0-9]/g, '_')}">
       <div class="section-head-left">
@@ -429,6 +420,7 @@ function productCardHTML(p) {
   const isOutOfStock = outOfStockItems.includes(p.id);
   const mrp = p.mrp || Math.round(p.price * 1.15);
   const savings = mrp - p.price;
+  const offPercent = (mrp > p.price && mrp > 0) ? Math.round(((mrp - p.price) / mrp) * 100) : 0;
   const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
 
   return `
@@ -447,7 +439,7 @@ function productCardHTML(p) {
       <div class="product-price-row">
         <span class="product-price">₹${p.price}</span>
         ${mrp > p.price ? `<span class="product-mrp">₹${mrp}</span>` : ''}
-        ${savings > 0 ? `<span class="product-save-tag">${translations[currentLang].saveMsg} ₹${savings}</span>` : ''}
+        ${offPercent > 0 ? `<span class="product-off-badge">${offPercent}% OFF</span>` : ''}
       </div>
       ${isOutOfStock ? `
         <button class="product-add-btn disabled" disabled>${translations[currentLang].outOfStock}</button>
@@ -479,6 +471,8 @@ function renderTopDeals() {
   dealsRow.innerHTML = featured.map(p => {
     const qty = cart[p.id] || 0;
     const isWishlisted = wishlist.includes(p.id);
+    const mrp = p.mrp || Math.round(p.price * 1.15);
+    const offPercent = (mrp > p.price && mrp > 0) ? Math.round(((mrp - p.price) / mrp) * 100) : 0;
     const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
     return `
       <div class="deal-card">
@@ -495,6 +489,8 @@ function renderTopDeals() {
         <div class="product-name" style="font-size:0.82rem">${displayName}</div>
         <div class="product-price-row" style="margin-bottom:8px">
           <span class="product-price" style="font-size:1rem">₹${p.price}</span>
+          ${mrp > p.price ? `<span class="product-mrp" style="font-size:0.78rem">₹${mrp}</span>` : ''}
+          ${offPercent > 0 ? `<span class="product-off-badge" style="font-size:0.65rem;padding:1px 5px">${offPercent}% OFF</span>` : ''}
         </div>
         ${qty === 0 ? `
           <button class="product-add-btn" style="height:36px;font-size:0.8rem" onclick="addToCart('${p.id}')">Add</button>
@@ -599,51 +595,45 @@ function renderCart() {
   cartList.innerHTML = cartItemIds.map(id => {
     const p = productsDatabase.find(item => item.id === id);
     if (!p) return '';
-    const qty = cart[id];
-    const itemTotal = p.price * qty;
+    const q = cart[id];
+    const itemTotal = p.price * q;
     subtotal += itemTotal;
     const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
-    
     return `
       <div class="cart-item-row">
         <div class="ci-emoji">${p.emoji || '📦'}</div>
         <div class="ci-info">
           <div class="ci-name">${displayName}</div>
-          <div class="ci-unit">${p.unit} • ₹${p.price}</div>
+          <div class="ci-unit">${p.unit} • ₹${p.price}/unit</div>
           <div class="ci-price">₹${itemTotal}</div>
         </div>
-        <div class="ci-qty">
-          <button class="ciq-btn" onclick="updateQty('${p.id}', ${qty - 1})">-</button>
-          <span class="ciq-num">${qty}</span>
-          <button class="ciq-btn" onclick="updateQty('${p.id}', ${qty + 1})">+</button>
+        <div class="product-qty-ctrl" style="width:90px;height:34px">
+          <button class="pqc-btn" onclick="updateQty('${p.id}', ${q - 1})">-</button>
+          <span class="pqc-num">${q}</span>
+          <button class="pqc-btn" onclick="updateQty('${p.id}', ${q + 1})">+</button>
         </div>
-        <button class="ci-remove" onclick="updateQty('${p.id}', 0)" title="Remove item">✕</button>
       </div>
     `;
   }).join('');
-  
-  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : FLAT_DELIVERY_CHARGE;
-  const grandTotal = subtotal + delivery;
-  
+
+  const deliveryFee = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : FLAT_DELIVERY_CHARGE;
+  const grandTotal = subtotal + deliveryFee;
+
   cartFooter.innerHTML = `
-    <div class="delivery-box">
-      <div class="db-row">
-        <span class="lbl">Item Subtotal</span>
-        <span class="val">₹${subtotal}</span>
-      </div>
-      <div class="db-row">
-        <span class="lbl">${translations[currentLang].deliveryFee}</span>
-        <span class="val" style="${delivery === 0 ? 'color:var(--primary)' : ''}">
-          ${delivery === 0 ? translations[currentLang].freeDelivery : '₹' + delivery}
-        </span>
-      </div>
-      <div class="db-row grand">
-        <span class="lbl">Grand Total</span>
-        <span class="val">₹${grandTotal}</span>
-      </div>
+    <div class="bill-row">
+      <span>Subtotal</span>
+      <span>₹${subtotal}</span>
     </div>
-    <button class="wa-send-btn" onclick="openModal()">
-      <span>📲 ${translations[currentLang].checkoutBtn}</span>
+    <div class="bill-row">
+      <span>Delivery Charge</span>
+      <span class="free-text">${deliveryFee === 0 ? translations[currentLang].freeDelivery : `₹${deliveryFee}`}</span>
+    </div>
+    <div class="bill-row grand">
+      <span>Grand Total</span>
+      <span>₹${grandTotal}</span>
+    </div>
+    <button class="checkout-btn" onclick="openModal()">
+      ${translations[currentLang].checkoutBtn}
     </button>
   `;
 }
@@ -670,6 +660,8 @@ function renderWishlistModal() {
     const p = productsDatabase.find(item => item.id === id);
     if (!p) return '';
     const qty = cart[p.id] || 0;
+    const mrp = p.mrp || Math.round(p.price * 1.15);
+    const offPercent = (mrp > p.price && mrp > 0) ? Math.round(((mrp - p.price) / mrp) * 100) : 0;
     const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
     return `
       <div class="cart-item-row">
@@ -677,7 +669,11 @@ function renderWishlistModal() {
         <div class="ci-info">
           <div class="ci-name">${displayName}</div>
           <div class="ci-unit">${p.unit}</div>
-          <div class="ci-price">₹${p.price}</div>
+          <div class="ci-price" style="display:flex;align-items:center;gap:6px">
+            <span class="product-price" style="font-size:0.95rem">₹${p.price}</span>
+            ${mrp > p.price ? `<span class="product-mrp" style="font-size:0.78rem">₹${mrp}</span>` : ''}
+            ${offPercent > 0 ? `<span class="product-off-badge" style="font-size:0.65rem;padding:1px 5px">${offPercent}% OFF</span>` : ''}
+          </div>
         </div>
         ${qty === 0 ? `
           <button class="product-add-btn" style="height:36px;width:90px;font-size:0.8rem" onclick="addToCart('${p.id}')">+ Add</button>
@@ -831,7 +827,6 @@ function closeCart() {
 
 function openModal() {
   closeCart();
-  // Auto-fill from saved Profile
   const nameInput = document.getElementById('custName');
   const addrInput = document.getElementById('custAddress');
   const phoneInput = document.getElementById('custPhone');
@@ -848,134 +843,76 @@ function closeModal() {
 }
 
 // ==========================================================================
-// SEARCH HANDLERS
+// WHATSAPP ORDER SUBMISSION
 // ==========================================================================
-function doSearch(val) {
-  const clearBtn = document.getElementById('clearBtn');
-  if (clearBtn) {
-    if (val.trim()) clearBtn.classList.add('show');
-    else clearBtn.classList.remove('show');
-  }
-  renderProducts();
-}
+function submitOrder() {
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const address = document.getElementById('custAddress').value.trim();
+  const notes = document.getElementById('custNotes').value.trim();
+  const paymentMethod = document.querySelector('input[name="payMethod"]:checked')?.value || "COD";
 
-function clearSearch() {
-  const searchInput = document.getElementById('searchInput');
-  if (searchInput) searchInput.value = '';
-  doSearch('');
-}
-
-// ==========================================================================
-// WHATSAPP CHECKOUT ORDER GENERATOR
-// ==========================================================================
-function confirmOrder() {
-  const nameInput = document.getElementById('custName');
-  const addrInput = document.getElementById('custAddress');
-  const phoneInput = document.getElementById('custPhone');
-  
-  const nameErr = document.getElementById('nameErr');
-  const addrErr = document.getElementById('addrErr');
-  const phoneErr = document.getElementById('phoneErr');
-  
-  let valid = true;
-  
-  if (!nameInput.value.trim()) {
-    nameInput.classList.add('err');
-    if (nameErr) nameErr.style.display = 'block';
-    valid = false;
-  } else {
-    nameInput.classList.remove('err');
-    if (nameErr) nameErr.style.display = 'none';
+  if (!name || !phone || !address) {
+    alert("Please fill in your Name, Phone Number, and Delivery Address.");
+    return;
   }
-  
-  if (!addrInput.value.trim()) {
-    addrInput.classList.add('err');
-    if (addrErr) addrErr.style.display = 'block';
-    valid = false;
-  } else {
-    addrInput.classList.remove('err');
-    if (addrErr) addrErr.style.display = 'none';
-  }
-  
-  const phoneVal = phoneInput.value.trim();
-  if (!/^[6-9]\d{9}$/.test(phoneVal)) {
-    phoneInput.classList.add('err');
-    if (phoneErr) phoneErr.style.display = 'block';
-    valid = false;
-  } else {
-    phoneInput.classList.remove('err');
-    if (phoneErr) phoneErr.style.display = 'none';
-  }
-  
-  if (!valid) return;
 
-  // Auto save profile for next time
-  saveProfile(nameInput.value.trim(), phoneVal, addrInput.value.trim());
+  const cartItemIds = Object.keys(cart);
+  if (cartItemIds.length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
 
-  // Record order history
-  const orderItems = [];
   let subtotal = 0;
+  const orderItemsList = [];
+  let msg = `🛒 *NEW GROCERY ORDER - ORDER KAARO*\n`;
+  msg += `📍 Location: Kishanganj, Bihar\n`;
+  msg += `------------------------------------\n`;
+  msg += `👤 *Customer Details:*\n`;
+  msg += `• Name: ${name}\n`;
+  msg += `• Phone: ${phone}\n`;
+  msg += `• Delivery Address: ${address}\n`;
+  if (notes) msg += `• Special Notes: ${notes}\n`;
+  msg += `• Payment Choice: ${paymentMethod}\n`;
+  msg += `------------------------------------\n`;
+  msg += `🛍️ *Order Items:*\n`;
 
-  let text = `🛒 *NEW GROCERY ORDER - ORDER KAARO*\n`;
-  text += `------------------------------------\n`;
-  text += `👤 *Customer*: ${nameInput.value.trim()}\n`;
-  text += `📞 *Phone*: ${phoneVal}\n`;
-  text += `📍 *Address*: ${addrInput.value.trim()}\n`;
-  text += `------------------------------------\n`;
-  text += `📦 *ORDER ITEMS*:\n`;
-  
-  Object.keys(cart).forEach(id => {
-    const p = productsDatabase.find(item => item.id === id);
-    if (p) {
-      const qty = cart[id];
-      const itemTotal = p.price * qty;
-      subtotal += itemTotal;
-      const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
-      text += `• ${displayName} (${p.unit}) x ${qty} = ₹${itemTotal}\n`;
-      orderItems.push({ id: p.id, name: displayName, unit: p.unit, price: p.price, qty: qty });
+  cartItemIds.forEach((id, idx) => {
+    const item = productsDatabase.find(p => p.id === id);
+    if (item) {
+      const q = cart[id];
+      const itemTot = item.price * q;
+      subtotal += itemTot;
+      msg += `${idx + 1}. *${item.name}* (${item.unit})\n   Qty: ${q} × ₹${item.price} = ₹${itemTot}\n`;
+      orderItemsList.push({ id: item.id, name: item.name, unit: item.unit, price: item.price, qty: q });
     }
   });
-  
-  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : FLAT_DELIVERY_CHARGE;
-  const grandTotal = subtotal + delivery;
-  
-  text += `------------------------------------\n`;
-  text += `💰 *Subtotal*: ₹${subtotal}\n`;
-  text += `🚚 *Delivery Fee*: ${delivery === 0 ? "FREE" : "₹" + delivery}\n`;
-  text += `💵 *GRAND TOTAL*: ₹${grandTotal}\n`;
-  text += `------------------------------------\n`;
-  text += `Please confirm my order delivery in Kishanganj. Thank you!`;
 
-  // Save to orders state
-  orders.push({
+  const deliveryFee = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : FLAT_DELIVERY_CHARGE;
+  const grandTotal = subtotal + deliveryFee;
+
+  msg += `------------------------------------\n`;
+  msg += `💵 Subtotal: ₹${subtotal}\n`;
+  msg += `🚚 Delivery Fee: ${deliveryFee === 0 ? "FREE" : "₹" + deliveryFee}\n`;
+  msg += `💰 *GRAND TOTAL: ₹${grandTotal}*\n`;
+  msg += `------------------------------------\n`;
+  msg += `Please confirm my order & delivery timing. Thank you!`;
+
+  const newOrderRecord = {
     date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
-    items: orderItems,
-    subtotal: subtotal,
-    delivery: delivery,
+    items: orderItemsList,
     grandTotal: grandTotal
-  });
-  saveOrders();
-  
-  const encoded = encodeURIComponent(text);
-  const waUrl = `https://wa.me/${WA_NUMBER}?text=${encoded}`;
-  
-  // Clear cart upon submitting order
+  };
+  orders.push(newOrderRecord);
+  localStorage.setItem('orderkaaro_orders', JSON.stringify(orders));
+
+  saveProfile(name, phone, address);
+
   cart = {};
   saveCart();
   closeModal();
-  
-  // Open WhatsApp in new tab
-  window.open(waUrl, '_blank');
-}
+  closeCart();
 
-// Initialization on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-  renderCategories();
-  renderTopDeals();
-  renderProducts();
-  renderCart();
-  renderWishlistModal();
-  renderOrdersModal();
-  renderProfileModal();
-  updateHeaderBadges();
-});
+  const encodedMsg = encodeURIComponent(msg);
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodedMsg}`, '_blank');
+}
