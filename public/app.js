@@ -55,7 +55,7 @@ const FREE_DELIVERY_THRESHOLD = 0;
 // ==========================================================================
 const productsDatabase = [
   // --- SPECIAL SAVINGS BUNDLES & COMBOS ---
-  { id: "B001", nameHi: "मंथली फैमिली राशन पैकेज (10 सामान)", name: "Monthly Family Rashan Package", unit: "Combo Pack (10 Items)", price: 1450, mrp: 1650, category: "Atta, Rice & Grains", image: "/Catalog/Grains/aashirvaad-aata.png", emoji: "📦", isBundle: true },
+  { id: "B001", nameHi: "मंथली फैमिली राशन पैकेज (10 सामान)", name: "Monthly Family Rashan Package", unit: "Combo Pack (10 Items)", price: 1450, mrp: 1650, category: "Atta, Rice & Grains", image: "/Catalog/grains/aashirvaad-shud-chakki-atta.png", emoji: "📦", isBundle: true },
   { id: "B002", nameHi: "त्योहार व पूजा स्पेशल कॉम्बो (6 सामान)", name: "Festive & Puja Special Combo", unit: "Combo Pack (6 Items)", price: 420, mrp: 490, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🪔", isBundle: true },
   { id: "B003", nameHi: "चाय व स्नैक्स सुपर सेवर कॉम्बो (5 सामान)", name: "Family Tea & Snacks Super Saver", unit: "Combo Pack (5 Items)", price: 280, mrp: 330, category: "Biscuits & Bakery", image: "/Catalog/tea/masala-tea.png", emoji: "☕", isBundle: true },
 
