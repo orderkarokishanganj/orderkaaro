@@ -1,4 +1,4 @@
-const catHiMap = {
+ const catHiMap = {
   "All": "सभी श्रेणी",
   "Atta, Rice & Grains": "आटा, चावल व अनाज",
   "Pulses & Dal": "दाल व चना",
