@@ -280,6 +280,19 @@ function saveCart() {
   renderProducts();
 }
 
+// Function to get complete bill breakdown for cart/checkout
+function getCartBillDetails() {
+  let subtotal = 0;
+  Object.keys(cart).forEach(id => {
+    const product = productsDatabase.find(p => p.id === id);
+    if (product) {
+      subtotal += product.price * cart[id];
+    }
+  });
+
+  return calculateOrderFees(subtotal);
+}
+
 function saveWishlist() {
   localStorage.setItem('order_kaaro_wishlist', JSON.stringify(wishlist));
   updateHeaderBadges();
