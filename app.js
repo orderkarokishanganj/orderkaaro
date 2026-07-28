@@ -47,8 +47,12 @@ const translations = {
    ========================================================================== */
 
 const WA_NUMBER = "919942089120";
-const FLAT_DELIVERY_CHARGE = 0;
-const FREE_DELIVERY_THRESHOLD = 0;
+const CONVENIENCE_FEE = 20;
+function getDeliveryCharge(subtotal) {
+  if (subtotal >= 499) return 0;
+  if (subtotal >= 149) return 29;
+  return 49;
+}
 
 // ==========================================================================
 // COMPLETE 164-ITEM PRODUCT DATABASE
@@ -545,10 +549,15 @@ function updateHeaderBadges() {
     if (item) subtotal += item.price * cart[id];
   });
   
-  if (fbTotal) fbTotal.innerText = subtotal;
+   if (fbTotal) fbTotal.innerText = subtotal;
   
-  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD || subtotal === 0 ? 0 : FLAT_DELIVERY_CHARGE;
-  if (fbDelivery) { fbDelivery.innerText = currentLang === 'hi' ? 'मुफ्त डिलीवरी 🚚' : 'FREE Delivery 🚚'; }
+  const delivery = totalCount > 0 ? getDeliveryCharge(subtotal) : 0;
+  const convenienceFee = totalCount > 0 ? CONVENIENCE_FEE : 0;
+  if (fbDelivery) {
+    fbDelivery.innerText = totalCount > 0
+      ? (currentLang === 'hi' ? `+ ₹${delivery} डिलीवरी + ₹${convenienceFee} शुल्क` : `+ ₹${delivery} Delivery + ₹${convenienceFee} Fee`)
+      : (currentLang === 'hi' ? 'मुफ्त डिलीवरी 🚚' : 'FREE Delivery 🚚');
+  }
   
   if (floatingBar) {
     if (totalCount > 0) {
@@ -603,8 +612,9 @@ function renderCart() {
     `;
   }).join('');
   
-  const delivery = 0;
-  const grandTotal = subtotal;
+  const delivery = getDeliveryCharge(subtotal);
+  const convenienceFee = CONVENIENCE_FEE;
+  const grandTotal = subtotal + delivery + convenienceFee;
   
   cartFooter.innerHTML = `
     <div class="delivery-box">
@@ -614,7 +624,11 @@ function renderCart() {
       </div>
       <div class="db-row">
         <span class="lbl">${currentLang === 'hi' ? 'डिलीवरी शुल्क' : 'Delivery Fee'}</span>
-        <span class="val" style="color:var(--primary);font-weight:700">FREE 🎉</span>
+        <span class="val">₹${delivery}</span>
+      </div>
+      <div class="db-row">
+        <span class="lbl">${currentLang === 'hi' ? 'सुविधा शुल्क' : 'Convenience Fee'}</span>
+        <span class="val">₹${convenienceFee}</span>
       </div>
       <div class="db-row grand">
         <span class="lbl">${currentLang === 'hi' ? 'कुल योग' : 'Grand Total'}</span>
@@ -913,12 +927,14 @@ function confirmOrder() {
     }
   });
   
-  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : FLAT_DELIVERY_CHARGE;
-  const grandTotal = subtotal + delivery;
+   const delivery = getDeliveryCharge(subtotal);
+  const convenienceFee = CONVENIENCE_FEE;
+  const grandTotal = subtotal + delivery + convenienceFee;
   
   text += `------------------------------------\n`;
   text += `💰 *Subtotal*: ₹${subtotal}\n`;
-  text += `🚚 *Delivery Fee*: FREE 🎉\n`;
+  text += `🚚 *Delivery Fee*: ₹${delivery}\n`;
+  text += `💳 *Convenience Fee*: ₹${convenienceFee}\n`;
   text += `💵 *GRAND TOTAL*: ₹${grandTotal}\n`;
   text += `------------------------------------\n`;
   text += `Please confirm my order delivery in Kishanganj. Thank you!`;
@@ -929,6 +945,7 @@ function confirmOrder() {
     items: orderItems,
     subtotal: subtotal,
     delivery: delivery,
+    convenienceFee: convenienceFee,
     grandTotal: grandTotal
   });
   saveOrders();

@@ -48,8 +48,12 @@ const translations = {
    ========================================================================== */
 
 const WA_NUMBER = "919942089120";
-const FLAT_DELIVERY_CHARGE = 0;
-const FREE_DELIVERY_THRESHOLD = 0;
+const CONVENIENCE_FEE = 20;
+function getDeliveryCharge(subtotal) {
+  if (subtotal >= 499) return 0;
+  if (subtotal >= 149) return 29;
+  return 49;
+}
 
 // ==========================================================================
 // COMPLETE 164-ITEM PRODUCT DATABASE
