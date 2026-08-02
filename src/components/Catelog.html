@@ -523,7 +523,18 @@
 
 <script>
 const WA_NUMBER = "919942089120";
-const FLAT_DELIVERY_CHARGE = 50;
+const CONVENIENCE_FEE = 20;
+
+function calculateDeliveryFee(subtotal) {
+  if (subtotal === 0) return 0;
+  if (subtotal < 149) return 49;
+  if (subtotal < 499) return 29;
+  return 0;
+}
+
+function calculateConvenienceFee(subtotal) {
+  return subtotal > 0 ? CONVENIENCE_FEE : 0;
+}
 
 function offImgUrl(barcode) {
   if (!barcode) return null;
@@ -813,8 +824,9 @@ function cartTotals() {
   const items = Object.values(cart);
   const qty = items.reduce((s,i)=>s+i.qty,0);
   const subtotal = items.reduce((s,i)=>s+(i.special*i.qty),0);
-  const delivery = items.length===0 ? 0 : FLAT_DELIVERY_CHARGE;
-  return {qty,subtotal,delivery};
+  const delivery = calculateDeliveryFee(subtotal);
+  const convenience = calculateConvenienceFee(subtotal);
+  return {qty,subtotal,delivery,convenience};
 }
 
 function renderDeals() {
@@ -1050,7 +1062,7 @@ function reSearch(){const v=document.getElementById("searchInput").value;if(v.tr
 function clearSearch(){document.getElementById("searchInput").value="";doSearch("");}
 
 function updateUI() {
-  const {qty,subtotal,delivery}=cartTotals();
+  const {qty,subtotal,delivery,convenience}=cartTotals();
   
   // Trigger Cart Badge Bounce Animation
   const badge = document.getElementById("cartBadge");
@@ -1061,7 +1073,13 @@ function updateUI() {
   
   document.getElementById("fbCount").textContent=`${qty} ITEM${qty!==1?"S":""}`;
   document.getElementById("fbTotal").textContent=subtotal;
-  document.getElementById("fbDelivery").textContent=qty>0?`+ ₹${delivery} Delivery`:"+ ₹0 Delivery";
+  let delText = "+ ₹0 Delivery";
+  if (qty > 0) {
+    delText = delivery === 0 
+      ? "FREE Delivery 🚚 (+₹20 Conv. Fee)" 
+      : `+ ₹${delivery} Delivery (+₹20 Conv. Fee)`;
+  }
+  document.getElementById("fbDelivery").textContent = delText;
   document.getElementById("floatingBar").classList.toggle("visible", qty>0);
   
   // Save cart to Local Storage
@@ -1097,13 +1115,26 @@ function renderCartDrawer() {
       </button>
     </div>`).join("");
     
-  const {subtotal,delivery}=cartTotals();
-  const grand=subtotal+delivery;
+  const {subtotal,delivery,convenience}=cartTotals();
+  const grand=subtotal+delivery+convenience;
+  let deliveryHintHtml = '';
+  if (subtotal > 0 && subtotal < 149) {
+    const diff = 149 - subtotal;
+    deliveryHintHtml = `<div style="font-size:0.75rem;background:#fef3c7;color:#92400e;padding:6px 10px;border-radius:6px;margin-bottom:8px;text-align:center">💡 Add ₹${diff} more items for ₹29 delivery! (FREE on ₹499+)</div>`;
+  } else if (subtotal >= 149 && subtotal < 499) {
+    const diff = 499 - subtotal;
+    deliveryHintHtml = `<div style="font-size:0.75rem;background:#dbeafe;color:#1e40af;padding:6px 10px;border-radius:6px;margin-bottom:8px;text-align:center">🎉 Add ₹${diff} more items for <strong>FREE Delivery!</strong></div>`;
+  } else if (subtotal >= 499) {
+    deliveryHintHtml = `<div style="font-size:0.75rem;background:#dcfce7;color:#166534;padding:6px 10px;border-radius:6px;margin-bottom:8px;text-align:center">🥳 You've unlocked <strong>FREE Delivery!</strong></div>`;
+  }
+
   footer.innerHTML=`
     <div class="delivery-box">
       <div class="db-title">Bill Summary</div>
+      ${deliveryHintHtml}
       <div class="db-row"><span class="lbl">Subtotal</span><span class="val">₹${subtotal}</span></div>
-      <div class="db-row"><span class="lbl">Delivery Charge</span><span class="val">₹${delivery}</span></div>
+      <div class="db-row"><span class="lbl">Delivery Charge</span><span class="val">${delivery === 0 ? '<strong style="color:var(--primary)">FREE 🎉</strong>' : `₹${delivery}`}</span></div>
+      <div class="db-row"><span class="lbl">Convenience Fee</span><span class="val">₹${convenience}</span></div>
       <div class="db-row grand"><span class="lbl">To Pay</span><span class="val">₹${grand}</span></div>
     </div>
     <button class="wa-send-btn" onclick="sendWhatsApp()">
@@ -1133,13 +1164,13 @@ function confirmOrder(){
   if(!/^\d{10}$/.test(phone))show("phoneErr","custPhone");else hide("phoneErr","custPhone");
   if(!ok)return;
   const items=Object.values(cart);
-  const {subtotal,delivery}=cartTotals();
-  const grand=subtotal+delivery;
+  const {subtotal,delivery,convenience}=cartTotals();
+  const grand=subtotal+delivery+convenience;
   let msg="🛒 *New Order – Order Kaaro*\n━━━━━━━━━━━━━━━━━━━━\n\n*👤 Customer Details:*\n";
   msg+=`• Name: ${name}\n• Mobile: ${phone}\n• Address: ${addr}\n\n`;
   msg+="━━━━━━━━━━━━━━━━━━━━\n*🛍️ Order:*\n\n";
   items.forEach(i=>msg+=`• ${i.name} (${i.unit||"1 pcs"})\n  Qty: ${i.qty}  |  ₹${i.special} each  |  *₹${i.special*i.qty}*\n\n`);
-  msg+=`━━━━━━━━━━━━━━━━━━━━\n🧾 Subtotal: ₹${subtotal}\n🚚 Delivery: ₹${delivery}\n━━━━━━━━━━━━━━━━━━━━\n💰 *Grand Total: ₹${grand}*\n\nThank you! 🙏`;
+  msg+=`━━━━━━━━━━━━━━━━━━━━\n🧾 Subtotal: ₹${subtotal}\n🚚 Delivery: ${delivery === 0 ? 'FREE 🎉' : `₹${delivery}`}\n⚙️ Convenience Fee: ₹${convenience}\n━━━━━━━━━━━━━━━━━━━━\n💰 *Grand Total: ₹${grand}*\n\nThank you! 🙏`;
   closeModal();
   
   // Clear cart upon successful checkout intent
