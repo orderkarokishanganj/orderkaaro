@@ -1,4 +1,4 @@
-const catHiMap = {
+  const catHiMap = {
   "All": "सभी श्रेणी",
   "Atta, Rice & Grains": "आटा, चावल व अनाज",
   "Pulses & Dal": "दाल व चना",
@@ -42,17 +42,14 @@ const translations = {
     reorderBtn: "🔁 दोबारा ऑर्डर करें"
   }
 };
+
 /* ==========================================================================
    Order Kaaro – Kishanganj Grocery Delivery Application Core JavaScript
    ========================================================================== */
 
 const WA_NUMBER = "919942089120";
-const CONVENIENCE_FEE = 20;
-function getDeliveryCharge(subtotal) {
-  if (subtotal >= 499) return 0;
-  if (subtotal >= 149) return 29;
-  return 49;
-}
+const FLAT_DELIVERY_CHARGE = 0;
+const FREE_DELIVERY_THRESHOLD = 0;
 
 // ==========================================================================
 // COMPLETE 164-ITEM PRODUCT DATABASE
@@ -64,7 +61,7 @@ const productsDatabase = [
   { id: "B003", nameHi: "चाय व स्नैक्स सुपर सेवर कॉम्बो (5 सामान)", name: "Family Tea & Snacks Super Saver", unit: "Combo Pack (5 Items)", price: 280, mrp: 330, category: "Biscuits & Bakery", image: "/Catalog/tea/masala-tea.png", emoji: "☕", isBundle: true },
 
   // --- ATTA, RICE & GRAINS ---
-  { id: "P001", nameHi: "आशीर्वाद शुद्ध चक्की आटा", name: "Aashirvaad Shud Chakki Aata", unit: "5 kg", price: 240, mrp: 276, category: "Atta, Rice & Grains", image: "/Catalog/Grains/aashirvaad-aata.png", emoji: "🌾" },
+  { id: "P001", nameHi: "आशीर्वाद शुद्ध चक्की आटा", name: "Aashirvaad Shud Chakki Atta", unit: "5 kg", price: 240, mrp: 276, category: "Atta, Rice & Grains", image: "/Catalog/grains/aashirvaad-shud-chakki-atta.png", emoji: "🌾" },
   { id: "P002", nameHi: "अमृत भोग आटा", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, mrp: 252, category: "Atta, Rice & Grains", image: "/Catalog/Grains/amirt-bhog-atta.jpg", emoji: "🌾" },
   { id: "P009", nameHi: "बेसन", name: "Besan", unit: "1 kg", price: 115, mrp: 132, category: "Atta, Rice & Grains", image: "/Catalog/Grains/besan.png", emoji: "🟡" },
   { id: "P055", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "500 g", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🍚" },
@@ -74,10 +71,10 @@ const productsDatabase = [
   { id: "P075", nameHi: "अमृत भोग सूजी", name: "Amrit Bhog Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sooji.png", emoji: "🌾" },
   { id: "P077", nameHi: "चीनी / शक्कर", name: "Sugar", unit: "1 kg", price: 55, mrp: 65, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sugar.png", emoji: "🍬" },
   { id: "P083", nameHi: "चावल", name: "Chawal", unit: "1 kg", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/chawal.png", emoji: "🍚" },
-  { id: "P084", nameHi: "सूजी", name: "Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/grains/sooji.png", emoji: "🌾" },
-  { id: "P103", nameHi: "पॉपकॉर्न मक्की", name: "Popcorn Makki Loose", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/grains/popcorn-makki-loose.jpg", emoji: "🌽" },
+  { id: "P084", nameHi: "सूजी", name: "Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sooji.png", emoji: "🌾" },
+  { id: "P103", nameHi: "पॉपकॉर्न मक्की", name: "Popcorn Makki Loose", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/Grains/popcorn-makki-loose.jpg", emoji: "🌽" },
   { id: "P115", nameHi: "सेवई (वर्मिसेली)", name: "Vermicelli", unit: "1 kg", price: 120, mrp: 138, category: "Atta, Rice & Grains", image: "/Catalog/noodles/vermicelli.png", emoji: "🍜" },
-  { id: "P119", nameHi: "मैदा", name: "Maida", unit: "1 kg", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/grains/maida.png", emoji: "🌾" },
+  { id: "P119", nameHi: "मैदा", name: "Maida", unit: "1 kg", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/Grains/maida.png", emoji: "🌾" },
 
   // --- PULSES, DAL & CHANA ---
   { id: "P006", nameHi: "अरहर दाल", name: "Arahar Dal", unit: "1 kg", price: 130, mrp: 149, category: "Pulses & Dal", image: "/Catalog/pulses-chana/arhar-dal.png", emoji: "🫘" },
@@ -278,6 +275,16 @@ function saveProfile(name, phone, address) {
   renderProfileModal();
 }
 
+// Language Switcher
+function toggleLanguage() {
+  currentLang = currentLang === 'en' ? 'hi' : 'en';
+  localStorage.setItem('orderkaaro_lang', currentLang);
+  renderCategories();
+  renderProducts();
+  renderTopDeals();
+  renderCart();
+}
+
 // Wishlist Toggle
 function toggleWishlist(id, event) {
   if (event) event.stopPropagation();
@@ -378,6 +385,7 @@ function renderProducts() {
   if (query) {
     filtered = filtered.filter(p => 
       p.name.toLowerCase().includes(query) || 
+      (p.nameHi && p.nameHi.toLowerCase().includes(query)) ||
       p.id.toLowerCase().includes(query) || 
       p.category.toLowerCase().includes(query) ||
       p.unit.toLowerCase().includes(query)
@@ -393,7 +401,7 @@ function renderProducts() {
   
   if (filtered.length === 0) {
     brandSections.innerHTML = `
-      <div class="no-results">
+      <div class="no-results" style="text-align:center;padding:40px 20px;">
         <div style="font-size:3rem;margin-bottom:10px">🔍</div>
         <h3 style="font-size:1.1rem;margin-bottom:6px">No products found for "${query}"</h3>
         <p style="font-size:0.85rem">Try searching for atta, dal, ghee, tea, or biscuits</p>
@@ -421,27 +429,30 @@ function productCardHTML(p) {
   const isOutOfStock = outOfStockItems.includes(p.id);
   const mrp = p.mrp || Math.round(p.price * 1.15);
   const savings = mrp - p.price;
+  const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
 
   return `
     <div class="product-card ${isOutOfStock ? 'out-of-stock' : ''}" id="card_${p.id}">
-      ${isOutOfStock ? `<div class="out-of-stock-overlay">Out of Stock</div>` : ''}
+      ${isOutOfStock ? `<div class="out-of-stock-overlay">${translations[currentLang].outOfStock}</div>` : ''}
       <span class="product-badge-id">${p.id}</span>
       <button class="product-wishlist-btn ${isWishlisted ? 'active' : ''}" id="wl_btn_${p.id}" onclick="toggleWishlist('${p.id}', event)" title="Add to Wishlist">
         ${isWishlisted ? '❤️' : '🤍'}
       </button>
       <div class="product-img-wrap">
-        ${p.image ? `<img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" />` : ''}
-        <span class="emoji-icon" style="${p.image ? 'display:none' : ''}">${p.emoji}</span>
+        ${p.image ? `<img src="${p.image}" alt="${displayName}" class="product-img" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" />` : ''}
+        <span class="emoji-icon" style="${p.image ? 'display:none' : ''}">${p.emoji || '📦'}</span>
       </div>
       <span class="product-unit">${p.unit}</span>
-      <div class="product-name">${currentLang === "hi" ? (p.nameHi || p.name) : p.name}</div>
+      <div class="product-name">${displayName}</div>
       <div class="product-price-row">
-        <span class="mrp-badge">₹${mrp}</span>
         <span class="product-price">₹${p.price}</span>
-        ${savings > 0 ? `<span class="savings-pill">Save ₹${savings}</span>` : ''}
+        ${mrp > p.price ? `<span class="product-mrp">₹${mrp}</span>` : ''}
+        ${savings > 0 ? `<span class="product-save-tag">${translations[currentLang].saveMsg} ₹${savings}</span>` : ''}
       </div>
-      ${qty === 0 ? `
-        <button class="product-add-btn" ${isOutOfStock ? 'disabled' : ''} onclick="addToCart('${p.id}')">
+      ${isOutOfStock ? `
+        <button class="product-add-btn disabled" disabled>${translations[currentLang].outOfStock}</button>
+      ` : qty === 0 ? `
+        <button class="product-add-btn" onclick="addToCart('${p.id}')">
           <span>+ Add to Cart</span>
         </button>
       ` : `
@@ -462,12 +473,13 @@ function renderTopDeals() {
   const dealsRow = document.getElementById('dealsRow');
   if (!dealsRow) return;
   
-  const featuredIds = ["P001", "P004", "P006", "P029", "P022", "P125", "P094", "P076", "P080", "P162"];
+  const featuredIds = ["B001", "B002", "B003", "P001", "P004", "P006", "P029", "P022", "P125", "P094", "P076", "P080", "P162"];
   const featured = productsDatabase.filter(p => featuredIds.includes(p.id));
   
   dealsRow.innerHTML = featured.map(p => {
     const qty = cart[p.id] || 0;
     const isWishlisted = wishlist.includes(p.id);
+    const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
     return `
       <div class="deal-card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
@@ -477,10 +489,10 @@ function renderTopDeals() {
           </button>
         </div>
         <div class="product-img-wrap" style="height:70px;margin-bottom:8px">
-          ${p.image ? `<img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" />` : ''}
-          <span class="emoji-icon" style="font-size:2.4rem;${p.image ? 'display:none' : ''}">${p.emoji}</span>
+          ${p.image ? `<img src="${p.image}" alt="${displayName}" class="product-img" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" />` : ''}
+          <span class="emoji-icon" style="${p.image ? 'display:none' : ''};font-size:2.4rem">${p.emoji || '📦'}</span>
         </div>
-        <div class="product-name" style="font-size:0.82rem">${currentLang === "hi" ? (p.nameHi || p.name) : p.name}</div>
+        <div class="product-name" style="font-size:0.82rem">${displayName}</div>
         <div class="product-price-row" style="margin-bottom:8px">
           <span class="product-price" style="font-size:1rem">₹${p.price}</span>
         </div>
@@ -549,14 +561,11 @@ function updateHeaderBadges() {
     if (item) subtotal += item.price * cart[id];
   });
   
-   if (fbTotal) fbTotal.innerText = subtotal;
+  if (fbTotal) fbTotal.innerText = subtotal;
   
-  const delivery = totalCount > 0 ? getDeliveryCharge(subtotal) : 0;
-  const convenienceFee = totalCount > 0 ? CONVENIENCE_FEE : 0;
+  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD || subtotal === 0 ? 0 : FLAT_DELIVERY_CHARGE;
   if (fbDelivery) {
-    fbDelivery.innerText = totalCount > 0
-      ? (currentLang === 'hi' ? `+ ₹${delivery} डिलीवरी + ₹${convenienceFee} शुल्क` : `+ ₹${delivery} Delivery + ₹${convenienceFee} Fee`)
-      : (currentLang === 'hi' ? 'मुफ्त डिलीवरी 🚚' : 'FREE Delivery 🚚');
+    fbDelivery.innerText = delivery === 0 ? translations[currentLang].freeDelivery : `+ ₹${delivery} ${translations[currentLang].deliveryFee}`;
   }
   
   if (floatingBar) {
@@ -576,7 +585,7 @@ function renderCart() {
   const cartItemIds = Object.keys(cart);
   if (cartItemIds.length === 0) {
     cartList.innerHTML = `
-      <div class="empty-cart-wrap">
+      <div class="empty-cart-wrap" style="text-align:center;padding:40px 20px;">
         <div style="font-size:4rem;margin-bottom:12px">🛒</div>
         <h3 style="font-size:1.1rem;color:var(--text-main);margin-bottom:6px">Your Cart is Empty</h3>
         <p style="font-size:0.85rem">Explore our catalogue and add items to your cart</p>
@@ -593,12 +602,13 @@ function renderCart() {
     const qty = cart[id];
     const itemTotal = p.price * qty;
     subtotal += itemTotal;
+    const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
     
     return `
       <div class="cart-item-row">
-        <div class="ci-emoji">${p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" /><span style="display:none">${p.emoji}</span>` : p.emoji}</div>
+        <div class="ci-emoji">${p.emoji || '📦'}</div>
         <div class="ci-info">
-          <div class="ci-name">${currentLang === "hi" ? (p.nameHi || p.name) : p.name}</div>
+          <div class="ci-name">${displayName}</div>
           <div class="ci-unit">${p.unit} • ₹${p.price}</div>
           <div class="ci-price">₹${itemTotal}</div>
         </div>
@@ -612,31 +622,28 @@ function renderCart() {
     `;
   }).join('');
   
-  const delivery = getDeliveryCharge(subtotal);
-  const convenienceFee = CONVENIENCE_FEE;
-  const grandTotal = subtotal + delivery + convenienceFee;
+  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : FLAT_DELIVERY_CHARGE;
+  const grandTotal = subtotal + delivery;
   
   cartFooter.innerHTML = `
     <div class="delivery-box">
       <div class="db-row">
-        <span class="lbl">${currentLang === 'hi' ? 'सामान का कुल मूल्य' : 'Item Subtotal'}</span>
+        <span class="lbl">Item Subtotal</span>
         <span class="val">₹${subtotal}</span>
       </div>
       <div class="db-row">
-        <span class="lbl">${currentLang === 'hi' ? 'डिलीवरी शुल्क' : 'Delivery Fee'}</span>
-        <span class="val">₹${delivery}</span>
-      </div>
-      <div class="db-row">
-        <span class="lbl">${currentLang === 'hi' ? 'सुविधा शुल्क' : 'Convenience Fee'}</span>
-        <span class="val">₹${convenienceFee}</span>
+        <span class="lbl">${translations[currentLang].deliveryFee}</span>
+        <span class="val" style="${delivery === 0 ? 'color:var(--primary)' : ''}">
+          ${delivery === 0 ? translations[currentLang].freeDelivery : '₹' + delivery}
+        </span>
       </div>
       <div class="db-row grand">
-        <span class="lbl">${currentLang === 'hi' ? 'कुल योग' : 'Grand Total'}</span>
+        <span class="lbl">Grand Total</span>
         <span class="val">₹${grandTotal}</span>
       </div>
     </div>
     <button class="wa-send-btn" onclick="openModal()">
-      <span>📲 ${currentLang === 'hi' ? 'डिलीवरी विवरण भरें →' : 'Proceed to Delivery Details →'}</span>
+      <span>📲 ${translations[currentLang].checkoutBtn}</span>
     </button>
   `;
 }
@@ -663,11 +670,12 @@ function renderWishlistModal() {
     const p = productsDatabase.find(item => item.id === id);
     if (!p) return '';
     const qty = cart[p.id] || 0;
+    const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
     return `
       <div class="cart-item-row">
-        <div class="ci-emoji">${p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" /><span style="display:none">${p.emoji}</span>` : p.emoji}</div>
+        <div class="ci-emoji">${p.emoji || '📦'}</div>
         <div class="ci-info">
-          <div class="ci-name">${currentLang === "hi" ? (p.nameHi || p.name) : p.name}</div>
+          <div class="ci-name">${displayName}</div>
           <div class="ci-unit">${p.unit}</div>
           <div class="ci-price">₹${p.price}</div>
         </div>
@@ -734,7 +742,7 @@ function renderOrdersModal() {
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:8px">
         <span style="font-size:0.9rem;font-weight:800">Total: ₹${order.grandTotal}</span>
-        <button class="product-add-btn" style="height:34px;width:95px;font-size:0.78rem" onclick="reorderItems('${encodeURIComponent(JSON.stringify(order.items))}')">🔄 Reorder</button>
+        <button class="product-add-btn" style="height:34px;width:95px;font-size:0.78rem" onclick="reorderItems('${encodeURIComponent(JSON.stringify(order.items))}')">${translations[currentLang].reorderBtn}</button>
       </div>
     </div>
   `).join('');
@@ -922,19 +930,18 @@ function confirmOrder() {
       const qty = cart[id];
       const itemTotal = p.price * qty;
       subtotal += itemTotal;
-      text += `• ${p.name} (${p.unit}) x ${qty} = ₹${itemTotal}\n`;
-      orderItems.push({ id: p.id, name: p.name, unit: p.unit, price: p.price, qty: qty });
+      const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
+      text += `• ${displayName} (${p.unit}) x ${qty} = ₹${itemTotal}\n`;
+      orderItems.push({ id: p.id, name: displayName, unit: p.unit, price: p.price, qty: qty });
     }
   });
   
-   const delivery = getDeliveryCharge(subtotal);
-  const convenienceFee = CONVENIENCE_FEE;
-  const grandTotal = subtotal + delivery + convenienceFee;
+  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : FLAT_DELIVERY_CHARGE;
+  const grandTotal = subtotal + delivery;
   
   text += `------------------------------------\n`;
   text += `💰 *Subtotal*: ₹${subtotal}\n`;
-  text += `🚚 *Delivery Fee*: ₹${delivery}\n`;
-  text += `💳 *Convenience Fee*: ₹${convenienceFee}\n`;
+  text += `🚚 *Delivery Fee*: ${delivery === 0 ? "FREE" : "₹" + delivery}\n`;
   text += `💵 *GRAND TOTAL*: ₹${grandTotal}\n`;
   text += `------------------------------------\n`;
   text += `Please confirm my order delivery in Kishanganj. Thank you!`;
@@ -945,7 +952,6 @@ function confirmOrder() {
     items: orderItems,
     subtotal: subtotal,
     delivery: delivery,
-    convenienceFee: convenienceFee,
     grandTotal: grandTotal
   });
   saveOrders();
@@ -973,198 +979,3 @@ document.addEventListener('DOMContentLoaded', () => {
   renderProfileModal();
   updateHeaderBadges();
 });
-
-
-// ==========================================================================
-// BILINGUAL LANGUAGE TOGGLE
-// ==========================================================================
-function toggleLanguage() {
-  currentLang = currentLang === 'en' ? 'hi' : 'en';
-  localStorage.setItem('orderkaaro_lang', currentLang);
-  updateUILanguage();
-}
-
-function updateUILanguage() {
-  const t = translations[currentLang];
-  const searchInput = document.getElementById('searchInput');
-  if (searchInput) searchInput.placeholder = t.searchPlaceholder;
-  const langLabel = document.getElementById('langLabel');
-  if (langLabel) langLabel.textContent = t.langName;
-
-  // Re-render categories, products, top deals & cart to switch language instantly
-  renderCategories();
-  renderProducts();
-  renderTopDeals();
-  renderCart();
-  renderWishlistModal();
-}
-
-// ==========================================================================
-// VOICE SEARCH (HINDI / ENGLISH)
-// ==========================================================================
-function startVoiceSearch() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert('Voice Search is supported on Chrome, Edge, and Safari mobile browsers.');
-    return;
-  }
-
-  const recognition = new SpeechRecognition();
-  recognition.lang = currentLang === 'hi' ? 'hi-IN' : 'en-IN';
-  recognition.interimResults = false;
-
-  const btn = document.getElementById('voiceBtn');
-  if (btn) btn.classList.add('listening');
-
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    const input = document.getElementById('searchInput');
-    if (input) {
-      input.value = transcript;
-      doSearch(transcript);
-    }
-    if (btn) btn.classList.remove('listening');
-  };
-
-  recognition.onerror = () => {
-    if (btn) btn.classList.remove('listening');
-  };
-
-  recognition.onend = () => {
-    if (btn) btn.classList.remove('listening');
-  };
-
-  recognition.start();
-}
-
-// ==========================================================================
-// LIVE AUTOCOMPLETE SEARCH DROPDOWN
-// ==========================================================================
-function showAutocomplete() {
-  const input = document.getElementById('searchInput');
-  if (!input) return;
-  const query = input.value.trim().toLowerCase();
-  const dropdown = document.getElementById('autocompleteDropdown');
-  if (!dropdown) return;
-
-  if (query.length < 2) {
-    dropdown.style.display = 'none';
-    return;
-  }
-
-  const matches = productsDatabase.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query)).slice(0, 6);
-
-  if (matches.length === 0) {
-    dropdown.style.display = 'none';
-    return;
-  }
-
-  dropdown.innerHTML = matches.map(p => `
-    <div class="auto-item" onclick="selectAutocomplete('${p.id}')">
-      ${p.image ? `<img src="${p.image}" class="auto-item-img" />` : `<span style="font-size:1.4rem;margin-right:8px">${p.emoji}</span>`}
-      <div class="auto-item-info">
-        <div class="auto-item-name">${p.name}</div>
-        <div class="auto-item-sub">${p.unit} • ₹${p.price}</div>
-      </div>
-      <button class="auto-item-add" onclick="event.stopPropagation(); addToCart('${p.id}')">+ Add</button>
-    </div>
-  `).join('');
-
-  dropdown.style.display = 'block';
-}
-
-function selectAutocomplete(pid) {
-  const dropdown = document.getElementById('autocompleteDropdown');
-  if (dropdown) dropdown.style.display = 'none';
-  const card = document.getElementById(`card_${pid}`);
-  if (card) {
-    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    card.style.ring = '2px solid #16a34a';
-    setTimeout(() => card.style.ring = 'none', 2000);
-  }
-}
-
-document.addEventListener('click', (e) => {
-  const dropdown = document.getElementById('autocompleteDropdown');
-  const searchInput = document.getElementById('searchInput');
-  if (dropdown && searchInput && !dropdown.contains(e.target) && !searchInput.contains(e.target)) {
-    dropdown.style.display = 'none';
-  }
-});
-
-// ==========================================================================
-// SHOP OWNER STOCK MANAGER ADMIN MODAL
-// ==========================================================================
-function openAdminModal() {
-  const modal = document.getElementById('adminModal');
-  if (modal) {
-    renderAdminProducts('');
-    modal.classList.add('active');
-  }
-}
-
-function closeAdminModal() {
-  const modal = document.getElementById('adminModal');
-  if (modal) modal.classList.remove('active');
-}
-
-function renderAdminProducts(filterQuery) {
-  const container = document.getElementById('adminProductList');
-  if (!container) return;
-
-  const query = filterQuery.toLowerCase();
-  const items = productsDatabase.filter(p => p.name.toLowerCase().includes(query) || p.id.toLowerCase().includes(query));
-
-  container.innerHTML = items.map(p => {
-    const isOut = outOfStockItems.includes(p.id);
-    return `
-      <div class="admin-item-row">
-        <div style="display:flex;align-items:center;gap:10px">
-          ${p.image ? `<img src="${p.image}" style="width:32px;height:32px;object-fit:contain" />` : `<span>${p.emoji}</span>`}
-          <div>
-            <div style="font-size:0.85rem;font-weight:600">${p.name}</div>
-            <div style="font-size:0.72rem;color:#64748b">${p.unit} • ₹${p.price}</div>
-          </div>
-        </div>
-        <button class="admin-stock-toggle ${isOut ? 'out-stock' : 'in-stock'}" onclick="toggleStockStatus('${p.id}')">
-          ${isOut ? 'Out of Stock' : 'In Stock'}
-        </button>
-      </div>
-    `;
-  }).join('');
-}
-
-function toggleStockStatus(pid) {
-  if (outOfStockItems.includes(pid)) {
-    outOfStockItems = outOfStockItems.filter(id => id !== pid);
-  } else {
-    outOfStockItems.push(pid);
-  }
-  localStorage.setItem('orderkaaro_outofstock', JSON.stringify(outOfStockItems));
-  renderAdminProducts(document.getElementById('adminSearchInput')?.value || '');
-  renderBrandSections();
-}
-
-function saveAdminSettings() {
-  closeAdminModal();
-}
-
-// Share Cart via WhatsApp
-function shareCartWhatsApp() {
-  const cartItemIds = Object.keys(cart).filter(id => cart[id] > 0);
-  if (cartItemIds.length === 0) return alert('Your cart is empty');
-
-  let listText = "🛒 Order Kaaro Shopping List:\n";
-  let total = 0;
-  cartItemIds.forEach(id => {
-    const p = productsDatabase.find(item => item.id === id);
-    if (p) {
-      const q = cart[id];
-      listText += `• ${p.name} (${p.unit}) x${q} = ₹${p.price * q}\n`;
-      total += p.price * q;
-    }
-  });
-  listText += `\nTotal: ₹${total}`;
-
-  window.open(`https://wa.me/?text=${encodeURIComponent(listText)}`, '_blank');
-}
