@@ -480,12 +480,13 @@ function productCardHTML(p) {
   const isOutOfStock = outOfStockItems.includes(p.id);
   const mrp = p.mrp || Math.round(p.price * 1.15);
   const savings = mrp - p.price;
+  const discountPct = savings > 0 ? Math.round((savings / mrp) * 100) : 0;
   const isBundle = p.isBundle || (p.includes && p.includes.length > 0);
 
   return `
     <div class="product-card ${isOutOfStock ? 'out-of-stock' : ''} ${isBundle ? 'bundle-card' : ''}" id="card_${p.id}">
       ${isOutOfStock ? `<div class="out-of-stock-overlay">Out of Stock</div>` : ''}
-      <span class="product-badge-id">${p.id}</span>
+      ${discountPct > 0 ? `<span class="discount-ribbon">${discountPct}% OFF</span>` : ''}
       <button class="product-wishlist-btn ${isWishlisted ? 'active' : ''}" id="wl_btn_${p.id}" onclick="toggleWishlist('${p.id}', event)" title="Add to Wishlist">
         ${isWishlisted ? '❤️' : '🤍'}
       </button>
@@ -645,10 +646,16 @@ function renderCart() {
   const cartItemIds = Object.keys(cart);
   if (cartItemIds.length === 0) {
     cartList.innerHTML = `
-      <div class="empty-cart-wrap">
-        <div style="font-size:4rem;margin-bottom:12px">🛒</div>
-        <h3 style="font-size:1.1rem;color:var(--text-main);margin-bottom:6px">Your Cart is Empty</h3>
-        <p style="font-size:0.85rem">Explore our catalogue and add items to your cart</p>
+      <div class="empty-cart-wrap" style="text-align:center;padding:32px 16px">
+        <div style="font-size:3.5rem;margin-bottom:12px">🛒</div>
+        <h3 style="font-size:1.15rem;font-weight:700;color:var(--text-main);margin-bottom:6px">${currentLang === 'hi' ? 'आपकी कार्ट खाली है' : 'Your Cart is Empty'}</h3>
+        <p style="font-size:0.85rem;color:#64748b;margin-bottom:16px">${currentLang === 'hi' ? '30 मिनट में डिलीवरी के लिए सामान चुनें' : 'Add items to unlock 30-min doorstep delivery!'}</p>
+        
+        <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px">
+          <button onclick="closeCart(); document.getElementById('searchInput').value='Atta'; doSearch('Atta');" style="background:#f1f5f9;border:1px solid #cbd5e1;padding:8px 14px;border-radius:999px;font-size:0.78rem;font-weight:600;cursor:pointer">🌾 Atta & Flour</button>
+          <button onclick="closeCart(); document.getElementById('searchInput').value='Oil'; doSearch('Oil');" style="background:#f1f5f9;border:1px solid #cbd5e1;padding:8px 14px;border-radius:999px;font-size:0.78rem;font-weight:600;cursor:pointer">🛢️ Oils & Ghee</button>
+          <button onclick="closeCart(); document.getElementById('searchInput').value='Combo'; doSearch('Combo');" style="background:#f1f5f9;border:1px solid #cbd5e1;padding:8px 14px;border-radius:999px;font-size:0.78rem;font-weight:600;cursor:pointer">📦 Family Combos</button>
+        </div>
       </div>
     `;
     cartFooter.innerHTML = '';
@@ -684,26 +691,45 @@ function renderCart() {
   const delivery = getDeliveryCharge(subtotal);
   const convenienceFee = CONVENIENCE_FEE;
   const grandTotal = subtotal + delivery + convenienceFee;
+  const freeDeliveryProgress = Math.min(100, Math.round((subtotal / 499) * 100));
   
   let deliveryHintHtml = '';
   if (subtotal > 0 && subtotal < 149) {
     const diff = 149 - subtotal;
     deliveryHintHtml = `
-      <div style="font-size:0.78rem;background:#fef3c7;color:#92400e;padding:8px 12px;border-radius:8px;margin-bottom:12px;text-align:center;font-weight:500;border:1px solid #fde68a">
-        ${currentLang === 'hi' ? `💡 ₹${diff} का सामान और जोड़ें और ₹29 में डिलीवरी पाएं! (₹499+ पर मुफ्त)` : `💡 Add ₹${diff} more items to get ₹29 delivery! (FREE on ₹499+)`}
+      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:10px 12px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;font-size:0.78rem;font-weight:700;color:#92400e;margin-bottom:6px">
+          <span>${currentLang === 'hi' ? `💡 ₹${diff} का सामान और जोड़ें और ₹29 में डिलीवरी पाएं!` : `💡 Add ₹${diff} more items for ₹29 delivery!`}</span>
+          <span>${freeDeliveryProgress}%</span>
+        </div>
+        <div style="height:7px;background:#fef3c7;border-radius:999px;overflow:hidden">
+          <div style="height:100%;width:${freeDeliveryProgress}%;background:linear-gradient(90deg, #f59e0b, #d97706);border-radius:999px;transition:width 0.4s ease"></div>
+        </div>
       </div>
     `;
   } else if (subtotal >= 149 && subtotal < 499) {
     const diff = 499 - subtotal;
     deliveryHintHtml = `
-      <div style="font-size:0.78rem;background:#dbeafe;color:#1e40af;padding:8px 12px;border-radius:8px;margin-bottom:12px;text-align:center;font-weight:500;border:1px solid #bfdbfe">
-        ${currentLang === 'hi' ? `🎉 ₹${diff} का सामान और जोड़ें और पाएं <strong>मुफ्त डिलीवरी!</strong>` : `🎉 Add ₹${diff} more items for <strong>FREE Delivery!</strong>`}
+      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:10px 12px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;font-size:0.78rem;font-weight:700;color:#1e40af;margin-bottom:6px">
+          <span>${currentLang === 'hi' ? `🎉 ₹${diff} का सामान और जोड़ें और पाएं मुफ्त डिलीवरी!` : `🎉 Add ₹${diff} more items for FREE Delivery!`}</span>
+          <span>${freeDeliveryProgress}%</span>
+        </div>
+        <div style="height:7px;background:#dbeafe;border-radius:999px;overflow:hidden">
+          <div style="height:100%;width:${freeDeliveryProgress}%;background:linear-gradient(90deg, #3b82f6, #2563eb);border-radius:999px;transition:width 0.4s ease"></div>
+        </div>
       </div>
     `;
   } else if (subtotal >= 499) {
     deliveryHintHtml = `
-      <div style="font-size:0.78rem;background:#dcfce7;color:#166534;padding:8px 12px;border-radius:8px;margin-bottom:12px;text-align:center;font-weight:500;border:1px solid #bbf7d0">
-        ${currentLang === 'hi' ? `🥳 आपको मिली <strong>मुफ्त डिलीवरी!</strong>` : `🥳 You unlocked <strong>FREE Delivery!</strong>`}
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:10px 12px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;font-size:0.78rem;font-weight:700;color:#166534;margin-bottom:6px">
+          <span>${currentLang === 'hi' ? `🥳 आपको मिली मुफ्त डिलीवरी!` : `🥳 You unlocked FREE Delivery!`}</span>
+          <span>100%</span>
+        </div>
+        <div style="height:7px;background:#dcfce7;border-radius:999px;overflow:hidden">
+          <div style="height:100%;width:100%;background:linear-gradient(90deg, #22c55e, #16a34a);border-radius:999px"></div>
+        </div>
       </div>
     `;
   }

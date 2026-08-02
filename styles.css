@@ -1690,6 +1690,30 @@ button, .cat-pill, .product-card, .floating-bar-inner, .nav-links a {
   background: white;
 }
 
+/* Discount % Savings Badge Ribbon */
+.discount-ribbon {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #ffffff;
+  font-size: 0.64rem;
+  font-weight: 800;
+  padding: 3px 7px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);
+  z-index: 6;
+  letter-spacing: 0.02em;
+}
+
+.product-img-wrap img {
+  transition: transform 0.35s ease;
+}
+
+.product-card:hover .product-img-wrap img {
+  transform: scale(1.08);
+}
+
 /* Mobile Bottom 5-Tab Navigation Bar */
 .mobile-bottom-nav {
   display: flex;
