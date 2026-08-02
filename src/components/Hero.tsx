@@ -3,15 +3,15 @@ import { ShoppingBag, Truck, Clock, Shield, ChevronRight } from 'lucide-react';
 const CATALOGUE_URL = '/catalogue';
 
 const stats = [
-  { value: '45', suffix: 'min', label: 'Delivery Time' },
-  { value: '500+', suffix: '', label: 'Products' },
-  { value: '100+', suffix: '', label: 'Happy Families' },
+  { value: '30', suffix: 'min', label: 'Express Delivery' },
+  { value: '160+', suffix: '', label: 'Fresh Products' },
+  { value: '₹0', suffix: '', label: 'Delivery on ₹499+' },
 ];
 
 const features = [
-  { icon: Truck, text: 'Free Delivery' },
-  { icon: Shield, text: 'Quality Assured' },
-  { icon: Clock, text: 'Super Fast' },
+  { icon: Clock, text: '30-Min Guarantee' },
+  { icon: Shield, text: '100% Genuine Quality' },
+  { icon: Truck, text: 'Cash on Delivery' },
 ];
 
 const Hero = () => {

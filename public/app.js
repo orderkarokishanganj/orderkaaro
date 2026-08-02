@@ -1,6 +1,5 @@
-  const catHiMap = {
+const catHiMap = {
   "All": "सभी श्रेणी",
-  "Monthly & Festive Combos": "मंथली व फेस्टिवल कॉम्बो",
   "Atta, Rice & Grains": "आटा, चावल व अनाज",
   "Pulses & Dal": "दाल व चना",
   "Cooking Oils & Ghee": "तेल व घी",
@@ -43,51 +42,22 @@ const translations = {
     reorderBtn: "🔁 दोबारा ऑर्डर करें"
   }
 };
-
 /* ==========================================================================
    Order Kaaro – Kishanganj Grocery Delivery Application Core JavaScript
    ========================================================================== */
 
 const WA_NUMBER = "919942089120";
 const CONVENIENCE_FEE = 20;
-
-function calculateDeliveryFee(subtotal) {
-  if (subtotal === 0) return 0;
-  if (subtotal < 149) return 49;
-  if (subtotal < 499) return 29;
-  return 0; // FREE for ₹499 and above
-}
-
-function calculateConvenienceFee(subtotal) {
-  return subtotal > 0 ? CONVENIENCE_FEE : 0;
+function getDeliveryCharge(subtotal) {
+  if (subtotal >= 499) return 0;
+  if (subtotal >= 149) return 29;
+  return 49;
 }
 
 // ==========================================================================
 // COMPLETE 164-ITEM PRODUCT DATABASE
 // ==========================================================================
 const productsDatabase = [
-  // --- SPECIAL SAVINGS BUNDLES & COMBOS ---
-<<<<<<< Updated upstream
-  { id: "B001", nameHi: "मंथली फैमिली राशन पैकेज (10 सामान)", name: "Monthly Family Rashan Package", unit: "Combo Pack (10 Items)", price: 1450, mrp: 1650, category: "Atta, Rice & Grains", image: "/Catalog/grains/aashirvaad-shud-chakki-atta.png", emoji: "📦", isBundle: true },
-  { id: "B002", nameHi: "त्योहार व पूजा स्पेशल कॉम्बो (6 सामान)", name: "Festive & Puja Special Combo", unit: "Combo Pack (6 Items)", price: 420, mrp: 490, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🪔", isBundle: true },
-  { id: "B003", nameHi: "चाय व स्नैक्स सुपर सेवर कॉम्बो (5 सामान)", name: "Family Tea & Snacks Super Saver", unit: "Combo Pack (5 Items)", price: 280, mrp: 330, category: "Biscuits & Bakery", image: "/Catalog/tea/masala-tea.png", emoji: "☕", isBundle: true },
-
-  // --- ATTA, RICE & GRAINS ---
-  { id: "P001", nameHi: "आशीर्वाद शुद्ध चक्की आटा", name: "Aashirvaad Shud Chakki Aata", unit: "5 kg", price: 240, mrp: 276, category: "Atta, Rice & Grains", image: "/Catalog/Grains/aashirvaad-aata.png", emoji: "🌾" },
-  { id: "P002", nameHi: "अमृत भोग आटा", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, mrp: 252, category: "Atta, Rice & Grains", image: "/Catalog/Grains/amirt-bhog-atta.jpg", emoji: "🌾" },
-  { id: "P009", nameHi: "बेसन", name: "Besan", unit: "1 kg", price: 115, mrp: 132, category: "Atta, Rice & Grains", image: "/Catalog/Grains/besan.png", emoji: "🟡" },
-  { id: "P055", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "500 g", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🍚" },
-  { id: "P056", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "1 kg", price: 90, mrp: 100, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🍚" },
-  { id: "P071", nameHi: "सत्तू", name: "Sattu", unit: "200 g", price: 31, mrp: 41, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sattu.png", emoji: "💪" },
-  { id: "P072", nameHi: "सत्तू", name: "Sattu", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sattu.png", emoji: "💪" },
-  { id: "P075", nameHi: "अमृत भोग सूजी", name: "Amrit Bhog Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sooji.png", emoji: "🌾" },
-  { id: "P077", nameHi: "चीनी / शक्कर", name: "Sugar", unit: "1 kg", price: 55, mrp: 65, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sugar.png", emoji: "🍬" },
-  { id: "P083", nameHi: "चावल", name: "Chawal", unit: "1 kg", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/chawal.png", emoji: "🍚" },
-  { id: "P084", nameHi: "सूजी", name: "Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sooji.png", emoji: "🌾" },
-  { id: "P103", nameHi: "पॉपकॉर्न मक्की", name: "Popcorn Makki Loose", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/Grains/popcorn-makki-loose.jpg", emoji: "🌽" },
-  { id: "P115", nameHi: "सेवई (वर्मिसेली)", name: "Vermicelli", unit: "1 kg", price: 120, mrp: 138, category: "Atta, Rice & Grains", image: "/Catalog/noodles/vermicelli.png", emoji: "🍜" },
-  { id: "P119", nameHi: "मैदा", name: "Maida", unit: "1 kg", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/Grains/maida.png", emoji: "🌾" },
-=======
   {
     id: "B001",
     nameHi: "मंथली फैमिली राशन पैकेज (10 सामान)",
@@ -95,33 +65,21 @@ const productsDatabase = [
     unit: "Combo Pack (10 Items)",
     price: 1450,
     mrp: 1650,
-    category: "Monthly & Festive Combos",
-    image: "Catalog/Grains/aashirvaad-aata.png",
+    category: "Atta, Rice & Grains",
+    image: "/Catalog/grains/aashirvaad-shud-chakki-atta.png",
     emoji: "📦",
     isBundle: true,
     includes: [
       "🌾 Aashirvaad Chakki Atta (5 kg)",
-      "🍚 Basmati Rice (5 kg)",
+      "🍚 Premium Basmati / Rice (5 kg)",
       "🫘 Arhar Dal (1 kg)",
-      "🫘 Chana Dal (1 kg)",
+      "🫘 Chana Dal / Masoor Dal (1 kg)",
       "🛢️ Fortune Mustard Oil (1 L)",
       "🧂 Tata Salt (1 kg)",
-      "☕ CTC Chai (250 g)",
-      "🧆 Besan (500 g)",
-      "🌾 Sooji (500 g)",
+      "☕ CTC Chai / Tea (250 g)",
+      "🧆 Pure Besan (500 g)",
+      "🌾 Fresh Sooji (500 g)",
       "🧼 Vim Dishwash Bar (1 pcs)"
-    ],
-    includesHi: [
-      "🌾 आशीर्वाद चक्की आटा (5 kg)",
-      "🍚 बासमती चावल (5 kg)",
-      "🫘 अरहर दाल (1 kg)",
-      "🫘 चना दाल (1 kg)",
-      "🛢️ फॉर्च्यून सरसों तेल (1 L)",
-      "🧂 टाटा नमक (1 kg)",
-      "☕ सीटीसी कड़क चाय (250 g)",
-      "🧆 बेसन (500 g)",
-      "🌾 सूजी (500 g)",
-      "🧼 विम डिशवाश बार (1 pcs)"
     ]
   },
   {
@@ -131,25 +89,17 @@ const productsDatabase = [
     unit: "Combo Pack (6 Items)",
     price: 420,
     mrp: 490,
-    category: "Monthly & Festive Combos",
-    image: "Catalog/Grains/katarni-chura.png",
+    category: "Atta, Rice & Grains",
+    image: "/Catalog/Grains/katarni-chura.png",
     emoji: "🪔",
     isBundle: true,
     includes: [
-      "🌾 Premium Katarni Chura (1 kg)",
-      "🫘 Kabuli Chana (1 kg)",
-      "🧈 Amul Pure Ghee (500 g)",
-      "🌰 Kaju / Cashews (250 g)",
-      "🍇 Kismis / Raisins (250 g)",
-      "🥥 Dry Coconut / Girigola (1 pcs)"
-    ],
-    includesHi: [
-      "🌾 प्रीमियम कतरनी चूड़ा (1 kg)",
-      "🫘 काबुली चना (1 kg)",
-      "🧈 अमूल शुद्ध घी (500 g)",
-      "🌰 काजू (250 g)",
-      "🍇 किसमिस (250 g)",
-      "🥥 सूखा नारियल / गरीगोला (1 pcs)"
+      "🍚 Katarni Chura (1 kg)",
+      "🌾 Fresh Sooji (500 g)",
+      "🌾 Fine Maida (500 g)",
+      "🛢️ Pure Ghee / Cooking Oil (500 ml)",
+      "🍬 Premium Sugar (1 kg)",
+      "🪔 Agarbatti & Puja Camphor Pack (1 set)"
     ]
   },
   {
@@ -159,77 +109,67 @@ const productsDatabase = [
     unit: "Combo Pack (5 Items)",
     price: 280,
     mrp: 330,
-    category: "Monthly & Festive Combos",
-    image: "Catalog/tea/masala-tea.png",
+    category: "Biscuits & Bakery",
+    image: "/Catalog/tea/masala-tea.png",
     emoji: "☕",
     isBundle: true,
     includes: [
-      "☕ Rajbari Kadek Tea (500 g)",
-      "🍪 Britannia GoodDay Cookies (2 pkts)",
-      "🍪 Bisk Farm Toast Rusk (1 pkt)",
-      "🍜 Maggi 2-Min Noodles (2 pkts)",
-      "🥨 Haldiram Punjabi Tadka (1 pkt)"
-    ],
-    includesHi: [
-      "☕ राजबाड़ी कड़क चाय (500 g)",
-      "🍪 ब्रिटानिया गुडडे कुकीज (2 pkts)",
-      "🍪 बिस्क फार्म टोस्ट रस्क (1 pkt)",
-      "🍪 बिस्क फार्म टोस्ट रस्क (1 pkt)",
-      "🍜 मैगी नूडल्स (2 pkts)",
-      "🥨 हल्दीराम पंजाबी तड़का (1 pkt)"
+      "☕ Premium CTC Masala Tea (250 g)",
+      "🍪 Britannia & Parle Biscuit Combo (2 packs)",
+      "🥨 Bhujia & Namkeen Pack (400 g)",
+      "🍬 Sugar (1 kg)",
+      "🥛 Milk Powder Pack (200 g)"
     ]
   },
 
   // --- ATTA, RICE & GRAINS ---
-  { id: "P001", nameHi: "आशीर्वाद शुद्ध चक्की आटा", name: "Aashirvaad Shud Chakki Aata", unit: "5 kg", price: 240, mrp: 276, category: "Atta, Rice & Grains", image: "Catalog/Grains/aashirvaad-aata.png", emoji: "🌾" },
-  { id: "P002", nameHi: "अमृत भोग आटा", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, mrp: 252, category: "Atta, Rice & Grains", image: "Catalog/Grains/amrit-bhog-atta.jpg", emoji: "🌾" },
-  { id: "P009", nameHi: "बेसन", name: "Besan", unit: "1 kg", price: 115, mrp: 132, category: "Atta, Rice & Grains", image: "Catalog/Grains/besan.png", emoji: "🟡" },
-  { id: "P055", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "500 g", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "Catalog/Grains/katarni-chura.png", emoji: "🍚" },
-  { id: "P056", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "1 kg", price: 90, mrp: 100, category: "Atta, Rice & Grains", image: "Catalog/Grains/katarni-chura.png", emoji: "🍚" },
-  { id: "P071", nameHi: "सत्तू", name: "Sattu", unit: "200 g", price: 31, mrp: 41, category: "Atta, Rice & Grains", image: "Catalog/Grains/sattu.png", emoji: "💪" },
-  { id: "P072", nameHi: "सत्तू", name: "Sattu", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "Catalog/Grains/sattu.png", emoji: "💪" },
-  { id: "P075", nameHi: "अमृत भोग सूजी", name: "Amrit Bhog Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "Catalog/Grains/sooji.png", emoji: "🌾" },
-  { id: "P077", nameHi: "चीनी / शक्कर", name: "Sugar", unit: "1 kg", price: 55, mrp: 65, category: "Atta, Rice & Grains", image: "Catalog/Grains/sugar.png", emoji: "🍬" },
-  { id: "P083", nameHi: "चावल", name: "Chawal", unit: "1 kg", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "Catalog/chawal.png", emoji: "🍚" },
-  { id: "P084", nameHi: "सूजी", name: "Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "Catalog/Grains/sooji.png", emoji: "🌾" },
-  { id: "P103", nameHi: "पॉपकॉर्न मक्की", name: "Popcorn Makki Loose", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "Catalog/Grains/popcorn-makki-loose.jpg", emoji: "🌽" },
-  { id: "P115", nameHi: "सेवई (वर्मिसेली)", name: "Vermicelli", unit: "1 kg", price: 120, mrp: 138, category: "Atta, Rice & Grains", image: "Catalog/noodles/vermicelli.png", emoji: "🍜" },
-  { id: "P119", nameHi: "मैदा", name: "Maida", unit: "1 kg", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "Catalog/Grains/maida.png", emoji: "🌾" },
->>>>>>> Stashed changes
+  { id: "P001", nameHi: "आशीर्वाद शुद्ध चक्की आटा", name: "Aashirvaad Shud Chakki Atta", unit: "5 kg", price: 240, mrp: 276, category: "Atta, Rice & Grains", image: "/Catalog/grains/aashirvaad-shud-chakki-atta.png", emoji: "🌾" },
+  { id: "P002", nameHi: "अमृत भोग आटा", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, mrp: 252, category: "Atta, Rice & Grains", image: "/Catalog/grains/amirt-bhog-atta.jpg", emoji: "🌾" },
+  { id: "P009", nameHi: "बेसन", name: "Besan", unit: "1 kg", price: 115, mrp: 132, category: "Atta, Rice & Grains", image: "/Catalog/grains/besan.png", emoji: "🟡" },
+  { id: "P055", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "500 g", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/grains/katarni-chura.png", emoji: "🍚" },
+  { id: "P056", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "1 kg", price: 90, mrp: 100, category: "Atta, Rice & Grains", image: "/Catalog/grains/katarni-chura.png", emoji: "🍚" },
+  { id: "P071", nameHi: "सत्तू", name: "Sattu", unit: "200 g", price: 31, mrp: 41, category: "Atta, Rice & Grains", image: "/Catalog/grains/sattu.png", emoji: "💪" },
+  { id: "P072", nameHi: "सत्तू", name: "Sattu", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/grains/sattu.png", emoji: "💪" },
+  { id: "P075", nameHi: "अमृत भोग सूजी", name: "Amrit Bhog Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/grains/sooji.png", emoji: "🌾" },
+  { id: "P077", nameHi: "चीनी / शक्कर", name: "Sugar", unit: "1 kg", price: 55, mrp: 65, category: "Atta, Rice & Grains", image: "/Catalog/grains/sugar.png", emoji: "🍬" },
+  { id: "P083", nameHi: "चावल", name: "Chawal", unit: "1 kg", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/chawal.png", emoji: "🍚" },
+  { id: "P084", nameHi: "सूजी", name: "Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/grains/sooji.png", emoji: "🌾" },
+  { id: "P103", nameHi: "पॉपकॉर्न मक्की", name: "Popcorn Makki Loose", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/grains/popcorn-makki-loose.jpg", emoji: "🌽" },
+  { id: "P115", nameHi: "सेवई (वर्मिसेली)", name: "Vermicelli", unit: "1 kg", price: 120, mrp: 138, category: "Atta, Rice & Grains", image: "/Catalog/noodles/vermicelli.png", emoji: "🍜" },
+  { id: "P119", nameHi: "मैदा", name: "Maida", unit: "1 kg", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/grains/maida.png", emoji: "🌾" },
 
   // --- PULSES, DAL & CHANA ---
-  { id: "P006", nameHi: "अरहर दाल", name: "Arahar Dal", unit: "1 kg", price: 130, mrp: 149, category: "Pulses & Dal", image: "Catalog/pulses-chana/arhar-dal.png", emoji: "🫘" },
-  { id: "P007", nameHi: "अरहर दाल", name: "Arahar Dal", unit: "500 g", price: 65, mrp: 75, category: "Pulses & Dal", image: "Catalog/pulses-chana/arhar-dal.png", emoji: "🫘" },
-  { id: "P027", nameHi: "दाल मखनी स्पेशल दाल", name: "Dal Makhani Special Dal", unit: "400 g", price: 70, mrp: 80, category: "Pulses & Dal", image: "Catalog/pulses-chana/mix-dal-dalmakhani-special.png", emoji: "🍛" },
-  { id: "P028", nameHi: "दाल मखनी स्पेशल दाल", name: "Dal Makhani Special Dal", unit: "800 g", price: 140, mrp: 161, category: "Pulses & Dal", image: "Catalog/pulses-chana/mix-dal-dalmakhani-special.png", emoji: "🍛" },
-  { id: "P036", nameHi: "गोटा कलाई दाल", name: "Gota Kalai Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
-  { id: "P037", nameHi: "गोटा कलाई दाल", name: "Gota Kalai Dal", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
-  { id: "P038", nameHi: "छिलका वाली मसूर दाल", name: "Chilka Wali Masoor Dal", unit: "1 kg", price: 140, mrp: 161, category: "Pulses & Dal", image: "Catalog/pulses-chana/masoor-dal.png", emoji: "🫘" },
-  { id: "P039", nameHi: "गोटा मसूर दाल", name: "Gota Massor Dal", unit: "1 kg", price: 140, mrp: 161, category: "Pulses & Dal", image: "Catalog/pulses-chana/gota-masoor-dal.png", emoji: "🟠" },
-  { id: "P040", nameHi: "गोटा मसूर दाल", name: "Gota Massor Dal", unit: "500 g", price: 70, mrp: 80, category: "Pulses & Dal", image: "Catalog/pulses-chana/gota-masoor-dal.png", emoji: "🟠" },
-  { id: "P041", nameHi: "गोटा मूंग दाल", name: "Gota Moong Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "Catalog/pulses-chana/moong-dal.png", emoji: "💛" },
-  { id: "P042", nameHi: "गोटा मूंग दाल", name: "Gota Moong Dal", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "Catalog/pulses-chana/moong-dal.png", emoji: "💛" },
-  { id: "P047", nameHi: "गोटा काला चना", name: "Gota Kala Channa", unit: "500 g", price: 45, mrp: 55, category: "Pulses & Dal", image: "Catalog/pulses-chana/gota-kala-chana.png", emoji: "🟤" },
-  { id: "P048", nameHi: "गोटा काला चना", name: "Gota Kala Channa", unit: "1 kg", price: 90, mrp: 100, category: "Pulses & Dal", image: "Catalog/pulses-chana/gota-kala-chana.png", emoji: "🟤" },
-  { id: "P049", nameHi: "काबूली चना", name: "Kabuli Channa", unit: "1 kg", price: 95, mrp: 105, category: "Pulses & Dal", image: "Catalog/pulses-chana/kabuli-chana.png", emoji: "⚪" },
-  { id: "P050", nameHi: "काबूली चना", name: "Kabuli Channa", unit: "500 g", price: 50, mrp: 60, category: "Pulses & Dal", image: "Catalog/pulses-chana/kabuli-chana.png", emoji: "⚪" },
-  { id: "P051", nameHi: "काला चना", name: "Kala Chana", unit: "1 kg", price: 80, mrp: 90, category: "Pulses & Dal", image: "Catalog/pulses-chana/kala-chana.png", emoji: "🟤" },
-  { id: "P052", nameHi: "काला चना", name: "Kala Chana", unit: "500 g", price: 40, mrp: 50, category: "Pulses & Dal", image: "Catalog/pulses-chana/kala-chana.png", emoji: "🟤" },
-  { id: "P053", nameHi: "कलाई दाल", name: "Kalai Dal", unit: "500 g", price: 70, mrp: 80, category: "Pulses & Dal", image: "Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
-  { id: "P054", nameHi: "कलाई दाल", name: "Kalai Dal", unit: "1 kg", price: 140, mrp: 161, category: "Pulses & Dal", image: "Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
-  { id: "P061", nameHi: "मसूर दाल", name: "Massor Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "Catalog/pulses-chana/masoor-dal.png", emoji: "🟠" },
-  { id: "P062", nameHi: "मसूर दाल", name: "Massor Dal", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "Catalog/pulses-chana/masoor-dal.png", emoji: "🟠" },
-  { id: "P063", nameHi: "मूंग दाल", name: "Moong Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "Catalog/pulses-chana/moong-dal.png", emoji: "💛" },
-  { id: "P064", nameHi: "मोठ", name: "Moth", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "Catalog/Grains/moth.png", emoji: "🌾" },
-  { id: "P086", nameHi: "Mouth", name: "Mouth", unit: "500 g", price: 45, mrp: 55, category: "Pulses & Dal", image: "Catalog/Grains/moth.png", emoji: "🌾" },
-  { id: "P097", nameHi: "चना दाल", name: "Chana Dal", unit: "1 kg", price: 96, mrp: 106, category: "Pulses & Dal", image: "Catalog/pulses-chana/chana-dal.png", emoji: "🫘" },
-  { id: "P108", nameHi: "चना दाल", name: "Chana Dal", unit: "500 g", price: 40, mrp: 50, category: "Pulses & Dal", image: "Catalog/pulses-chana/chana-dal.png", emoji: "🫘" },
-  { id: "P109", nameHi: "छोले चना", name: "Chole Chana", unit: "500 g", price: 48, mrp: 58, category: "Pulses & Dal", image: "Catalog/pulses-chana/chole-chana.png", emoji: "🫘" },
-  { id: "P123", nameHi: "गोटा कलाई दाल", name: "Gota Kalai Dal", unit: "250 g", price: 30, mrp: 40, category: "Pulses & Dal", image: "Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
-  { id: "P124", nameHi: "कलाई दाल", name: "Kalai Dal", unit: "250 g", price: 35, mrp: 45, category: "Pulses & Dal", image: "Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
+  { id: "P006", nameHi: "अरहर दाल", name: "Arahar Dal", unit: "1 kg", price: 130, mrp: 149, category: "Pulses & Dal", image: "/Catalog/pulses-chana/arhar-dal.png", emoji: "🫘" },
+  { id: "P007", nameHi: "अरहर दाल", name: "Arahar Dal", unit: "500 g", price: 65, mrp: 75, category: "Pulses & Dal", image: "/Catalog/pulses-chana/arhar-dal.png", emoji: "🫘" },
+  { id: "P027", nameHi: "दाल मखनी स्पेशल दाल", name: "Dal Makhani Special Dal", unit: "400 g", price: 70, mrp: 80, category: "Pulses & Dal", image: "/Catalog/pulses-chana/mix-dal-dalmakhani-special.png", emoji: "🍛" },
+  { id: "P028", nameHi: "दाल मखनी स्पेशल दाल", name: "Dal Makhani Special Dal", unit: "800 g", price: 140, mrp: 161, category: "Pulses & Dal", image: "/Catalog/pulses-chana/mix-dal-dalmakhani-special.png", emoji: "🍛" },
+  { id: "P036", nameHi: "गोटा कलाई दाल", name: "Gota Kalai Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
+  { id: "P037", nameHi: "गोटा कलाई दाल", name: "Gota Kalai Dal", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
+  { id: "P038", nameHi: "छिलका वाली मसूर दाल", name: "Chilka Wali Masoor Dal", unit: "1 kg", price: 140, mrp: 161, category: "Pulses & Dal", image: "/Catalog/pulses-chana/masoor-dal.png", emoji: "🫘" },
+  { id: "P039", nameHi: "गोटा मसूर दाल", name: "Gota Massor Dal", unit: "1 kg", price: 140, mrp: 161, category: "Pulses & Dal", image: "/Catalog/pulses-chana/gota-masoor-dal.png", emoji: "🟠" },
+  { id: "P040", nameHi: "गोटा मसूर दाल", name: "Gota Massor Dal", unit: "500 g", price: 70, mrp: 80, category: "Pulses & Dal", image: "/Catalog/pulses-chana/gota-masoor-dal.png", emoji: "🟠" },
+  { id: "P041", nameHi: "गोटा मूंग दाल", name: "Gota Moong Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/moong-dal.png", emoji: "💛" },
+  { id: "P042", nameHi: "गोटा मूंग दाल", name: "Gota Moong Dal", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "/Catalog/pulses-chana/moong-dal.png", emoji: "💛" },
+  { id: "P047", nameHi: "गोटा काला चना", name: "Gota Kala Channa", unit: "500 g", price: 45, mrp: 55, category: "Pulses & Dal", image: "/Catalog/pulses-chana/gota-kala-chana.png", emoji: "🟤" },
+  { id: "P048", nameHi: "गोटा काला चना", name: "Gota Kala Channa", unit: "1 kg", price: 90, mrp: 100, category: "Pulses & Dal", image: "/Catalog/pulses-chana/gota-kala-chana.png", emoji: "🟤" },
+  { id: "P049", nameHi: "काबूली चना", name: "Kabuli Channa", unit: "1 kg", price: 95, mrp: 105, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kabuli-chana.png", emoji: "⚪" },
+  { id: "P050", nameHi: "काबूली चना", name: "Kabuli Channa", unit: "500 g", price: 50, mrp: 60, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kabuli-chana.png", emoji: "⚪" },
+  { id: "P051", nameHi: "काला चना", name: "Kala Chana", unit: "1 kg", price: 80, mrp: 90, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kala-chana.png", emoji: "🟤" },
+  { id: "P052", nameHi: "काला चना", name: "Kala Chana", unit: "500 g", price: 40, mrp: 50, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kala-chana.png", emoji: "🟤" },
+  { id: "P053", nameHi: "कलाई दाल", name: "Kalai Dal", unit: "500 g", price: 70, mrp: 80, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
+  { id: "P054", nameHi: "कलाई दाल", name: "Kalai Dal", unit: "1 kg", price: 140, mrp: 161, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
+  { id: "P061", nameHi: "मसूर दाल", name: "Massor Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/masoor-dal.png", emoji: "🟠" },
+  { id: "P062", nameHi: "मसूर दाल", name: "Massor Dal", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "/Catalog/pulses-chana/masoor-dal.png", emoji: "🟠" },
+  { id: "P063", nameHi: "मूंग दाल", name: "Moong Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/moong-dal.png", emoji: "💛" },
+  { id: "P064", nameHi: "मोठ", name: "Moth", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "/Catalog/Grains/moth.png", emoji: "🌾" },
+  { id: "P086", nameHi: "Mouth", name: "Mouth", unit: "500 g", price: 45, mrp: 55, category: "Pulses & Dal", image: "/Catalog/Grains/moth.png", emoji: "🌾" },
+  { id: "P097", nameHi: "चना दाल", name: "Chana Dal", unit: "1 kg", price: 96, mrp: 106, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chana-dal.png", emoji: "🫘" },
+  { id: "P108", nameHi: "चना दाल", name: "Chana Dal", unit: "500 g", price: 40, mrp: 50, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chana-dal.png", emoji: "🫘" },
+  { id: "P109", nameHi: "छोले चना", name: "Chole Chana", unit: "500 g", price: 48, mrp: 58, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chole-chana.png", emoji: "🫘" },
+  { id: "P123", nameHi: "गोटा कलाई दाल", name: "Gota Kalai Dal", unit: "250 g", price: 30, mrp: 40, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
+  { id: "P124", nameHi: "कलाई दाल", name: "Kalai Dal", unit: "250 g", price: 35, mrp: 45, category: "Pulses & Dal", image: "/Catalog/pulses-chana/kalai-dal.png", emoji: "🫘" },
 
   // --- COOKING OILS & GHEE ---
-<<<<<<< Updated upstream
   { id: "P004", nameHi: "अमूल शुद्ध घी", name: "Amul Ghee", unit: "1 kg", price: 649, mrp: 746, category: "Cooking Oils & Ghee", image: "/Catalog/dairy/amul-pure-ghee-1kg.png", emoji: "🧈" },
   { id: "P029", nameHi: "धारा कच्ची घानी सरसों तेल", name: "Dhara Kachi Gani", unit: "1 L", price: 185, mrp: 205, category: "Cooking Oils & Ghee", image: "/Catalog/oil/dhara-kacchi-ghani.png", emoji: "🛢️" },
   { id: "P030", nameHi: "फॉर्च्यून कच्ची घानी सरसों तेल", name: "Fortune Kachi Gani", unit: "1 L", price: 184, mrp: 204, category: "Cooking Oils & Ghee", image: "/Catalog/oil/fortune-kacchi-ghani.png", emoji: "🛢️" },
@@ -272,137 +212,93 @@ const productsDatabase = [
   { id: "P081", nameHi: "बिस्क फार्म मस्त जीरा", name: "Bisk Farm Mast Jeera", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-mast-jeera.png", emoji: "🌾" },
   { id: "P120", nameHi: "मिल्क बिकिस", name: "Milk Bikis", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/milk-bikis.webp", emoji: "🥛" },
   { id: "P121", nameHi: "टाइम पास 50-50", name: "Time Pass 50-50", unit: "1 pcs", price: 25, mrp: 35, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/time-pass-50-50.jpg", emoji: "🍪" },
-=======
-  { id: "P004", nameHi: "अमूल शुद्ध घी", name: "Amul Ghee", unit: "1 kg", price: 649, mrp: 746, category: "Cooking Oils & Ghee", image: "Catalog/dairy/amul-pure-ghee-1kg.png", emoji: "🧈" },
-  { id: "P029", nameHi: "धारा कच्ची घानी सरसों तेल", name: "Dhara Kachi Gani", unit: "1 L", price: 179, mrp: 205, category: "Cooking Oils & Ghee", image: "Catalog/oil/dhara-kacchi-ghani.png", emoji: "🛢️" },
-  { id: "P030", nameHi: "फॉर्च्यून कच्ची घानी सरसों तेल", name: "Fortune Kachi Gani", unit: "1 L", price: 178, mrp: 204, category: "Cooking Oils & Ghee", image: "Catalog/oil/fortune-kacchi-ghani.png", emoji: "🛢️" },
-  { id: "P031", nameHi: "फॉर्च्यून कच्ची घानी ज़ार 15kg", name: "Fortune Kachi Ghanni Jar 15kg", unit: "15 kg", price: 3000, mrp: 3449, category: "Cooking Oils & Ghee", image: "Catalog/oil/fortune-kacchi-ghani-15l.png", emoji: "🛢️" },
-  { id: "P032", nameHi: "फॉर्च्यून सोया रिफाइंड तेल", name: "Fortune Soya Refine", unit: "1 L", price: 145, mrp: 166, category: "Cooking Oils & Ghee", image: "Catalog/oil/fortune-soya-health.png", emoji: "🍳" },
-  { id: "P057", nameHi: "किंग कच्ची घानी तेल", name: "King Kachi Ghani", unit: "1 L", price: 175, mrp: 201, category: "Cooking Oils & Ghee", image: "Catalog/oil/kings-kacchi-ghani.png", emoji: "👑" },
-  { id: "P058", nameHi: "किंग सोया रिफाइंड तेल", name: "King Soya Refine", unit: "1 L", price: 130, mrp: 149, category: "Cooking Oils & Ghee", image: "Catalog/oil/kings-soyabean-oil.png", emoji: "👑" },
-  { id: "P085", nameHi: "राइस ब्रैन ऑयल", name: "Rice Bran Oil", unit: "1 L", price: 175, mrp: 201, category: "Cooking Oils & Ghee", image: "Catalog/oil/rice-bran-oil.png", emoji: "🌾" },
-  { id: "P122", nameHi: "इंजन कच्ची घानी सरसों तेल", name: "Engine Kacchi Ghani Oil", unit: "1 L", price: 215, mrp: 247, category: "Cooking Oils & Ghee", image: "Catalog/oil/engine-kacchi-ghani.jpg", emoji: "🛢️" },
-
-  // --- BISCUITS & COOKIES ---
-  { id: "P005", nameHi: "अनमोल ड्रीम लाइट बिस्कुट", name: "Anmol Dream Lite Salty Butterly Crunch", unit: "1 pcs", price: 5, mrp: 15, category: "Biscuits & Bakery", image: "Catalog/Biscuits/anmol-dreamlite-salty-butterfly-crunch.png", emoji: "🍪" },
-  { id: "P008", nameHi: "बाबा इलाइची टोस्ट / रस्क", name: "Baba Elaichi Toast", unit: "1 pcs", price: 60, mrp: 70, category: "Biscuits & Bakery", image: "Catalog/Biscuits/baba-elaichi-toast.png", emoji: "🍞" },
-  { id: "P010", nameHi: "बिस्क फार्म बटर बिस्कुट", name: "Bisk Farm Butter Biscotti", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "Catalog/Biscuits/bisk-farm-butter-biscotti.png", emoji: "🍪" },
-  { id: "P011", nameHi: "बिस्क फार्म मिल्क बिस्कुट", name: "Bisk Farm Champ Milkuit", unit: "1 pcs", price: 25, mrp: 35, category: "Biscuits & Bakery", image: "Catalog/Biscuits/biskfarm-champ-milkuit.png", emoji: "🥛" },
-  { id: "P012", nameHi: "बिस्क फार्म कोको वंडर", name: "Bisk Farm Coco Wonder", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "Catalog/Biscuits/biskfarm-coco-wonder.png", emoji: "🍫" },
-  { id: "P013", nameHi: "बिस्क फार्म जीरा वंडर", name: "Bisk Farm Jeera Wonder", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "Catalog/Biscuits/bisk-farm-jeera-wonder.png", emoji: "🌾" },
-  { id: "P014", nameHi: "बिस्क फार्म मस्त जीरा", name: "Bisk Farm Mast Jeera", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "Catalog/Biscuits/bisk-farm-mast-jeera.png", emoji: "🌾" },
-  { id: "P015", nameHi: "बिस्क फार्म रस्क", name: "Bisk Farm Ruskit", unit: "1 pcs", price: 35, mrp: 45, category: "Biscuits & Bakery", image: "Catalog/Biscuits/bisk-farm-ruskit.png", emoji: "🍞" },
-  { id: "P016", nameHi: "बिस्क फार्म टॉप गोल्ड", name: "Bisk Farm Top Gold", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "Catalog/Biscuits/bisk-farm-top-gold.png", emoji: "🥇" },
-  { id: "P017", nameHi: "बिस्क फार्म हर्ब्स", name: "Bisk Farm Top Herbs", unit: "1 pcs", price: 35, mrp: 45, category: "Biscuits & Bakery", image: "Catalog/Biscuits/bisk-farm-top-farm.png", emoji: "🌿" },
-  { id: "P018", nameHi: "ब्रिटानिया 50-50 गोलमाल काला जीरा", name: "Britannia 50-50 Golmaal Kala Jeera", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "Catalog/Biscuits/britannia-50-50-golmaal-kala-jeera.png", emoji: "🍪" },
-  { id: "P019", nameHi: "ब्रिटानिया 50-50 मारी गोल्ड", name: "Britannia 50-50 Marie Gold", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "Catalog/Biscuits/britannia-50-50-marie-gold.png", emoji: "🍪" },
-  { id: "P020", nameHi: "ब्रिटानिया 50-50 टॉप बटर", name: "Britannia 50-50 Top Butterly Bites", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "Catalog/Biscuits/britannia-50-50-top-butterfly-bites.png", emoji: "🧈" },
-  { id: "P021", nameHi: "ब्रिटानिया बार्बन चॉकलेट बिस्कुट", name: "Britannia Bourbon", unit: "1 pcs", price: 35, mrp: 45, category: "Biscuits & Bakery", image: "Catalog/Biscuits/britannia-bourbon.png", emoji: "🍫" },
-  { id: "P022", nameHi: "ब्रिटानिया गुडडे बटर कुकीज", name: "Britannia GoodDay Butter Cookies", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "Catalog/Biscuits/britannia-goodday-butter-cookies.png", emoji: "🧈" },
-  { id: "P023", nameHi: "ब्रिटानिया गुडडे काजू बादाम", name: "Britannia GoodDay Cashew Almond", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "Catalog/Biscuits/britannia-gooday-cashew-almond.png", emoji: "🌰" },
-  { id: "P024", nameHi: "ब्रिटानिया मिल्क बिकिस", name: "Britannia Milk Bikis", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "Catalog/Biscuits/britannia-milk-bikis.png", emoji: "🥛" },
-  { id: "P025", nameHi: "ब्रिटानिया नूट्री च्वाइस", name: "Britannia Nutri Choice Digestive High Fibre", unit: "1 pcs", price: 55, mrp: 65, category: "Biscuits & Bakery", image: "Catalog/Biscuits/britannia-nutri-choice-digestive-high-fiber.png", emoji: "💚" },
-  { id: "P026", nameHi: "कोको वंडर बिस्कुट", name: "Coco Wonder", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "Catalog/Biscuits/biskfarm-coco-wonder.png", emoji: "🍫" },
-  { id: "P033", nameHi: "फ्रूट केक", name: "Fruit Cake", unit: "1 pcs", price: 80, mrp: 90, category: "Biscuits & Bakery", image: "Catalog/Biscuits/fruit-cake.png", emoji: "🍰" },
-  { id: "P043", nameHi: "होम बेक प्रीमियम कुकीज (ग्रीन)", name: "Home Bake Premium Cookies Mix Flavours Green", unit: "1 pcs", price: 55, mrp: 65, category: "Biscuits & Bakery", image: "Catalog/Biscuits/homebread-premium-cookies-mix-flavours-green.png", emoji: "🍪" },
-  { id: "P044", nameHi: "होम बेक प्रीमियम कुकीज (रेड)", name: "Home Bake Premium Cookies Mix Flavours Red", unit: "1 pcs", price: 55, mrp: 65, category: "Biscuits & Bakery", image: "Catalog/Biscuits/homebread-premium-cookies-mix-flavours-red.png", emoji: "🍪" },
-  { id: "P045", nameHi: "होमब्रेड कुकीज", name: "Homebread Cookies", unit: "1 pcs", price: 80, mrp: 90, category: "Biscuits & Bakery", image: "Catalog/Biscuits/homebread-cookies.png", emoji: "🍪" },
-  { id: "P060", nameHi: "मालकिस्ट चीज बिस्कुट", name: "Malkist Cheese Flavoured", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "Catalog/Biscuits/malkist-cheese-flavoured.png", emoji: "🧀" },
-  { id: "P068", nameHi: "ओरियो चॉकलेट बिस्कुट", name: "Oreo", unit: "1 pcs", price: 10, mrp: 20, category: "Biscuits & Bakery", image: "Catalog/Biscuits/oreo.png", emoji: "⚫" },
-  { id: "P069", nameHi: "पारले मोनाको क्लासिक", name: "Parle Monaco Classic", unit: "1 pcs", price: 70, mrp: 80, category: "Biscuits & Bakery", image: "Catalog/Biscuits/parle-monaco-classic.png", emoji: "🍪" },
-  { id: "P070", nameHi: "रस्क", name: "Ruskit", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "Catalog/Biscuits/bisk-farm-ruskit.png", emoji: "🍞" },
-  { id: "P074", nameHi: "सनफीस्ट मॉम्स मैजिक घी रोस्टेड", name: "Sunfeast Mom's Magic Ghee Roasted", unit: "1 pcs", price: 64, mrp: 74, category: "Biscuits & Bakery", image: "Catalog/Biscuits/sunfeast-moms-magic-ghee-rosted.png", emoji: "🍪" },
-  { id: "P081", nameHi: "बिस्क फार्म मस्त जीरा", name: "Bisk Farm Mast Jeera", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "Catalog/Biscuits/bisk-farm-mast-jeera.png", emoji: "🌾" },
-  { id: "P120", nameHi: "मिल्क बिकिस", name: "Milk Bikis", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "Catalog/Biscuits/milk-bikis.webp", emoji: "🥛" },
-  { id: "P121", nameHi: "टाइम पास 50-50", name: "Time Pass 50-50", unit: "1 pcs", price: 25, mrp: 35, category: "Biscuits & Bakery", image: "Catalog/Biscuits/time-pass-50-50.jpg", emoji: "🍪" },
->>>>>>> Stashed changes
 
   // --- TEA, COFFEE & BEVERAGES ---
-  { id: "P034", nameHi: "ग्लूकोज डी रेगुलर", name: "Glucon-D Regular", unit: "1 pcs", price: 39, mrp: 49, category: "Tea & Beverages", image: "Catalog/energy/gulcon-d.png", emoji: "⚡" },
-  { id: "P035", nameHi: "ग्लूकोज डी ऑरेंज", name: "Glucon-D Tangy Orange", unit: "1 pcs", price: 55, mrp: 65, category: "Tea & Beverages", image: "Catalog/energy/glucon-d-tangy-orange.png", emoji: "🍊" },
-  { id: "P046", nameHi: "हॉरलिक्स क्लासिक माल्ट", name: "Horlicks", unit: "1 kg", price: 264, mrp: 303, category: "Tea & Beverages", image: "Catalog/milk-powder/horlicks-classic-malt.png", emoji: "🥛" },
-  { id: "P087", nameHi: "इंडिपेंडेंस मिनरल वाटर", name: "Independence Mineral Water", unit: "1.5 L", price: 20, mrp: 30, category: "Tea & Beverages", image: "Catalog/water/independence-mineral-water.png", emoji: "💧" },
-  { id: "P093", nameHi: "मोगू मोगू जूस", name: "Mogu Mogu", unit: "1 pcs", price: 70, mrp: 80, category: "Tea & Beverages", image: "Catalog/cold-drink/mogu-mogu.jpg", emoji: "🧃" },
-  { id: "P125", nameHi: "स्पेशल चायपत्ती", name: "Special Chaipatti", unit: "1 kg", price: 499, mrp: 573, category: "Tea & Beverages", image: "Catalog/tea/special-chaipatti.png", emoji: "☕" },
-  { id: "P128", nameHi: "सीटीसी कड़क चाय", name: "CTC Tea", unit: "1 kg", price: 300, mrp: 345, category: "Tea & Beverages", image: "Catalog/tea/ctc-tea.jpg", emoji: "☕" },
-  { id: "P129", nameHi: "सीटीसी कड़क चाय", name: "CTC Tea", unit: "500 g", price: 150, mrp: 172, category: "Tea & Beverages", image: "Catalog/tea/ctc-tea.jpg", emoji: "☕" },
-  { id: "P130", nameHi: "सीटीसी कड़क चाय", name: "CTC Tea", unit: "250 g", price: 75, mrp: 85, category: "Tea & Beverages", image: "Catalog/tea/ctc-tea.jpg", emoji: "☕" },
-  { id: "P131", nameHi: "दार्जिलिंग मिक्स चाय", name: "Darjeeling Mix Tea", unit: "250 g", price: 100, mrp: 110, category: "Tea & Beverages", image: "Catalog/tea/darjeeling-mix-tea.png", emoji: "🫖" },
-  { id: "P132", nameHi: "दार्जिलिंग मिक्स चाय", name: "Darjeeling Mix Tea", unit: "500 g", price: 200, mrp: 229, category: "Tea & Beverages", image: "Catalog/tea/darjeeling-mix-tea.png", emoji: "🫖" },
-  { id: "P133", nameHi: "दार्जिलिंग मिक्स चाय", name: "Darjeeling Mix Tea", unit: "1 kg", price: 400, mrp: 459, category: "Tea & Beverages", image: "Catalog/tea/darjeeling-mix-tea.png", emoji: "🫖" },
-  { id: "P134", nameHi: "दार्जिलिंग असम चाय", name: "Darjeeling Mix Tea (Assam)", unit: "250 g", price: 125, mrp: 143, category: "Tea & Beverages", image: "Catalog/tea/darjeeling-mix-tea-assam.png", emoji: "🫖" },
-  { id: "P135", nameHi: "दार्जिलिंग असम चाय", name: "Darjeeling Mix Tea (Assam)", unit: "500 g", price: 250, mrp: 287, category: "Tea & Beverages", image: "Catalog/tea/darjeeling-mix-tea-assam.png", emoji: "🫖" },
-  { id: "P136", nameHi: "दार्जिलिंग असम चाय", name: "Darjeeling Mix Tea (Assam)", unit: "1 kg", price: 500, mrp: 575, category: "Tea & Beverages", image: "Catalog/tea/darjeeling-mix-tea-assam.png", emoji: "🫖" },
-  { id: "P137", nameHi: "केसर चाय", name: "Kesar Tea", unit: "250 g", price: 175, mrp: 201, category: "Tea & Beverages", image: "Catalog/tea/kesar-tea.png", emoji: "🍵" },
-  { id: "P138", nameHi: "केसर चाय", name: "Kesar Tea", unit: "500 g", price: 350, mrp: 402, category: "Tea & Beverages", image: "Catalog/tea/kesar-tea.png", emoji: "🍵" },
-  { id: "P139", nameHi: "केसर चाय", name: "Kesar Tea", unit: "1 kg", price: 600, mrp: 690, category: "Tea & Beverages", image: "Catalog/tea/kesar-tea.png", emoji: "🍵" },
-  { id: "P140", nameHi: "मसाला चाय", name: "Masala Tea", unit: "250 g", price: 175, mrp: 201, category: "Tea & Beverages", image: "Catalog/tea/masala-tea.png", emoji: "☕" },
-  { id: "P141", nameHi: "मसाला चाय", name: "Masala Tea", unit: "500 g", price: 300, mrp: 345, category: "Tea & Beverages", image: "Catalog/tea/masala-tea.png", emoji: "☕" },
-  { id: "P142", nameHi: "मसाला चाय", name: "Masala Tea", unit: "1 kg", price: 600, mrp: 690, category: "Tea & Beverages", image: "Catalog/tea/masala-tea.png", emoji: "☕" },
-  { id: "P143", nameHi: "इलाइची चाय", name: "Elaichi Tea (Cardamom Chai)", unit: "250 g", price: 120, mrp: 138, category: "Tea & Beverages", image: "Catalog/tea/elaichi-tea-cardamom-chai.png", emoji: "☕" },
-  { id: "P144", nameHi: "इलाइची चाय", name: "Elaichi Tea (Cardamom Chai)", unit: "500 g", price: 220, mrp: 252, category: "Tea & Beverages", image: "Catalog/tea/elaichi-tea-cardamom-chai.png", emoji: "☕" },
-  { id: "P145", nameHi: "इलाइची चाय", name: "Elaichi Tea (Cardamom Chai)", unit: "1 kg", price: 440, mrp: 505, category: "Tea & Beverages", image: "Catalog/tea/elaichi-tea-cardamom-chai.png", emoji: "☕" },
-  { id: "P146", nameHi: "प्लेन चाय", name: "Plain Tea", unit: "250 g", price: 100, mrp: 110, category: "Tea & Beverages", image: "Catalog/tea/plain-tea.png", emoji: "☕" },
-  { id: "P147", nameHi: "प्लेन चाय", name: "Plain Tea", unit: "500 g", price: 200, mrp: 229, category: "Tea & Beverages", image: "Catalog/tea/plain-tea.png", emoji: "☕" },
-  { id: "P148", nameHi: "प्लेन चाय", name: "Plain Tea", unit: "1 kg", price: 400, mrp: 459, category: "Tea & Beverages", image: "Catalog/tea/plain-tea.png", emoji: "☕" },
-  { id: "P149", nameHi: "राजबाड़ी चाय पौच", name: "Rajbari Tea Pouch", unit: "250 g", price: 125, mrp: 143, category: "Tea & Beverages", image: "Catalog/tea/rajbari-tea-pouch.png", emoji: "🫖" },
-  { id: "P150", nameHi: "राजबाड़ी चाय पौच", name: "Rajbari Tea Pouch", unit: "500 g", price: 250, mrp: 287, category: "Tea & Beverages", image: "Catalog/tea/rajbari-tea-pouch.png", emoji: "🫖" },
-  { id: "P151", nameHi: "राजबाड़ी चाय पौच", name: "Rajbari Tea Pouch", unit: "1 kg", price: 500, mrp: 575, category: "Tea & Beverages", image: "Catalog/tea/rajbari-tea-pouch.png", emoji: "🫖" },
-  { id: "P152", nameHi: "राजबाड़ी चाय ज़ार", name: "Rajbari Tea Jar", unit: "250 g", price: 130, mrp: 149, category: "Tea & Beverages", image: "Catalog/tea/rajbari-tea-jar.png", emoji: "🫖" },
-  { id: "P153", nameHi: "राजबाड़ी चाय ज़ार", name: "Rajbari Tea Jar", unit: "500 g", price: 260, mrp: 299, category: "Tea & Beverages", image: "Catalog/tea/rajbari-tea-jar.png", emoji: "🫖" },
-  { id: "P154", nameHi: "राजबाड़ी चाय ज़ार", name: "Rajbari Tea Jar", unit: "1 kg", price: 520, mrp: 598, category: "Tea & Beverages", image: "Catalog/tea/rajbari-tea-jar.png", emoji: "🫖" },
-  { id: "P155", nameHi: "टी मैक्स दार्जिलिंग ग्रीन टी", name: "Tea Max Darjeeling Saffron Green Tea", unit: "100 g", price: 600, mrp: 690, category: "Tea & Beverages", image: "Catalog/tea/tea-max-darjeeling-saffron-tea-green-tea.png", emoji: "🍵" },
-  { id: "P156", nameHi: "टी मैक्स दार्जिलिंग ग्रीन टी ज़ार", name: "Tea Max Darjeeling Green Tea Jar", unit: "50 g", price: 300, mrp: 345, category: "Tea & Beverages", image: "Catalog/tea/tea-max-darjeeling-saffron-tea-green-tea.png", emoji: "🍵" },
-  { id: "P157", nameHi: "टी मैक्स दार्जिलिंग ग्रीन टी ज़ार", name: "Tea Max Darjeeling Green Tea Jar", unit: "100 g", price: 600, mrp: 690, category: "Tea & Beverages", image: "Catalog/tea/tea-max-darjeeling-saffron-tea-green-tea.png", emoji: "🍵" },
-  { id: "P158", nameHi: "लिप्टन ग्रीन टी 25 बैग्स", name: "Lipton Green Tea 25 Tea Bags", unit: "32.5 g", price: 200, mrp: 229, category: "Tea & Beverages", image: "Catalog/tea/lipton-green-tea-25-tea-bags.png", emoji: "🍵" },
-  { id: "P159", nameHi: "लिप्टन ग्रीन टी 100 बैग्स", name: "Lipton Green Tea 100 Tea Bags", unit: "130 g", price: 600, mrp: 690, category: "Tea & Beverages", image: "Catalog/tea/lipton-green-tea-100-tea-bags.png", emoji: "🍵" },
-  { id: "P160", nameHi: "व्हाइट टी सुपर", name: "White Tea Super", unit: "100 g", price: 1000, mrp: 1150, category: "Tea & Beverages", image: "Catalog/tea/white-tea-super.png", emoji: "🍵" },
-  { id: "P161", nameHi: "व्हाइट टी", name: "White Tea", unit: "100 g", price: 500, mrp: 575, category: "Tea & Beverages", image: "Catalog/tea/white-tea.png", emoji: "🍵" },
-  { id: "P162", nameHi: "नेस्केफे क्लासिक कॉफी पाउडर", name: "Nescafe Classic Instant Coffee Powder", unit: "25 g", price: 124, mrp: 142, category: "Tea & Beverages", image: "Catalog/tea/nescafe-classic-instant-coffee-powder.png", emoji: "☕" },
-  { id: "P163", nameHi: "नेस्ले क्लासिक कॉफी", name: "Nestle Classic Coffee Soluble Instant", unit: "50 g", price: 235, mrp: 270, category: "Tea & Beverages", image: "Catalog/tea/nestle-classic-coffee-soluble-instant-coffee.png", emoji: "☕" },
-  { id: "P164", nameHi: "रियल अनार फ्रूट जूस", name: "Real Fruit Juice Pomegranate Anar", unit: "1 L", price: 125, mrp: 143, category: "Tea & Beverages", image: "Catalog/energy/real-fruit-juice-pomegranate-anar.png", emoji: "🧃" },
+  { id: "P034", nameHi: "ग्लूकोज डी रेगुलर", name: "Glucon-D Regular", unit: "1 pcs", price: 39, mrp: 49, category: "Tea & Beverages", image: "/Catalog/energy/gulcon-d.png", emoji: "⚡" },
+  { id: "P035", nameHi: "ग्लूकोज डी ऑरेंज", name: "Glucon-D Tangy Orange", unit: "1 pcs", price: 55, mrp: 65, category: "Tea & Beverages", image: "/Catalog/energy/glucon-d-tangy-orange.png", emoji: "🍊" },
+  { id: "P046", nameHi: "हॉरलिक्स क्लासिक माल्ट", name: "Horlicks", unit: "1 kg", price: 264, mrp: 303, category: "Tea & Beverages", image: "/Catalog/milk-powder/horlicks-classic-malt.png", emoji: "🥛" },
+  { id: "P087", nameHi: "इंडिपेंडेंस मिनरल वाटर", name: "Independence Mineral Water", unit: "1.5 L", price: 20, mrp: 30, category: "Tea & Beverages", image: "/Catalog/water/independence-mineral-water.png", emoji: "💧" },
+  { id: "P093", nameHi: "मोगू मोगू जूस", name: "Mogu Mogu", unit: "1 pcs", price: 70, mrp: 80, category: "Tea & Beverages", image: "/Catalog/cold-drink/mogu-mogu.jpg", emoji: "🧃" },
+  { id: "P125", nameHi: "स्पेशल चायपत्ती", name: "Special Chaipatti", unit: "1 kg", price: 499, mrp: 573, category: "Tea & Beverages", image: "/Catalog/tea/special-chaipatti.png", emoji: "☕" },
+  { id: "P128", nameHi: "सीटीसी कड़क चाय", name: "CTC Tea", unit: "1 kg", price: 300, mrp: 345, category: "Tea & Beverages", image: "/Catalog/tea/ctc-tea.jpg", emoji: "☕" },
+  { id: "P129", nameHi: "सीटीसी कड़क चाय", name: "CTC Tea", unit: "500 g", price: 150, mrp: 172, category: "Tea & Beverages", image: "/Catalog/tea/ctc-tea.jpg", emoji: "☕" },
+  { id: "P130", nameHi: "सीटीसी कड़क चाय", name: "CTC Tea", unit: "250 g", price: 75, mrp: 85, category: "Tea & Beverages", image: "/Catalog/tea/ctc-tea.jpg", emoji: "☕" },
+  { id: "P131", nameHi: "दार्जिलिंग मिक्स चाय", name: "Darjeeling Mix Tea", unit: "250 g", price: 100, mrp: 110, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea.png", emoji: "🫖" },
+  { id: "P132", nameHi: "दार्जिलिंग मिक्स चाय", name: "Darjeeling Mix Tea", unit: "500 g", price: 200, mrp: 229, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea.png", emoji: "🫖" },
+  { id: "P133", nameHi: "दार्जिलिंग मिक्स चाय", name: "Darjeeling Mix Tea", unit: "1 kg", price: 400, mrp: 459, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea.png", emoji: "🫖" },
+  { id: "P134", nameHi: "दार्जिलिंग असम चाय", name: "Darjeeling Mix Tea (Assam)", unit: "250 g", price: 125, mrp: 143, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea-assam.png", emoji: "🫖" },
+  { id: "P135", nameHi: "दार्जिलिंग असम चाय", name: "Darjeeling Mix Tea (Assam)", unit: "500 g", price: 250, mrp: 287, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea-assam.png", emoji: "🫖" },
+  { id: "P136", nameHi: "दार्जिलिंग असम चाय", name: "Darjeeling Mix Tea (Assam)", unit: "1 kg", price: 500, mrp: 575, category: "Tea & Beverages", image: "/Catalog/tea/darjeeling-mix-tea-assam.png", emoji: "🫖" },
+  { id: "P137", nameHi: "केसर चाय", name: "Kesar Tea", unit: "250 g", price: 175, mrp: 201, category: "Tea & Beverages", image: "/Catalog/tea/kesar-tea.png", emoji: "🍵" },
+  { id: "P138", nameHi: "केसर चाय", name: "Kesar Tea", unit: "500 g", price: 350, mrp: 402, category: "Tea & Beverages", image: "/Catalog/tea/kesar-tea.png", emoji: "🍵" },
+  { id: "P139", nameHi: "केसर चाय", name: "Kesar Tea", unit: "1 kg", price: 600, mrp: 690, category: "Tea & Beverages", image: "/Catalog/tea/kesar-tea.png", emoji: "🍵" },
+  { id: "P140", nameHi: "मसाला चाय", name: "Masala Tea", unit: "250 g", price: 175, mrp: 201, category: "Tea & Beverages", image: "/Catalog/tea/masala-tea.png", emoji: "☕" },
+  { id: "P141", nameHi: "मसाला चाय", name: "Masala Tea", unit: "500 g", price: 300, mrp: 345, category: "Tea & Beverages", image: "/Catalog/tea/masala-tea.png", emoji: "☕" },
+  { id: "P142", nameHi: "मसाला चाय", name: "Masala Tea", unit: "1 kg", price: 600, mrp: 690, category: "Tea & Beverages", image: "/Catalog/tea/masala-tea.png", emoji: "☕" },
+  { id: "P143", nameHi: "इलाइची चाय", name: "Elaichi Tea (Cardamom Chai)", unit: "250 g", price: 120, mrp: 138, category: "Tea & Beverages", image: "/Catalog/tea/elaichi-tea-cardamom-chai.png", emoji: "☕" },
+  { id: "P144", nameHi: "इलाइची चाय", name: "Elaichi Tea (Cardamom Chai)", unit: "500 g", price: 220, mrp: 252, category: "Tea & Beverages", image: "/Catalog/tea/elaichi-tea-cardamom-chai.png", emoji: "☕" },
+  { id: "P145", nameHi: "इलाइची चाय", name: "Elaichi Tea (Cardamom Chai)", unit: "1 kg", price: 440, mrp: 505, category: "Tea & Beverages", image: "/Catalog/tea/elaichi-tea-cardamom-chai.png", emoji: "☕" },
+  { id: "P146", nameHi: "प्लेन चाय", name: "Plain Tea", unit: "250 g", price: 100, mrp: 110, category: "Tea & Beverages", image: "/Catalog/tea/plain-tea.png", emoji: "☕" },
+  { id: "P147", nameHi: "प्लेन चाय", name: "Plain Tea", unit: "500 g", price: 200, mrp: 229, category: "Tea & Beverages", image: "/Catalog/tea/plain-tea.png", emoji: "☕" },
+  { id: "P148", nameHi: "प्लेन चाय", name: "Plain Tea", unit: "1 kg", price: 400, mrp: 459, category: "Tea & Beverages", image: "/Catalog/tea/plain-tea.png", emoji: "☕" },
+  { id: "P149", nameHi: "राजबाड़ी चाय पौच", name: "Rajbari Tea Pouch", unit: "250 g", price: 125, mrp: 143, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-pouch.png", emoji: "🫖" },
+  { id: "P150", nameHi: "राजबाड़ी चाय पौच", name: "Rajbari Tea Pouch", unit: "500 g", price: 250, mrp: 287, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-pouch.png", emoji: "🫖" },
+  { id: "P151", nameHi: "राजबाड़ी चाय पौच", name: "Rajbari Tea Pouch", unit: "1 kg", price: 500, mrp: 575, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-pouch.png", emoji: "🫖" },
+  { id: "P152", nameHi: "राजबाड़ी चाय ज़ार", name: "Rajbari Tea Jar", unit: "250 g", price: 130, mrp: 149, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-jar.png", emoji: "🫖" },
+  { id: "P153", nameHi: "राजबाड़ी चाय ज़ार", name: "Rajbari Tea Jar", unit: "500 g", price: 260, mrp: 299, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-jar.png", emoji: "🫖" },
+  { id: "P154", nameHi: "राजबाड़ी चाय ज़ार", name: "Rajbari Tea Jar", unit: "1 kg", price: 520, mrp: 598, category: "Tea & Beverages", image: "/Catalog/tea/rajbari-tea-jar.png", emoji: "🫖" },
+  { id: "P155", nameHi: "टी मैक्स दार्जिलिंग ग्रीन टी", name: "Tea Max Darjeeling Saffron Green Tea", unit: "100 g", price: 600, mrp: 690, category: "Tea & Beverages", image: "/Catalog/tea/tea-max-darjeeling-saffron-tea-green-tea.png", emoji: "🍵" },
+  { id: "P156", nameHi: "टी मैक्स दार्जिलिंग ग्रीन टी ज़ार", name: "Tea Max Darjeeling Green Tea Jar", unit: "50 g", price: 300, mrp: 345, category: "Tea & Beverages", image: "/Catalog/tea/tea-max-darjeeling-saffron-tea-green-tea.png", emoji: "🍵" },
+  { id: "P157", nameHi: "टी मैक्स दार्जिलिंग ग्रीन टी ज़ार", name: "Tea Max Darjeeling Green Tea Jar", unit: "100 g", price: 600, mrp: 690, category: "Tea & Beverages", image: "/Catalog/tea/tea-max-darjeeling-saffron-tea-green-tea.png", emoji: "🍵" },
+  { id: "P158", nameHi: "लिप्टन ग्रीन टी 25 बैग्स", name: "Lipton Green Tea 25 Tea Bags", unit: "32.5 g", price: 200, mrp: 229, category: "Tea & Beverages", image: "/Catalog/tea/lipton-green-tea-25-tea-bags.png", emoji: "🍵" },
+  { id: "P159", nameHi: "लिप्टन ग्रीन टी 100 बैग्स", name: "Lipton Green Tea 100 Tea Bags", unit: "130 g", price: 600, mrp: 690, category: "Tea & Beverages", image: "/Catalog/tea/lipton-green-tea-100-tea-bags.png", emoji: "🍵" },
+  { id: "P160", nameHi: "व्हाइट टी सुपर", name: "White Tea Super", unit: "100 g", price: 1000, mrp: 1150, category: "Tea & Beverages", image: "/Catalog/tea/white-tea-super.png", emoji: "🍵" },
+  { id: "P161", nameHi: "व्हाइट टी", name: "White Tea", unit: "100 g", price: 500, mrp: 575, category: "Tea & Beverages", image: "/Catalog/tea/white-tea.png", emoji: "🍵" },
+  { id: "P162", nameHi: "नेस्केफे क्लासिक कॉफी पाउडर", name: "Nescafe Classic Instant Coffee Powder", unit: "25 g", price: 124, mrp: 142, category: "Tea & Beverages", image: "/Catalog/tea/nescafe-classic-instant-coffee-powder.png", emoji: "☕" },
+  { id: "P163", nameHi: "नेस्ले क्लासिक कॉफी", name: "Nestle Classic Coffee Soluble Instant", unit: "50 g", price: 235, mrp: 270, category: "Tea & Beverages", image: "/Catalog/tea/nestle-classic-coffee-soluble-instant-coffee.png", emoji: "☕" },
+  { id: "P164", nameHi: "रियल अनार फ्रूट जूस", name: "Real Fruit Juice Pomegranate Anar", unit: "1 L", price: 125, mrp: 143, category: "Tea & Beverages", image: "/Catalog/energy/real-fruit-juice-pomegranate-anar.png", emoji: "🧃" },
 
   // --- SNACKS & INSTANT FOOD ---
-  { id: "P059", nameHi: "कुरकुरे पफकॉर्न", name: "Kurkure Puffcorn", unit: "1 pcs", price: 10, mrp: 20, category: "Snacks & Instant", image: "Catalog/chips/puffcorn-yummy-cheese.png", emoji: "🍿" },
-  { id: "P065", nameHi: "नायलॉन ग्रीन चिली सॉस", name: "Nilon’s Green Chilly Sauce", unit: "90 g", price: 25, mrp: 35, category: "Snacks & Instant", image: "Catalog/sauce/nilons-green-chilly-sauce.png", emoji: "🌶️" },
-  { id: "P066", nameHi: "नायलॉन रेड चिली सॉस", name: "Nilon’s Red Chilly Sauce", unit: "80 g", price: 25, mrp: 35, category: "Snacks & Instant", image: "Catalog/sauce/nilons-red-chilly-sauce.png", emoji: "🌶️" },
-  { id: "P067", nameHi: "नायलॉन शेज़वान चटनी", name: "Nilon’s Schezwan Chutney", unit: "80 g", price: 35, mrp: 45, category: "Snacks & Instant", image: "Catalog/sauce/nilons-schezwan-chutney.png", emoji: "🌶️" },
-  { id: "P079", nameHi: "बिंगो टेढ़े मेढ़े", name: "Bingo Tedhe Medhe", unit: "1 pcs", price: 5, mrp: 15, category: "Snacks & Instant", image: "Catalog/chips/bingo-tedhe-medhe.png", emoji: "🍟" },
-  { id: "P080", nameHi: "लेज पोटैटो चिप्स साल्टेड", name: "Lay's Potato Chips - Simple Classic Salted", unit: "1 pcs", price: 20, mrp: 30, category: "Snacks & Instant", image: "Catalog/chips/lays-potato-chips-simple-classic-salted.png", emoji: "🥔" },
-  { id: "P082", nameHi: "हल्दीराम पंजाबी तड़का", name: "Punjabi Tadka", unit: "1 pcs", price: 10, mrp: 20, category: "Snacks & Instant", image: "Catalog/chips/haldirams-punjabi-tadka.png", emoji: "🥨" },
-  { id: "P094", nameHi: "मैगी नूडल्स", name: "Maggi", unit: "1 pcs", price: 15, mrp: 25, category: "Snacks & Instant", image: "Catalog/noodles/maggi.png", emoji: "🍜" },
-  { id: "P106", nameHi: "हल्दीराम दिल्ली भुजिया", name: "Haldirams Delhi Bhujiya", unit: "1 kg", price: 280, mrp: 322, category: "Snacks & Instant", image: "Catalog/chips/haldirams-delhi-bhujiya.png", emoji: "🥨" },
-  { id: "P113", nameHi: "माला चनाचूर", name: "Mala Chanachur", unit: "400 g", price: 100, mrp: 110, category: "Snacks & Instant", image: "Catalog/chips/mala-chanachur.png", emoji: "🥜" },
+  { id: "P059", nameHi: "कुरकुरे पफकॉर्न", name: "Kurkure Puffcorn", unit: "1 pcs", price: 10, mrp: 20, category: "Snacks & Instant", image: "/Catalog/chips/puffcorn-yummy-cheese.png", emoji: "🍿" },
+  { id: "P065", nameHi: "नायलॉन ग्रीन चिली सॉस", name: "Nilon’s Green Chilly Sauce", unit: "90 g", price: 25, mrp: 35, category: "Snacks & Instant", image: "/Catalog/sauce/nilons-green-chilly-sauce.png", emoji: "🌶️" },
+  { id: "P066", nameHi: "नायलॉन रेड चिली सॉस", name: "Nilon’s Red Chilly Sauce", unit: "80 g", price: 25, mrp: 35, category: "Snacks & Instant", image: "/Catalog/sauce/nilons-red-chilly-sauce.png", emoji: "🌶️" },
+  { id: "P067", nameHi: "नायलॉन शेज़वान चटनी", name: "Nilon’s Schezwan Chutney", unit: "80 g", price: 35, mrp: 45, category: "Snacks & Instant", image: "/Catalog/sauce/nilons-schezwan-chutney.png", emoji: "🌶️" },
+  { id: "P079", nameHi: "बिंगो टेढ़े मेढ़े", name: "Bingo Tedhe Medhe", unit: "1 pcs", price: 5, mrp: 15, category: "Snacks & Instant", image: "/Catalog/chips/bingo-tedhe-medhe.png", emoji: "🍟" },
+  { id: "P080", nameHi: "लेज पोटैटो चिप्स साल्टेड", name: "Lay's Potato Chips - Simple Classic Salted", unit: "1 pcs", price: 20, mrp: 30, category: "Snacks & Instant", image: "/Catalog/chips/lays-potato-chips-simple-classic-salted.png", emoji: "🥔" },
+  { id: "P082", nameHi: "हल्दीराम पंजाबी तड़का", name: "Punjabi Tadka", unit: "1 pcs", price: 10, mrp: 20, category: "Snacks & Instant", image: "/Catalog/chips/haldirams-punjabi-tadka.png", emoji: "🥨" },
+  { id: "P094", nameHi: "मैगी नूडल्स", name: "Maggi", unit: "1 pcs", price: 15, mrp: 25, category: "Snacks & Instant", image: "/Catalog/noodles/maggi.png", emoji: "🍜" },
+  { id: "P106", nameHi: "हल्दीराम दिल्ली भुजिया", name: "Haldirams Delhi Bhujiya", unit: "1 kg", price: 280, mrp: 322, category: "Snacks & Instant", image: "/Catalog/chips/haldirams-delhi-bhujiya.png", emoji: "🥨" },
+  { id: "P113", nameHi: "माला चनाचूर", name: "Mala Chanachur", unit: "400 g", price: 100, mrp: 110, category: "Snacks & Instant", image: "/Catalog/chips/mala-chanachur.png", emoji: "🥜" },
 
   // --- SPICES & DRY FRUITS ---
-  { id: "P076", nameHi: "टाटा नमक", name: "Tata Salt", unit: "1 kg", price: 30, mrp: 40, category: "Spices & Dry Fruits", image: "Catalog/tata-salt/tata-salt.png", emoji: "🧂" },
-  { id: "P090", nameHi: "एवरेस्ट चाट मसाला", name: "Everest Chaat Masala", unit: "1 pcs", price: 44, mrp: 54, category: "Spices & Dry Fruits", image: "Catalog/masala/everest-chaat-masala.png", emoji: "🧂" },
-  { id: "P098", nameHi: "धनिया पाउडर", name: "Dhania Powder", unit: "1 pcs", price: 85, mrp: 95, category: "Spices & Dry Fruits", image: "Catalog/masala/dhania-powder.png", emoji: "🌿" },
-  { id: "P099", nameHi: "मिर्च पाउडर", name: "Mirchi Powder", unit: "1 pcs", price: 130, mrp: 149, category: "Spices & Dry Fruits", image: "Catalog/masala/mirchi-powder.png", emoji: "🌶️" },
-  { id: "P100", nameHi: "जीरा पाउडर", name: "Geera Powder", unit: "1 pcs", price: 180, mrp: 206, category: "Spices & Dry Fruits", image: "Catalog/masala/geera-powder.webp", emoji: "🌾" },
-  { id: "P104", nameHi: "कैच दाल मखनी मसाला", name: "Catch Dal Makhani Masala", unit: "1 pcs", price: 80, mrp: 90, category: "Spices & Dry Fruits", image: "Catalog/masala/catch-dal-makhani-masala.png", emoji: "🍛" },
-  { id: "P110", nameHi: "धनिया पाउडर", name: "Dhani Powder", unit: "1 box", price: 85, mrp: 95, category: "Spices & Dry Fruits", image: "Catalog/masala/dhania-powder.png", emoji: "🌿" },
-  { id: "P111", nameHi: "मिर्च पाउडर", name: "Mirchi Powder", unit: "1 box", price: 130, mrp: 149, category: "Spices & Dry Fruits", image: "Catalog/masala/mirchi-powder.png", emoji: "🌶️" },
-  { id: "P112", nameHi: "जीरा पाउडर", name: "Geera Powder", unit: "1 box", price: 180, mrp: 206, category: "Spices & Dry Fruits", image: "Catalog/masala/geera-powder.webp", emoji: "🌾" },
-  { id: "P116", nameHi: "किसमिस / किशमिश", name: "Kismis / Raisins", unit: "250 g", price: 149, mrp: 171, category: "Spices & Dry Fruits", image: "Catalog/dry-fruit/kismis-raisins.jpg", emoji: "🍇" },
-  { id: "P118", nameHi: "सूखा नारियल / गरीगोला", name: "Coconut", unit: "1 pcs", price: 50, mrp: 60, category: "Spices & Dry Fruits", image: "Catalog/coconut.png", emoji: "🥥" },
-  { id: "P126", nameHi: "काजू", name: "Kaju", unit: "1 kg", price: 999, mrp: 1148, category: "Spices & Dry Fruits", image: "Catalog/dry-fruit/kaju.png", emoji: "🌰" },
-  { id: "P127", nameHi: "गोटा जीरा", name: "Gotta Jeera", unit: "1 kg", price: 260, mrp: 299, category: "Spices & Dry Fruits", image: "Catalog/masala/geera-powder.webp", emoji: "🌾" },
+  { id: "P076", nameHi: "टाटा नमक", name: "Tata Salt", unit: "1 kg", price: 30, mrp: 40, category: "Spices & Dry Fruits", image: "/Catalog/tata-salt/tata-salt.png", emoji: "🧂" },
+  { id: "P090", nameHi: "एवरेस्ट चाट मसाला", name: "Everest Chaat Masala", unit: "1 pcs", price: 44, mrp: 54, category: "Spices & Dry Fruits", image: "/Catalog/masala/everest-chaat-masala.png", emoji: "🧂" },
+  { id: "P098", nameHi: "धनिया पाउडर", name: "Dhania Powder", unit: "1 pcs", price: 85, mrp: 95, category: "Spices & Dry Fruits", image: "/Catalog/masala/dhania-powder.png", emoji: "🌿" },
+  { id: "P099", nameHi: "मिर्च पाउडर", name: "Mirchi Powder", unit: "1 pcs", price: 130, mrp: 149, category: "Spices & Dry Fruits", image: "/Catalog/masala/mirchi-powder.png", emoji: "🌶️" },
+  { id: "P100", nameHi: "जीरा पाउडर", name: "Geera Powder", unit: "1 pcs", price: 180, mrp: 206, category: "Spices & Dry Fruits", image: "/Catalog/masala/geera-powder.webp", emoji: "🌾" },
+  { id: "P104", nameHi: "कैच दाल मखनी मसाला", name: "Catch Dal Makhani Masala", unit: "1 pcs", price: 80, mrp: 90, category: "Spices & Dry Fruits", image: "/Catalog/masala/catch-dal-makhani-masala.png", emoji: "🍛" },
+  { id: "P110", nameHi: "धनिया पाउडर", name: "Dhani Powder", unit: "1 box", price: 85, mrp: 95, category: "Spices & Dry Fruits", image: "/Catalog/masala/dhania-powder.png", emoji: "🌿" },
+  { id: "P111", nameHi: "मिर्च पाउडर", name: "Mirchi Powder", unit: "1 box", price: 130, mrp: 149, category: "Spices & Dry Fruits", image: "/Catalog/masala/mirchi-powder.png", emoji: "🌶️" },
+  { id: "P112", nameHi: "जीरा पाउडर", name: "Geera Powder", unit: "1 box", price: 180, mrp: 206, category: "Spices & Dry Fruits", image: "/Catalog/masala/geera-powder.webp", emoji: "🌾" },
+  { id: "P116", nameHi: "किसमिस / किशमिश", name: "Kismis / Raisins", unit: "250 g", price: 149, mrp: 171, category: "Spices & Dry Fruits", image: "/Catalog/dry-fruit/kismis-raisins.jpg", emoji: "🍇" },
+  { id: "P118", nameHi: "सूखा नारियल / गरीगोला", name: "Coconut", unit: "1 pcs", price: 50, mrp: 60, category: "Spices & Dry Fruits", image: "/Catalog/coconut.png", emoji: "🥥" },
+  { id: "P126", nameHi: "काजू", name: "Kaju", unit: "1 kg", price: 999, mrp: 1148, category: "Spices & Dry Fruits", image: "/Catalog/dry-fruit/kaju.png", emoji: "🌰" },
+  { id: "P127", nameHi: "गोटा जीरा", name: "Gotta Jeera", unit: "1 kg", price: 260, mrp: 299, category: "Spices & Dry Fruits", image: "/Catalog/masala/geera-powder.webp", emoji: "🌾" },
 
   // --- DAIRY, PERSONAL & HOUSEHOLD ---
-  { id: "P003", nameHi: "अमूल चीज़ क्यूब्स", name: "Amul Cheese Cubes", unit: "1 pcs", price: 22, mrp: 32, category: "Dairy & Household", image: "Catalog/dairy/amul-cheese-cubes.png", emoji: "🧀" },
-  { id: "P073", nameHi: "सर्फ एक्सेल डिटर्जेंट", name: "Surf Excel", unit: "500 g", price: 71, mrp: 81, category: "Dairy & Household", image: "Catalog/detergent/sirf-excel.png", emoji: "🧼" },
-  { id: "P078", nameHi: "सेटाफिल मॉइस्चराइजर", name: "Cetaphil", unit: "1 pcs", price: 414, mrp: 476, category: "Dairy & Household", image: "Catalog/Sanitary/cetaphil.png", emoji: "🧴" },
-  { id: "P088", nameHi: "विम बार डिशवाश", name: "Vim Bar", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "Catalog/soap/vim-bar.png", emoji: "🧼" },
-  { id: "P089", nameHi: "रिन बार कपड़े धोने का साबुन", name: "Rin Bar", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "Catalog/soap/rin-bar.png", emoji: "🧼" },
-  { id: "P091", nameHi: "सेलोटेप", name: "Cellotape", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "Catalog/stationary/cellotape.png", emoji: "📦" },
-  { id: "P092", nameHi: "कोरियन पेपर", name: "Korean Paper", unit: "1 pcs", price: 20, mrp: 30, category: "Dairy & Household", image: "Catalog/stationary/korean-paper.png", emoji: "📄" },
-  { id: "P095", nameHi: "स्ट्रीक्स हेयर कलर", name: "Streaks Argan Secrets Hair Colour", unit: "1 pcs", price: 205, mrp: 235, category: "Dairy & Household", image: "Catalog/hair-colour/streak-professional-argan-secrets-hair-colour.png", emoji: "💇" },
-  { id: "P096", nameHi: "स्ट्रीक्स डेवलपर", name: "Streaks Argan Secrets Developer", unit: "1 pcs", price: 130, mrp: 149, category: "Dairy & Household", image: "Catalog/hair-colour/streak-professional-argan-secrets-developer.png", emoji: "💇" },
-  { id: "P101", nameHi: "एरियल डिटर्जेंट पाउडर", name: "Aerial Surf", unit: "1 kg", price: 140, mrp: 161, category: "Dairy & Household", image: "Catalog/detergent/aerial-sirf.png", emoji: "🧼" },
-  { id: "P102", nameHi: "गरीगोला", name: "Girigola", unit: "1 pcs", price: 38, mrp: 48, category: "Dairy & Household", image: "Catalog/girigola/girigola.png", emoji: "🛍️" },
-  { id: "P107", nameHi: "ईनो फ्रूट साल्ट", name: "Eno", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "Catalog/energy/eno.png", emoji: "💊" },
-  { id: "P114", nameHi: "लाइजॉल फ्लोर क्लीनर", name: "Lisol", unit: "945 ml", price: 249, mrp: 286, category: "Dairy & Household", image: "Catalog/floor-cleaner/lisol.png", emoji: "🧹" },
+  { id: "P003", nameHi: "अमूल चीज़ क्यूब्स", name: "Amul Cheese Cubes", unit: "1 pcs", price: 22, mrp: 32, category: "Dairy & Household", image: "/Catalog/dairy/amul-cheese-cubes.png", emoji: "🧀" },
+  { id: "P073", nameHi: "सर्फ एक्सेल डिटर्जेंट", name: "Surf Excel", unit: "500 g", price: 71, mrp: 81, category: "Dairy & Household", image: "/Catalog/detergent/sirf-excel.png", emoji: "🧼" },
+  { id: "P078", nameHi: "सेटाफिल मॉइस्चराइजर", name: "Cetaphil", unit: "1 pcs", price: 414, mrp: 476, category: "Dairy & Household", image: "/Catalog/Sanitary/cetaphil.png", emoji: "🧴" },
+  { id: "P088", nameHi: "विम बार डिशवाश", name: "Vim Bar", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/soap/vim-bar.png", emoji: "🧼" },
+  { id: "P089", nameHi: "रिन बार कपड़े धोने का साबुन", name: "Rin Bar", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/soap/rin-bar.png", emoji: "🧼" },
+  { id: "P091", nameHi: "सेलोटेप", name: "Cellotape", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/stationary/cellotape.png", emoji: "📦" },
+  { id: "P092", nameHi: "कोरियन पेपर", name: "Korean Paper", unit: "1 pcs", price: 20, mrp: 30, category: "Dairy & Household", image: "/Catalog/stationary/korean-paper.png", emoji: "📄" },
+  { id: "P095", nameHi: "स्ट्रीक्स हेयर कलर", name: "Streaks Argan Secrets Hair Colour", unit: "1 pcs", price: 205, mrp: 235, category: "Dairy & Household", image: "/Catalog/hair-colour/streak-professional-argan-secrets-hair-colour.png", emoji: "💇" },
+  { id: "P096", nameHi: "स्ट्रीक्स डेवलपर", name: "Streaks Argan Secrets Developer", unit: "1 pcs", price: 130, mrp: 149, category: "Dairy & Household", image: "/Catalog/hair-colour/streak-professional-argan-secrets-developer.png", emoji: "💇" },
+  { id: "P101", nameHi: "एरियल डिटर्जेंट पाउडर", name: "Aerial Surf", unit: "1 kg", price: 140, mrp: 161, category: "Dairy & Household", image: "/Catalog/detergent/aerial-sirf.png", emoji: "🧼" },
+  { id: "P102", nameHi: "गरीगोला", name: "Girigola", unit: "1 pcs", price: 38, mrp: 48, category: "Dairy & Household", image: "/Catalog/girigola/girigola.png", emoji: "🛍️" },
+  { id: "P107", nameHi: "ईनो फ्रूट साल्ट", name: "Eno", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/energy/eno.png", emoji: "💊" },
+  { id: "P114", nameHi: "लाइजॉल फ्लोर क्लीनर", name: "Lisol", unit: "945 ml", price: 249, mrp: 286, category: "Dairy & Household", image: "/Catalog/floor-cleaner/lisol.png", emoji: "🧹" },
   { id: "P117", nameHi: "Wheel Surf", name: "Wheel Surf", unit: "1 kg", price: 70, mrp: 80, category: "Dairy & Household", emoji: "🧼" }
 ];
 
@@ -439,16 +335,6 @@ function saveProfile(name, phone, address) {
   profile = { name, phone, address };
   localStorage.setItem('order_kaaro_profile', JSON.stringify(profile));
   renderProfileModal();
-}
-
-// Language Switcher
-function toggleLanguage() {
-  currentLang = currentLang === 'en' ? 'hi' : 'en';
-  localStorage.setItem('orderkaaro_lang', currentLang);
-  renderCategories();
-  renderProducts();
-  renderTopDeals();
-  renderCart();
 }
 
 // Wishlist Toggle
@@ -551,7 +437,6 @@ function renderProducts() {
   if (query) {
     filtered = filtered.filter(p => 
       p.name.toLowerCase().includes(query) || 
-      (p.nameHi && p.nameHi.toLowerCase().includes(query)) ||
       p.id.toLowerCase().includes(query) || 
       p.category.toLowerCase().includes(query) ||
       p.unit.toLowerCase().includes(query)
@@ -567,7 +452,7 @@ function renderProducts() {
   
   if (filtered.length === 0) {
     brandSections.innerHTML = `
-      <div class="no-results" style="text-align:center;padding:40px 20px;">
+      <div class="no-results">
         <div style="font-size:3rem;margin-bottom:10px">🔍</div>
         <h3 style="font-size:1.1rem;margin-bottom:6px">No products found for "${query}"</h3>
         <p style="font-size:0.85rem">Try searching for atta, dal, ghee, tea, or biscuits</p>
@@ -592,75 +477,47 @@ function renderProducts() {
 function productCardHTML(p) {
   const qty = cart[p.id] || 0;
   const isWishlisted = wishlist.includes(p.id);
+  const isOutOfStock = outOfStockItems.includes(p.id);
   const mrp = p.mrp || Math.round(p.price * 1.15);
   const savings = mrp - p.price;
-<<<<<<< Updated upstream
-  const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
+  const isBundle = p.isBundle || (p.includes && p.includes.length > 0);
 
   return `
-    <div class="product-card ${isOutOfStock ? 'out-of-stock' : ''}" id="card_${p.id}">
-      ${isOutOfStock ? `<div class="out-of-stock-overlay">${translations[currentLang].outOfStock}</div>` : ''}
-=======
-  const displayName = currentLang === "hi" ? (p.nameHi || p.name) : p.name;
-
-  return `
-    <div class="product-card" id="card_${p.id}" onclick="openProductDetailModal('${p.id}')" style="cursor:pointer">
->>>>>>> Stashed changes
+    <div class="product-card ${isOutOfStock ? 'out-of-stock' : ''} ${isBundle ? 'bundle-card' : ''}" id="card_${p.id}">
+      ${isOutOfStock ? `<div class="out-of-stock-overlay">Out of Stock</div>` : ''}
       <span class="product-badge-id">${p.id}</span>
       <button class="product-wishlist-btn ${isWishlisted ? 'active' : ''}" id="wl_btn_${p.id}" onclick="toggleWishlist('${p.id}', event)" title="Add to Wishlist">
         ${isWishlisted ? '❤️' : '🤍'}
       </button>
-<<<<<<< Updated upstream
-      <div class="product-img-wrap">
-        ${p.image ? `<img src="${p.image}" alt="${displayName}" class="product-img" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" />` : ''}
-        <span class="emoji-icon" style="${p.image ? 'display:none' : ''}">${p.emoji || '📦'}</span>
+      <div class="product-img-wrap" onclick="openProductDetailModal('${p.id}')" style="cursor:pointer" title="Click to view details">
+        ${p.image ? `<img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" />` : ''}
+        <span class="emoji-icon" style="${p.image ? 'display:none' : ''}">${p.emoji}</span>
       </div>
       <span class="product-unit">${p.unit}</span>
-      <div class="product-name">${displayName}</div>
-      <div class="product-price-row">
-        <span class="product-price">₹${p.price}</span>
-        ${mrp > p.price ? `<span class="product-mrp">₹${mrp}</span>` : ''}
-        ${savings > 0 ? `<span class="product-save-tag">${translations[currentLang].saveMsg} ₹${savings}</span>` : ''}
+      <div class="product-name" onclick="openProductDetailModal('${p.id}')" style="cursor:pointer" title="Click to view details">
+        ${currentLang === "hi" ? (p.nameHi || p.name) : p.name}
       </div>
-      ${isOutOfStock ? `
-        <button class="product-add-btn disabled" disabled>${translations[currentLang].outOfStock}</button>
-      ` : qty === 0 ? `
-        <button class="product-add-btn" onclick="addToCart('${p.id}')">
-          <span>+ Add to Cart</span>
-=======
-      <div class="product-clickable">
-        <div class="product-img-wrap">
-          ${p.image ? `<img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';" />` : ''}
-          <span class="emoji-icon" style="${p.image ? 'display:none' : ''}">${p.emoji}</span>
-        </div>
-        <span class="product-unit">${p.unit}</span>
-        <div class="product-name">${displayName}</div>
-        
-        ${p.includes ? `
-          <div class="combo-included-box">
-            <div class="combo-included-title">🎁 ${currentLang === 'hi' ? 'कॉम्बो में शामिल सामान:' : 'Included in Combo:'}</div>
-            <ul class="combo-included-list">
-              ${(currentLang === 'hi' ? (p.includesHi || p.includes) : p.includes).map(item => `<li>${item}</li>`).join('')}
-            </ul>
-          </div>
-        ` : ''}
-        <div class="product-price-row">
+      
+      ${isBundle ? `
+        <button class="view-combo-items-btn" onclick="openProductDetailModal('${p.id}')">
+          📦 ${currentLang === 'hi' ? 'सामान की सूची देखें (' + (p.includes ? p.includes.length : '') + ')' : 'View Included Items (' + (p.includes ? p.includes.length : '') + ')'}
+        </button>
+      ` : ''}
 
-          <span class="mrp-badge">₹${mrp}</span>
-          <span class="product-price">₹${p.price}</span>
-          ${savings > 0 ? `<span class="savings-pill">${currentLang === 'hi' ? 'बचत' : 'Save'} ₹${savings}</span>` : ''}
-        </div>
+      <div class="product-price-row">
+        <span class="mrp-badge">₹${mrp}</span>
+        <span class="product-price">₹${p.price}</span>
+        ${savings > 0 ? `<span class="savings-pill">Save ₹${savings}</span>` : ''}
       </div>
       ${qty === 0 ? `
-        <button class="product-add-btn" onclick="event.stopPropagation(); addToCart('${p.id}')">
-          <span>+ ${currentLang === 'hi' ? 'कार्ट में जोड़ें' : 'Add to Cart'}</span>
->>>>>>> Stashed changes
+        <button class="product-add-btn" ${isOutOfStock ? 'disabled' : ''} onclick="addToCart('${p.id}')">
+          <span>+ Add to Cart</span>
         </button>
       ` : `
-        <div class="product-qty-ctrl" onclick="event.stopPropagation()">
-          <button class="pqc-btn" onclick="event.stopPropagation(); updateQty('${p.id}', ${qty - 1})">-</button>
+        <div class="product-qty-ctrl">
+          <button class="pqc-btn" onclick="updateQty('${p.id}', ${qty - 1})">-</button>
           <span class="pqc-num">${qty}</span>
-          <button class="pqc-btn" onclick="event.stopPropagation(); updateQty('${p.id}', ${qty + 1})">+</button>
+          <button class="pqc-btn" onclick="updateQty('${p.id}', ${qty + 1})">+</button>
         </div>
       `}
     </div>
@@ -674,15 +531,14 @@ function renderTopDeals() {
   const dealsRow = document.getElementById('dealsRow');
   if (!dealsRow) return;
   
-  const featuredIds = ["B001", "B002", "B003", "P001", "P004", "P006", "P029", "P022", "P125", "P094", "P076", "P080", "P162"];
+  const featuredIds = ["P001", "P004", "P006", "P029", "P022", "P125", "P094", "P076", "P080", "P162"];
   const featured = productsDatabase.filter(p => featuredIds.includes(p.id));
   
   dealsRow.innerHTML = featured.map(p => {
     const qty = cart[p.id] || 0;
     const isWishlisted = wishlist.includes(p.id);
-    const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
     return `
-      <div class="deal-card" onclick="openProductDetailModal('${p.id}')" style="cursor:pointer">
+      <div class="deal-card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
           <span class="product-unit" style="margin-bottom:0">${p.unit}</span>
           <button class="product-wishlist-btn ${isWishlisted ? 'active' : ''}" id="wl_btn_deal_${p.id}" onclick="toggleWishlist('${p.id}', event)" title="Wishlist" style="position:static;width:24px;height:24px;font-size:0.85rem">
@@ -690,24 +546,22 @@ function renderTopDeals() {
           </button>
         </div>
         <div class="product-img-wrap" style="height:70px;margin-bottom:8px">
-          ${p.image ? `<img src="${p.image}" alt="${displayName}" class="product-img" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" />` : ''}
-          <span class="emoji-icon" style="${p.image ? 'display:none' : ''};font-size:2.4rem">${p.emoji || '📦'}</span>
+          ${p.image ? `<img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" />` : ''}
+          <span class="emoji-icon" style="font-size:2.4rem;${p.image ? 'display:none' : ''}">${p.emoji}</span>
         </div>
-<<<<<<< Updated upstream
-        <div class="product-name" style="font-size:0.82rem">${displayName}</div>
+        <div class="product-name" style="font-size:0.82rem">${currentLang === "hi" ? (p.nameHi || p.name) : p.name}</div>
         <div class="product-price-row" style="margin-bottom:8px">
           <span class="product-price" style="font-size:1rem">₹${p.price}</span>
-=======
-        <div class="product-name" style="font-size:0.82rem">${currentLang === "hi" ? (p.nameHi || p.name) : p.name}</div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
-          <span class="product-price">₹${p.price}</span>
-          ${qty === 0 ? `
-            <button class="product-add-btn" style="height:28px;padding:0 8px;font-size:0.75rem" onclick="event.stopPropagation(); addToCart('${p.id}')">+ Add</button>
-          ` : `
-            <span style="font-size:0.75rem;font-weight:700;color:var(--primary-dark)">${qty} in cart</span>
-          `}
->>>>>>> Stashed changes
         </div>
+        ${qty === 0 ? `
+          <button class="product-add-btn" style="height:36px;font-size:0.8rem" onclick="addToCart('${p.id}')">Add</button>
+        ` : `
+          <div class="product-qty-ctrl" style="height:36px">
+            <button class="pqc-btn" onclick="updateQty('${p.id}', ${qty - 1})">-</button>
+            <span class="pqc-num">${qty}</span>
+            <button class="pqc-btn" onclick="updateQty('${p.id}', ${qty + 1})">+</button>
+          </div>
+        `}
       </div>
     `;
   }).join('');
@@ -764,26 +618,14 @@ function updateHeaderBadges() {
     if (item) subtotal += item.price * cart[id];
   });
   
-  if (fbTotal) fbTotal.innerText = subtotal;
+   if (fbTotal) fbTotal.innerText = subtotal;
   
-<<<<<<< Updated upstream
-  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD || subtotal === 0 ? 0 : FLAT_DELIVERY_CHARGE;
+  const delivery = totalCount > 0 ? getDeliveryCharge(subtotal) : 0;
+  const convenienceFee = totalCount > 0 ? CONVENIENCE_FEE : 0;
   if (fbDelivery) {
-    fbDelivery.innerText = delivery === 0 ? translations[currentLang].freeDelivery : `+ ₹${delivery} ${translations[currentLang].deliveryFee}`;
-=======
-  const delivery = calculateDeliveryFee(subtotal);
-  const convenience = calculateConvenienceFee(subtotal);
-  if (fbDelivery) {
-    if (subtotal === 0) {
-      fbDelivery.innerText = currentLang === 'hi' ? '+ ₹0 डिलीवरी' : '+ ₹0 Delivery';
-    } else if (delivery === 0) {
-      fbDelivery.innerText = currentLang === 'hi' ? 'मुफ्त डिलीवरी 🚚 (+₹20 सुविधा शुल्क)' : 'FREE Delivery 🚚 (+₹20 Conv. Fee)';
-    } else {
-      fbDelivery.innerText = currentLang === 'hi'
-        ? `+ ₹${delivery} डिलीवरी (+₹20 सुविधा शुल्क)`
-        : `+ ₹${delivery} Delivery (+₹20 Conv. Fee)`;
-    }
->>>>>>> Stashed changes
+    fbDelivery.innerText = totalCount > 0
+      ? (currentLang === 'hi' ? `+ ₹${delivery} डिलीवरी + ₹${convenienceFee} शुल्क` : `+ ₹${delivery} Delivery + ₹${convenienceFee} Fee`)
+      : (currentLang === 'hi' ? 'मुफ्त डिलीवरी 🚚' : 'FREE Delivery 🚚');
   }
   
   if (floatingBar) {
@@ -803,7 +645,7 @@ function renderCart() {
   const cartItemIds = Object.keys(cart);
   if (cartItemIds.length === 0) {
     cartList.innerHTML = `
-      <div class="empty-cart-wrap" style="text-align:center;padding:40px 20px;">
+      <div class="empty-cart-wrap">
         <div style="font-size:4rem;margin-bottom:12px">🛒</div>
         <h3 style="font-size:1.1rem;color:var(--text-main);margin-bottom:6px">Your Cart is Empty</h3>
         <p style="font-size:0.85rem">Explore our catalogue and add items to your cart</p>
@@ -820,13 +662,12 @@ function renderCart() {
     const qty = cart[id];
     const itemTotal = p.price * qty;
     subtotal += itemTotal;
-    const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
     
     return `
       <div class="cart-item-row">
-        <div class="ci-emoji">${p.emoji || '📦'}</div>
+        <div class="ci-emoji">${p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" /><span style="display:none">${p.emoji}</span>` : p.emoji}</div>
         <div class="ci-info">
-          <div class="ci-name">${displayName}</div>
+          <div class="ci-name">${currentLang === "hi" ? (p.nameHi || p.name) : p.name}</div>
           <div class="ci-unit">${p.unit} • ₹${p.price}</div>
           <div class="ci-price">₹${itemTotal}</div>
         </div>
@@ -840,13 +681,9 @@ function renderCart() {
     `;
   }).join('');
   
-<<<<<<< Updated upstream
-  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : FLAT_DELIVERY_CHARGE;
-  const grandTotal = subtotal + delivery;
-=======
-  const delivery = calculateDeliveryFee(subtotal);
-  const convenience = calculateConvenienceFee(subtotal);
-  const grandTotal = subtotal + delivery + convenience;
+  const delivery = getDeliveryCharge(subtotal);
+  const convenienceFee = CONVENIENCE_FEE;
+  const grandTotal = subtotal + delivery + convenienceFee;
   
   let deliveryHintHtml = '';
   if (subtotal > 0 && subtotal < 149) {
@@ -870,22 +707,15 @@ function renderCart() {
       </div>
     `;
   }
->>>>>>> Stashed changes
   
   cartFooter.innerHTML = `
     <div class="delivery-box">
       ${deliveryHintHtml}
       <div class="db-row">
-        <span class="lbl">Item Subtotal</span>
+        <span class="lbl">${currentLang === 'hi' ? 'सामान का कुल मूल्य' : 'Item Subtotal'}</span>
         <span class="val">₹${subtotal}</span>
       </div>
       <div class="db-row">
-<<<<<<< Updated upstream
-        <span class="lbl">${translations[currentLang].deliveryFee}</span>
-        <span class="val" style="${delivery === 0 ? 'color:var(--primary)' : ''}">
-          ${delivery === 0 ? translations[currentLang].freeDelivery : '₹' + delivery}
-        </span>
-=======
         <span class="lbl">${currentLang === 'hi' ? 'डिलीवरी शुल्क' : 'Delivery Fee'}</span>
         <span class="val" style="${delivery === 0 ? 'color:var(--primary);font-weight:700' : ''}">
           ${delivery === 0 ? (currentLang === 'hi' ? 'मुफ्त 🎉' : 'FREE 🎉') : `₹${delivery}`}
@@ -893,17 +723,125 @@ function renderCart() {
       </div>
       <div class="db-row">
         <span class="lbl">${currentLang === 'hi' ? 'सुविधा शुल्क' : 'Convenience Fee'}</span>
-        <span class="val">₹${convenience}</span>
->>>>>>> Stashed changes
+        <span class="val">₹${convenienceFee}</span>
       </div>
       <div class="db-row grand">
-        <span class="lbl">Grand Total</span>
+        <span class="lbl">${currentLang === 'hi' ? 'कुल योग' : 'Grand Total'}</span>
         <span class="val">₹${grandTotal}</span>
       </div>
     </div>
     <button class="wa-send-btn" onclick="openModal()">
-      <span>📲 ${translations[currentLang].checkoutBtn}</span>
+      <span>📲 ${currentLang === 'hi' ? 'डिलीवरी विवरण भरें →' : 'Proceed to Delivery Details →'}</span>
     </button>
+  `;
+}
+
+// ==========================================================================
+// PRODUCT & COMBO DETAIL MODAL
+// ==========================================================================
+function openProductDetailModal(id) {
+  const p = productsDatabase.find(item => item.id === id);
+  if (!p) return;
+
+  const modal = document.getElementById('productDetailModal');
+  const container = document.getElementById('productDetailContent');
+  if (!modal || !container) return;
+
+  const qty = cart[p.id] || 0;
+  const mrp = p.mrp || Math.round(p.price * 1.15);
+  const savings = mrp - p.price;
+  const isOutOfStock = outOfStockItems.includes(p.id);
+
+  let includesHTML = '';
+  if (p.includes && p.includes.length > 0) {
+    includesHTML = `
+      <div class="combo-includes-box" style="margin-top:16px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:14px">
+        <div style="font-weight:700;font-size:0.95rem;color:#166534;margin-bottom:10px;display:flex;align-items:center;gap:6px">
+          <span>📦</span>
+          <span>${currentLang === 'hi' ? 'इस कॉम्बो में शामिल सामान (' + p.includes.length + '):' : 'Items Included in this Combo (' + p.includes.length + '):'}</span>
+        </div>
+        <ul style="list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr;gap:8px">
+          ${p.includes.map(item => `
+            <li style="font-size:0.88rem;color:#15803d;display:flex;align-items:center;gap:8px;background:#ffffff;padding:8px 12px;border-radius:8px;border:1px solid #dcfce7;box-shadow:0 1px 2px rgba(0,0,0,0.03)">
+              <span style="color:#22c55e;font-weight:bold">✓</span>
+              <span>${item}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+    `;
+  }
+
+  container.innerHTML = `
+    <div class="detail-modal-body" style="padding:10px 4px">
+      <div style="display:flex;gap:16px;align-items:center;margin-bottom:16px">
+        <div style="width:90px;height:90px;flex-shrink:0;background:#f8fafc;border-radius:12px;display:flex;align-items:center;justify-content:center;padding:6px;border:1px solid #e2e8f0">
+          ${p.image ? `<img src="${p.image}" alt="${p.name}" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" /><span style="font-size:2.5rem;display:none">${p.emoji}</span>` : `<span style="font-size:2.5rem">${p.emoji}</span>`}
+        </div>
+        <div>
+          <span style="font-size:0.75rem;font-weight:700;color:#16a34a;background:#dcfce7;padding:3px 8px;border-radius:6px">${p.category}</span>
+          <h2 style="font-size:1.15rem;font-weight:700;color:#0f172a;margin:6px 0 2px">${currentLang === 'hi' ? (p.nameHi || p.name) : p.name}</h2>
+          <div style="font-size:0.85rem;color:#64748b">${p.unit}</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:10px 14px;background:#f8fafc;border-radius:10px">
+        <span style="font-size:1.3rem;font-weight:800;color:#0f172a">₹${p.price}</span>
+        <span style="font-size:0.9rem;color:#94a3b8;text-decoration:line-through">₹${mrp}</span>
+        ${savings > 0 ? `<span style="font-size:0.75rem;font-weight:700;background:#ef4444;color:#ffffff;padding:2px 8px;border-radius:12px">Save ₹${savings}</span>` : ''}
+      </div>
+
+      ${includesHTML}
+
+      <div style="margin-top:20px" id="detail_cta_${p.id}">
+        ${qty === 0 ? `
+          <button class="product-add-btn" style="width:100%;height:44px;font-size:0.95rem" ${isOutOfStock ? 'disabled' : ''} onclick="addToCart('${p.id}'); syncDetailCTA('${p.id}');">
+            <span>+ ${currentLang === 'hi' ? 'कार्ट में जोड़ें' : 'Add to Cart'}</span>
+          </button>
+        ` : `
+          <div class="product-qty-ctrl" style="width:100%;height:44px;justify-content:space-between">
+            <button class="pqc-btn" style="width:40px;height:100%;font-size:1.2rem" onclick="updateQty('${p.id}', ${qty - 1}); syncDetailCTA('${p.id}');">-</button>
+            <span class="pqc-num" style="font-size:1.1rem">${qty}</span>
+            <button class="pqc-btn" style="width:40px;height:100%;font-size:1.2rem" onclick="updateQty('${p.id}', ${qty + 1}); syncDetailCTA('${p.id}');">+</button>
+          </div>
+        `}
+      </div>
+    </div>
+  `;
+
+  modal.classList.add('open');
+  modal.classList.add('active');
+  document.getElementById('overlay')?.classList.add('open');
+}
+
+function closeProductDetailModal(e) {
+  if (e && e.target && e.target.id !== 'productDetailModal' && !e.target.classList.contains('detail-close-btn')) return;
+  const modal = document.getElementById('productDetailModal');
+  if (modal) {
+    modal.classList.remove('open');
+    modal.classList.remove('active');
+  }
+  document.getElementById('overlay')?.classList.remove('open');
+}
+
+function syncDetailCTA(id) {
+  const p = productsDatabase.find(item => item.id === id);
+  if (!p) return;
+  const qty = cart[p.id] || 0;
+  const isOutOfStock = outOfStockItems.includes(p.id);
+  const container = document.getElementById(`detail_cta_${p.id}`);
+  if (!container) return;
+
+  container.innerHTML = qty === 0 ? `
+    <button class="product-add-btn" style="width:100%;height:44px;font-size:0.95rem" ${isOutOfStock ? 'disabled' : ''} onclick="addToCart('${p.id}'); syncDetailCTA('${p.id}');">
+      <span>+ ${currentLang === 'hi' ? 'कार्ट में जोड़ें' : 'Add to Cart'}</span>
+    </button>
+  ` : `
+    <div class="product-qty-ctrl" style="width:100%;height:44px;justify-content:space-between">
+      <button class="pqc-btn" style="width:40px;height:100%;font-size:1.2rem" onclick="updateQty('${p.id}', ${qty - 1}); syncDetailCTA('${p.id}');">-</button>
+      <span class="pqc-num" style="font-size:1.1rem">${qty}</span>
+      <button class="pqc-btn" style="width:40px;height:100%;font-size:1.2rem" onclick="updateQty('${p.id}', ${qty + 1}); syncDetailCTA('${p.id}');">+</button>
+    </div>
   `;
 }
 
@@ -929,12 +867,11 @@ function renderWishlistModal() {
     const p = productsDatabase.find(item => item.id === id);
     if (!p) return '';
     const qty = cart[p.id] || 0;
-    const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
     return `
       <div class="cart-item-row">
-        <div class="ci-emoji">${p.emoji || '📦'}</div>
+        <div class="ci-emoji">${p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" /><span style="display:none">${p.emoji}</span>` : p.emoji}</div>
         <div class="ci-info">
-          <div class="ci-name">${displayName}</div>
+          <div class="ci-name">${currentLang === "hi" ? (p.nameHi || p.name) : p.name}</div>
           <div class="ci-unit">${p.unit}</div>
           <div class="ci-price">₹${p.price}</div>
         </div>
@@ -1001,7 +938,7 @@ function renderOrdersModal() {
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:8px">
         <span style="font-size:0.9rem;font-weight:800">Total: ₹${order.grandTotal}</span>
-        <button class="product-add-btn" style="height:34px;width:95px;font-size:0.78rem" onclick="reorderItems('${encodeURIComponent(JSON.stringify(order.items))}')">${translations[currentLang].reorderBtn}</button>
+        <button class="product-add-btn" style="height:34px;width:95px;font-size:0.78rem" onclick="reorderItems('${encodeURIComponent(JSON.stringify(order.items))}')">🔄 Reorder</button>
       </div>
     </div>
   `).join('');
@@ -1189,25 +1126,19 @@ function confirmOrder() {
       const qty = cart[id];
       const itemTotal = p.price * qty;
       subtotal += itemTotal;
-      const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
-      text += `• ${displayName} (${p.unit}) x ${qty} = ₹${itemTotal}\n`;
-      orderItems.push({ id: p.id, name: displayName, unit: p.unit, price: p.price, qty: qty });
+      text += `• ${p.name} (${p.unit}) x ${qty} = ₹${itemTotal}\n`;
+      orderItems.push({ id: p.id, name: p.name, unit: p.unit, price: p.price, qty: qty });
     }
   });
   
-  const delivery = calculateDeliveryFee(subtotal);
-  const convenience = calculateConvenienceFee(subtotal);
-  const grandTotal = subtotal + delivery + convenience;
+   const delivery = getDeliveryCharge(subtotal);
+  const convenienceFee = CONVENIENCE_FEE;
+  const grandTotal = subtotal + delivery + convenienceFee;
   
   text += `------------------------------------\n`;
-<<<<<<< Updated upstream
   text += `💰 *Subtotal*: ₹${subtotal}\n`;
-  text += `🚚 *Delivery Fee*: ${delivery === 0 ? "FREE" : "₹" + delivery}\n`;
-=======
-  text += `🧾 *Item Subtotal*: ₹${subtotal}\n`;
-  text += `🚚 *Delivery Fee*: ${delivery === 0 ? 'FREE 🎉' : `₹${delivery}`}\n`;
-  text += `⚙️ *Convenience Fee*: ₹${convenience}\n`;
->>>>>>> Stashed changes
+  text += `🚚 *Delivery Fee*: ₹${delivery}\n`;
+  text += `💳 *Convenience Fee*: ₹${convenienceFee}\n`;
   text += `💵 *GRAND TOTAL*: ₹${grandTotal}\n`;
   text += `------------------------------------\n`;
   text += `Please confirm my order delivery in Kishanganj. Thank you!`;
@@ -1218,7 +1149,7 @@ function confirmOrder() {
     items: orderItems,
     subtotal: subtotal,
     delivery: delivery,
-    convenience: convenience,
+    convenienceFee: convenienceFee,
     grandTotal: grandTotal
   });
   saveOrders();
@@ -1245,9 +1176,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderOrdersModal();
   renderProfileModal();
   updateHeaderBadges();
-<<<<<<< Updated upstream
-});
-=======
 });
 
 
@@ -1352,7 +1280,12 @@ function showAutocomplete() {
 function selectAutocomplete(pid) {
   const dropdown = document.getElementById('autocompleteDropdown');
   if (dropdown) dropdown.style.display = 'none';
-  openProductDetailModal(pid);
+  const card = document.getElementById(`card_${pid}`);
+  if (card) {
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    card.style.ring = '2px solid #16a34a';
+    setTimeout(() => card.style.ring = 'none', 2000);
+  }
 }
 
 document.addEventListener('click', (e) => {
@@ -1370,8 +1303,7 @@ function openAdminModal() {
   const modal = document.getElementById('adminModal');
   if (modal) {
     renderAdminProducts('');
-    modal.classList.add('open');
-  modal.classList.add('active');
+    modal.classList.add('active');
   }
 }
 
@@ -1440,154 +1372,3 @@ function shareCartWhatsApp() {
 
   window.open(`https://wa.me/?text=${encodeURIComponent(listText)}`, '_blank');
 }
-
-
-// ==========================================================================
-// BLINKIT-STYLE PRODUCT DETAIL & RELATED ITEMS MODAL
-// ==========================================================================
-function openProductDetailModal(id) {
-  const p = productsDatabase.find(item => item.id === id);
-  if (!p) return;
-
-  const modal = document.getElementById('productDetailModal');
-  const container = document.getElementById('productDetailContent');
-  if (!modal || !container) return;
-
-  const qty = cart[p.id] || 0;
-  const isWishlisted = wishlist.includes(p.id);
-  const mrp = p.mrp || Math.round(p.price * 1.15);
-  const savings = mrp - p.price;
-  const displayName = currentLang === 'hi' ? (p.nameHi || p.name) : p.name;
-  const secondaryName = currentLang === 'hi' ? p.name : (p.nameHi || '');
-
-  // Get related products from the same category
-  const related = productsDatabase.filter(item => item.category === p.category && item.id !== p.id).slice(0, 8);
-
-  container.innerHTML = `
-    <div class="detail-hero">
-      <div class="detail-img-box">
-        ${p.image ? `<img src="${p.image}" alt="${p.name}" class="detail-main-img" />` : `<span style="font-size:5rem">${p.emoji}</span>`}
-      </div>
-      <div class="detail-info-wrap">
-        <div class="detail-category-tag">${currentLang === 'hi' ? (catHiMap[p.category] || p.category) : p.category}</div>
-        <h2 class="detail-title">${displayName}</h2>
-        ${secondaryName ? `<div class="detail-subtitle">${secondaryName}</div>` : ''}
-        <div class="detail-unit-badge">⚖️ ${p.unit}</div>
-
-        <div class="detail-price-box">
-          <div class="dp-left">
-            <span class="dp-mrp">₹${mrp}</span>
-            <span class="dp-price">₹${p.price}</span>
-            ${savings > 0 ? `<span class="dp-savings">${currentLang === 'hi' ? 'बचत' : 'Save'} ₹${savings}</span>` : ''}
-          </div>
-          <div class="dp-right" id="detail_cta_${p.id}">
-            ${qty === 0 ? `
-              <button class="product-add-btn detail-add-btn" onclick="addToCart('${p.id}'); updateDetailCTA('${p.id}')">
-                <span>+ ${currentLang === 'hi' ? 'कार्ट में जोड़ें' : 'Add to Cart'}</span>
-              </button>
-            ` : `
-              <div class="product-qty-ctrl detail-qty-ctrl">
-                <button class="pqc-btn" onclick="updateQty('${p.id}', ${qty - 1}); updateDetailCTA('${p.id}')">-</button>
-                <span class="pqc-num">${qty}</span>
-                <button class="pqc-btn" onclick="updateQty('${p.id}', ${qty + 1}); updateDetailCTA('${p.id}')">+</button>
-              </div>
-            `}
-          </div>
-        </div>
-
-        
-        ${p.includes ? `
-          <div class="detail-combo-box">
-            <div class="dcb-title">🎁 ${currentLang === 'hi' ? 'कॉम्बो पैकेज सामग्री (' + p.includes.length + ' सामान):' : 'Items Included in this Combo (' + p.includes.length + ' Items):'}</div>
-            <div class="dcb-grid">
-              ${(currentLang === 'hi' ? (p.includesHi || p.includes) : p.includes).map(item => `
-                <div class="dcb-item">✅ ${item}</div>
-              `).join('')}
-            </div>
-          </div>
-        ` : ''}
-        <div class="detail-highlights">
-
-          <div class="dh-item">
-            <span>⚡</span>
-            <div>
-              <strong>${currentLang === 'hi' ? '30 मिनट डिलीवरी' : '30-Min Delivery'}</strong>
-              <span>${currentLang === 'hi' ? 'किशनगंज में तेज़ होम डिलीवरी' : 'Fast doorstep delivery in Kishanganj'}</span>
-            </div>
-          </div>
-          <div class="dh-item">
-            <span>🛡️</span>
-            <div>
-              <strong>${currentLang === 'hi' ? '100% ताज़ा गारंटी' : '100% Quality Guaranteed'}</strong>
-              <span>${currentLang === 'hi' ? 'सर्वश्रेष्ठ शुद्धता एवं गुणवत्ता' : 'Sourced from trusted suppliers'}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    ${related.length > 0 ? `
-      <div class="related-section">
-        <div class="related-head">
-          <h3>${currentLang === 'hi' ? 'संबंधित सामान' : 'Related Products'}</h3>
-          <span>${currentLang === 'hi' ? 'इसी श्रेणी से' : 'From ' + p.category}</span>
-        </div>
-        <div class="related-scroll-row">
-          ${related.map(rel => {
-            const relQty = cart[rel.id] || 0;
-            const relName = currentLang === 'hi' ? (rel.nameHi || rel.name) : rel.name;
-            return `
-              <div class="related-card" onclick="openProductDetailModal('${rel.id}')">
-                <div class="related-img-box">
-                  ${rel.image ? `<img src="${rel.image}" alt="${rel.name}" />` : `<span>${rel.emoji}</span>`}
-                </div>
-                <div class="related-unit">${rel.unit}</div>
-                <div class="related-name">${relName}</div>
-                <div class="related-price-row">
-                  <span class="related-price">₹${rel.price}</span>
-                  <button class="related-add-btn" onclick="event.stopPropagation(); addToCart('${rel.id}'); openProductDetailModal('${p.id}')">+ Add</button>
-                </div>
-              </div>
-            `;
-          }).join('')}
-        </div>
-      </div>
-    ` : ''}
-  `;
-
-  modal.classList.add('open');
-  modal.classList.add('active');
-  modal.scrollTop = 0;
-}
-
-function updateDetailCTA(id) {
-  const p = productsDatabase.find(item => item.id === id);
-  if (!p) return;
-  const qty = cart[p.id] || 0;
-  const container = document.getElementById(`detail_cta_${id}`);
-  if (container) {
-    container.innerHTML = qty === 0 ? `
-      <button class="product-add-btn detail-add-btn" onclick="addToCart('${p.id}'); updateDetailCTA('${p.id}')">
-        <span>+ ${currentLang === 'hi' ? 'कार्ट में जोड़ें' : 'Add to Cart'}</span>
-      </button>
-    ` : `
-      <div class="product-qty-ctrl detail-qty-ctrl">
-        <button class="pqc-btn" onclick="updateQty('${p.id}', ${qty - 1}); updateDetailCTA('${p.id}')">-</button>
-        <span class="pqc-num">${qty}</span>
-        <button class="pqc-btn" onclick="updateQty('${p.id}', ${qty + 1}); updateDetailCTA('${p.id}')">+</button>
-      </div>
-    `;
-  }
-}
-
-function closeProductDetailModal(e) {
-  if (e && e.target && !e.target.classList.contains('modal-overlay') && !e.target.classList.contains('detail-close-btn')) {
-    return;
-  }
-  const modal = document.getElementById('productDetailModal');
-  if (modal) {
-    modal.classList.remove('open');
-    modal.classList.remove('active');
-  }
-}
->>>>>>> Stashed changes
