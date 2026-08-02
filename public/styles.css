@@ -1500,56 +1500,12 @@ button, .cat-pill, .product-card, .floating-bar-inner, .nav-links a {
   }
 
   main {
-    padding: 12px 12px 140px;
-  }
-
-  .hero-card {
-    padding: 16px;
-    border-radius: 18px;
-    margin-bottom: 16px;
-  }
-
-  .hero-kicker {
-    font-size: 0.7rem;
-    padding: 4px 10px;
-    margin-bottom: 8px;
-  }
-
-  .hero-title {
-    font-size: 1.35rem;
-    margin-bottom: 8px;
-  }
-
-  .hero-copy {
-    font-size: 0.82rem;
-    line-height: 1.5;
-    margin-bottom: 12px;
-  }
-
-  .hero-stats {
-    gap: 6px;
-  }
-
-  .hero-stat {
-    padding: 8px 6px;
-    border-radius: 10px;
-  }
-
-  .hero-stat .value {
-    font-size: 0.92rem;
-  }
-
-  .hero-stat .label {
-    font-size: 0.64rem;
-  }
-
-  .hero-side {
-    display: none; /* Hide heavy side panel on mobile for faster scrolling */
+    padding: 150px 12px 160px !important;
   }
 
   .section-head {
-    margin: 20px 0 10px;
-    scroll-margin-top: 150px;
+    margin: 16px 0 10px;
+    scroll-margin-top: 155px;
   }
 
   .section-title {
@@ -1640,30 +1596,72 @@ button, .cat-pill, .product-card, .floating-bar-inner, .nav-links a {
     border-radius: 16px;
   }
 
+  /* Floating Bar positioned above mobile bottom nav */
   .floating-bar {
-    padding: 10px;
+    bottom: 58px;
+    padding: 8px 10px;
+    z-index: 135;
   }
 
   .floating-bar-inner {
-    padding: 12px 16px;
+    padding: 10px 14px;
     border-radius: 14px;
   }
 
   .fb-count {
-    font-size: 0.78rem;
-    padding: 3px 8px;
+    font-size: 0.75rem;
+    padding: 3px 7px;
   }
 
   .fb-label {
-    font-size: 0.88rem;
+    font-size: 0.84rem;
   }
 
   .fb-total {
-    font-size: 1.02rem;
+    font-size: 0.98rem;
   }
 
   .fb-delivery {
-    font-size: 0.64rem;
+    font-size: 0.62rem;
+  }
+
+  /* Mobile Drawer & Modal Sheets */
+  .cart-drawer, .modal-sheet {
+    max-height: 90vh;
+    border-radius: 24px 24px 0 0 !important;
+  }
+
+  /* Prevent automatic iOS zoom on form inputs */
+  .field input, .field textarea, #searchInput {
+    font-size: 16px !important;
+  }
+}
+
+/* Extra Small Screens (iPhone SE / 320px-360px) */
+@media (max-width: 360px) {
+  .products-grid {
+    gap: 6px;
+  }
+
+  .product-card {
+    padding: 8px;
+  }
+
+  .product-name {
+    font-size: 0.78rem;
+  }
+
+  .product-price {
+    font-size: 0.95rem;
+  }
+
+  .mrp-badge {
+    font-size: 0.68rem;
+  }
+
+  .savings-pill {
+    font-size: 0.6rem;
+    padding: 1px 4px;
   }
 }
 
