@@ -58,69 +58,10 @@ function getDeliveryCharge(subtotal) {
 // COMPLETE 164-ITEM PRODUCT DATABASE
 // ==========================================================================
 const productsDatabase = [
-  {
-    id: "B001",
-    nameHi: "मंथली फैमिली राशन पैकेज (10 सामान)",
-    name: "Monthly Family Rashan Package",
-    unit: "Combo Pack (10 Items)",
-    price: 1450,
-    mrp: 1650,
-    category: "Atta, Rice & Grains",
-    image: "/Catalog/grains/aashirvaad-shud-chakki-atta.png",
-    emoji: "📦",
-    isBundle: true,
-    includes: [
-      "🌾 Aashirvaad Chakki Atta (5 kg)",
-      "🍚 Premium Basmati / Rice (5 kg)",
-      "🫘 Arhar Dal (1 kg)",
-      "🫘 Chana Dal / Masoor Dal (1 kg)",
-      "🛢️ Fortune Mustard Oil (1 L)",
-      "🧂 Tata Salt (1 kg)",
-      "☕ CTC Chai / Tea (250 g)",
-      "🧆 Pure Besan (500 g)",
-      "🌾 Fresh Sooji (500 g)",
-      "🧼 Vim Dishwash Bar (1 pcs)"
-    ]
-  },
-  {
-    id: "B002",
-    nameHi: "त्योहार व पूजा स्पेशल कॉम्बो (6 सामान)",
-    name: "Festive & Puja Special Combo",
-    unit: "Combo Pack (6 Items)",
-    price: 420,
-    mrp: 490,
-    category: "Atta, Rice & Grains",
-    image: "/Catalog/Grains/katarni-chura.png",
-    emoji: "🪔",
-    isBundle: true,
-    includes: [
-      "🍚 Katarni Chura (1 kg)",
-      "🌾 Fresh Sooji (500 g)",
-      "🌾 Fine Maida (500 g)",
-      "🛢️ Pure Ghee / Cooking Oil (500 ml)",
-      "🍬 Premium Sugar (1 kg)",
-      "🪔 Agarbatti & Puja Camphor Pack (1 set)"
-    ]
-  },
-  {
-    id: "B003",
-    nameHi: "चाय व स्नैक्स सुपर सेवर कॉम्बो (5 सामान)",
-    name: "Family Tea & Snacks Super Saver",
-    unit: "Combo Pack (5 Items)",
-    price: 280,
-    mrp: 330,
-    category: "Biscuits & Bakery",
-    image: "/Catalog/tea/masala-tea.png",
-    emoji: "☕",
-    isBundle: true,
-    includes: [
-      "☕ Premium CTC Masala Tea (250 g)",
-      "🍪 Britannia & Parle Biscuit Combo (2 packs)",
-      "🥨 Bhujia & Namkeen Pack (400 g)",
-      "🍬 Sugar (1 kg)",
-      "🥛 Milk Powder Pack (200 g)"
-    ]
-  },
+  // --- SPECIAL SAVINGS BUNDLES & COMBOS ---
+  { id: "B001", nameHi: "मंथली फैमिली राशन पैकेज (10 सामान)", name: "Monthly Family Rashan Package", unit: "Combo Pack (10 Items)", price: 1450, mrp: 1650, category: "Atta, Rice & Grains", image: "/Catalog/grains/aashirvaad-shud-chakki-atta.png", emoji: "📦", isBundle: true },
+  { id: "B002", nameHi: "त्योहार व पूजा स्पेशल कॉम्बो (6 सामान)", name: "Festive & Puja Special Combo", unit: "Combo Pack (6 Items)", price: 420, mrp: 490, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🪔", isBundle: true },
+  { id: "B003", nameHi: "चाय व स्नैक्स सुपर सेवर कॉम्बो (5 सामान)", name: "Family Tea & Snacks Super Saver", unit: "Combo Pack (5 Items)", price: 280, mrp: 330, category: "Biscuits & Bakery", image: "/Catalog/tea/masala-tea.png", emoji: "☕", isBundle: true },
 
   // --- ATTA, RICE & GRAINS ---
   { id: "P001", nameHi: "आशीर्वाद शुद्ध चक्की आटा", name: "Aashirvaad Shud Chakki Atta", unit: "5 kg", price: 240, mrp: 276, category: "Atta, Rice & Grains", image: "/Catalog/grains/aashirvaad-shud-chakki-atta.png", emoji: "🌾" },
@@ -131,7 +72,7 @@ const productsDatabase = [
   { id: "P071", nameHi: "सत्तू", name: "Sattu", unit: "200 g", price: 31, mrp: 41, category: "Atta, Rice & Grains", image: "/Catalog/grains/sattu.png", emoji: "💪" },
   { id: "P072", nameHi: "सत्तू", name: "Sattu", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/grains/sattu.png", emoji: "💪" },
   { id: "P075", nameHi: "अमृत भोग सूजी", name: "Amrit Bhog Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/grains/sooji.png", emoji: "🌾" },
-  { id: "P077", nameHi: "चीनी / शक्कर", name: "Sugar", unit: "1 kg", price: 55, mrp: 65, category: "Atta, Rice & Grains", image: "/Catalog/grains/sugar.png", emoji: "🍬" },
+  { id: "P077", nameHi: "चीनी / शक्कर", name: "Sugar", unit: "1 kg", price: 85, mrp: 90, category: "Atta, Rice & Grains", image: "/Catalog/grains/sugar.png", emoji: "🍬" },
   { id: "P083", nameHi: "चावल", name: "Chawal", unit: "1 kg", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/chawal.png", emoji: "🍚" },
   { id: "P084", nameHi: "सूजी", name: "Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/grains/sooji.png", emoji: "🌾" },
   { id: "P103", nameHi: "पॉपकॉर्न मक्की", name: "Popcorn Makki Loose", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/grains/popcorn-makki-loose.jpg", emoji: "🌽" },
@@ -480,31 +421,20 @@ function productCardHTML(p) {
   const isOutOfStock = outOfStockItems.includes(p.id);
   const mrp = p.mrp || Math.round(p.price * 1.15);
   const savings = mrp - p.price;
-  const discountPct = savings > 0 ? Math.round((savings / mrp) * 100) : 0;
-  const isBundle = p.isBundle || (p.includes && p.includes.length > 0);
 
   return `
-    <div class="product-card ${isOutOfStock ? 'out-of-stock' : ''} ${isBundle ? 'bundle-card' : ''}" id="card_${p.id}">
+    <div class="product-card ${isOutOfStock ? 'out-of-stock' : ''}" id="card_${p.id}">
       ${isOutOfStock ? `<div class="out-of-stock-overlay">Out of Stock</div>` : ''}
-      ${discountPct > 0 ? `<span class="discount-ribbon">${discountPct}% OFF</span>` : ''}
+      <span class="product-badge-id">${p.id}</span>
       <button class="product-wishlist-btn ${isWishlisted ? 'active' : ''}" id="wl_btn_${p.id}" onclick="toggleWishlist('${p.id}', event)" title="Add to Wishlist">
         ${isWishlisted ? '❤️' : '🤍'}
       </button>
-      <div class="product-img-wrap" onclick="openProductDetailModal('${p.id}')" style="cursor:pointer" title="Click to view details">
+      <div class="product-img-wrap">
         ${p.image ? `<img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" />` : ''}
         <span class="emoji-icon" style="${p.image ? 'display:none' : ''}">${p.emoji}</span>
       </div>
       <span class="product-unit">${p.unit}</span>
-      <div class="product-name" onclick="openProductDetailModal('${p.id}')" style="cursor:pointer" title="Click to view details">
-        ${currentLang === "hi" ? (p.nameHi || p.name) : p.name}
-      </div>
-      
-      ${isBundle ? `
-        <button class="view-combo-items-btn" onclick="openProductDetailModal('${p.id}')">
-          📦 ${currentLang === 'hi' ? 'सामान की सूची देखें (' + (p.includes ? p.includes.length : '') + ')' : 'View Included Items (' + (p.includes ? p.includes.length : '') + ')'}
-        </button>
-      ` : ''}
-
+      <div class="product-name">${currentLang === "hi" ? (p.nameHi || p.name) : p.name}</div>
       <div class="product-price-row">
         <span class="mrp-badge">₹${mrp}</span>
         <span class="product-price">₹${p.price}</span>
@@ -646,16 +576,10 @@ function renderCart() {
   const cartItemIds = Object.keys(cart);
   if (cartItemIds.length === 0) {
     cartList.innerHTML = `
-      <div class="empty-cart-wrap" style="text-align:center;padding:32px 16px">
-        <div style="font-size:3.5rem;margin-bottom:12px">🛒</div>
-        <h3 style="font-size:1.15rem;font-weight:700;color:var(--text-main);margin-bottom:6px">${currentLang === 'hi' ? 'आपकी कार्ट खाली है' : 'Your Cart is Empty'}</h3>
-        <p style="font-size:0.85rem;color:#64748b;margin-bottom:16px">${currentLang === 'hi' ? '30 मिनट में डिलीवरी के लिए सामान चुनें' : 'Add items to unlock 30-min doorstep delivery!'}</p>
-        
-        <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px">
-          <button onclick="closeCart(); document.getElementById('searchInput').value='Atta'; doSearch('Atta');" style="background:#f1f5f9;border:1px solid #cbd5e1;padding:8px 14px;border-radius:999px;font-size:0.78rem;font-weight:600;cursor:pointer">🌾 Atta & Flour</button>
-          <button onclick="closeCart(); document.getElementById('searchInput').value='Oil'; doSearch('Oil');" style="background:#f1f5f9;border:1px solid #cbd5e1;padding:8px 14px;border-radius:999px;font-size:0.78rem;font-weight:600;cursor:pointer">🛢️ Oils & Ghee</button>
-          <button onclick="closeCart(); document.getElementById('searchInput').value='Combo'; doSearch('Combo');" style="background:#f1f5f9;border:1px solid #cbd5e1;padding:8px 14px;border-radius:999px;font-size:0.78rem;font-weight:600;cursor:pointer">📦 Family Combos</button>
-        </div>
+      <div class="empty-cart-wrap">
+        <div style="font-size:4rem;margin-bottom:12px">🛒</div>
+        <h3 style="font-size:1.1rem;color:var(--text-main);margin-bottom:6px">Your Cart is Empty</h3>
+        <p style="font-size:0.85rem">Explore our catalogue and add items to your cart</p>
       </div>
     `;
     cartFooter.innerHTML = '';
@@ -691,61 +615,16 @@ function renderCart() {
   const delivery = getDeliveryCharge(subtotal);
   const convenienceFee = CONVENIENCE_FEE;
   const grandTotal = subtotal + delivery + convenienceFee;
-  const freeDeliveryProgress = Math.min(100, Math.round((subtotal / 499) * 100));
-  
-  let deliveryHintHtml = '';
-  if (subtotal > 0 && subtotal < 149) {
-    const diff = 149 - subtotal;
-    deliveryHintHtml = `
-      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:10px 12px;margin-bottom:12px">
-        <div style="display:flex;justify-content:space-between;font-size:0.78rem;font-weight:700;color:#92400e;margin-bottom:6px">
-          <span>${currentLang === 'hi' ? `💡 ₹${diff} का सामान और जोड़ें और ₹29 में डिलीवरी पाएं!` : `💡 Add ₹${diff} more items for ₹29 delivery!`}</span>
-          <span>${freeDeliveryProgress}%</span>
-        </div>
-        <div style="height:7px;background:#fef3c7;border-radius:999px;overflow:hidden">
-          <div style="height:100%;width:${freeDeliveryProgress}%;background:linear-gradient(90deg, #f59e0b, #d97706);border-radius:999px;transition:width 0.4s ease"></div>
-        </div>
-      </div>
-    `;
-  } else if (subtotal >= 149 && subtotal < 499) {
-    const diff = 499 - subtotal;
-    deliveryHintHtml = `
-      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:10px 12px;margin-bottom:12px">
-        <div style="display:flex;justify-content:space-between;font-size:0.78rem;font-weight:700;color:#1e40af;margin-bottom:6px">
-          <span>${currentLang === 'hi' ? `🎉 ₹${diff} का सामान और जोड़ें और पाएं मुफ्त डिलीवरी!` : `🎉 Add ₹${diff} more items for FREE Delivery!`}</span>
-          <span>${freeDeliveryProgress}%</span>
-        </div>
-        <div style="height:7px;background:#dbeafe;border-radius:999px;overflow:hidden">
-          <div style="height:100%;width:${freeDeliveryProgress}%;background:linear-gradient(90deg, #3b82f6, #2563eb);border-radius:999px;transition:width 0.4s ease"></div>
-        </div>
-      </div>
-    `;
-  } else if (subtotal >= 499) {
-    deliveryHintHtml = `
-      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:10px 12px;margin-bottom:12px">
-        <div style="display:flex;justify-content:space-between;font-size:0.78rem;font-weight:700;color:#166534;margin-bottom:6px">
-          <span>${currentLang === 'hi' ? `🥳 आपको मिली मुफ्त डिलीवरी!` : `🥳 You unlocked FREE Delivery!`}</span>
-          <span>100%</span>
-        </div>
-        <div style="height:7px;background:#dcfce7;border-radius:999px;overflow:hidden">
-          <div style="height:100%;width:100%;background:linear-gradient(90deg, #22c55e, #16a34a);border-radius:999px"></div>
-        </div>
-      </div>
-    `;
-  }
   
   cartFooter.innerHTML = `
     <div class="delivery-box">
-      ${deliveryHintHtml}
       <div class="db-row">
         <span class="lbl">${currentLang === 'hi' ? 'सामान का कुल मूल्य' : 'Item Subtotal'}</span>
         <span class="val">₹${subtotal}</span>
       </div>
       <div class="db-row">
         <span class="lbl">${currentLang === 'hi' ? 'डिलीवरी शुल्क' : 'Delivery Fee'}</span>
-        <span class="val" style="${delivery === 0 ? 'color:var(--primary);font-weight:700' : ''}">
-          ${delivery === 0 ? (currentLang === 'hi' ? 'मुफ्त 🎉' : 'FREE 🎉') : `₹${delivery}`}
-        </span>
+        <span class="val">₹${delivery}</span>
       </div>
       <div class="db-row">
         <span class="lbl">${currentLang === 'hi' ? 'सुविधा शुल्क' : 'Convenience Fee'}</span>
@@ -759,115 +638,6 @@ function renderCart() {
     <button class="wa-send-btn" onclick="openModal()">
       <span>📲 ${currentLang === 'hi' ? 'डिलीवरी विवरण भरें →' : 'Proceed to Delivery Details →'}</span>
     </button>
-  `;
-}
-
-// ==========================================================================
-// PRODUCT & COMBO DETAIL MODAL
-// ==========================================================================
-function openProductDetailModal(id) {
-  const p = productsDatabase.find(item => item.id === id);
-  if (!p) return;
-
-  const modal = document.getElementById('productDetailModal');
-  const container = document.getElementById('productDetailContent');
-  if (!modal || !container) return;
-
-  const qty = cart[p.id] || 0;
-  const mrp = p.mrp || Math.round(p.price * 1.15);
-  const savings = mrp - p.price;
-  const isOutOfStock = outOfStockItems.includes(p.id);
-
-  let includesHTML = '';
-  if (p.includes && p.includes.length > 0) {
-    includesHTML = `
-      <div class="combo-includes-box" style="margin-top:16px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:14px">
-        <div style="font-weight:700;font-size:0.95rem;color:#166534;margin-bottom:10px;display:flex;align-items:center;gap:6px">
-          <span>📦</span>
-          <span>${currentLang === 'hi' ? 'इस कॉम्बो में शामिल सामान (' + p.includes.length + '):' : 'Items Included in this Combo (' + p.includes.length + '):'}</span>
-        </div>
-        <ul style="list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr;gap:8px">
-          ${p.includes.map(item => `
-            <li style="font-size:0.88rem;color:#15803d;display:flex;align-items:center;gap:8px;background:#ffffff;padding:8px 12px;border-radius:8px;border:1px solid #dcfce7;box-shadow:0 1px 2px rgba(0,0,0,0.03)">
-              <span style="color:#22c55e;font-weight:bold">✓</span>
-              <span>${item}</span>
-            </li>
-          `).join('')}
-        </ul>
-      </div>
-    `;
-  }
-
-  container.innerHTML = `
-    <div class="detail-modal-body" style="padding:10px 4px">
-      <div style="display:flex;gap:16px;align-items:center;margin-bottom:16px">
-        <div style="width:90px;height:90px;flex-shrink:0;background:#f8fafc;border-radius:12px;display:flex;align-items:center;justify-content:center;padding:6px;border:1px solid #e2e8f0">
-          ${p.image ? `<img src="${p.image}" alt="${p.name}" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" /><span style="font-size:2.5rem;display:none">${p.emoji}</span>` : `<span style="font-size:2.5rem">${p.emoji}</span>`}
-        </div>
-        <div>
-          <span style="font-size:0.75rem;font-weight:700;color:#16a34a;background:#dcfce7;padding:3px 8px;border-radius:6px">${p.category}</span>
-          <h2 style="font-size:1.15rem;font-weight:700;color:#0f172a;margin:6px 0 2px">${currentLang === 'hi' ? (p.nameHi || p.name) : p.name}</h2>
-          <div style="font-size:0.85rem;color:#64748b">${p.unit}</div>
-        </div>
-      </div>
-
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:10px 14px;background:#f8fafc;border-radius:10px">
-        <span style="font-size:1.3rem;font-weight:800;color:#0f172a">₹${p.price}</span>
-        <span style="font-size:0.9rem;color:#94a3b8;text-decoration:line-through">₹${mrp}</span>
-        ${savings > 0 ? `<span style="font-size:0.75rem;font-weight:700;background:#ef4444;color:#ffffff;padding:2px 8px;border-radius:12px">Save ₹${savings}</span>` : ''}
-      </div>
-
-      ${includesHTML}
-
-      <div style="margin-top:20px" id="detail_cta_${p.id}">
-        ${qty === 0 ? `
-          <button class="product-add-btn" style="width:100%;height:44px;font-size:0.95rem" ${isOutOfStock ? 'disabled' : ''} onclick="addToCart('${p.id}'); syncDetailCTA('${p.id}');">
-            <span>+ ${currentLang === 'hi' ? 'कार्ट में जोड़ें' : 'Add to Cart'}</span>
-          </button>
-        ` : `
-          <div class="product-qty-ctrl" style="width:100%;height:44px;justify-content:space-between">
-            <button class="pqc-btn" style="width:40px;height:100%;font-size:1.2rem" onclick="updateQty('${p.id}', ${qty - 1}); syncDetailCTA('${p.id}');">-</button>
-            <span class="pqc-num" style="font-size:1.1rem">${qty}</span>
-            <button class="pqc-btn" style="width:40px;height:100%;font-size:1.2rem" onclick="updateQty('${p.id}', ${qty + 1}); syncDetailCTA('${p.id}');">+</button>
-          </div>
-        `}
-      </div>
-    </div>
-  `;
-
-  modal.classList.add('open');
-  modal.classList.add('active');
-  document.getElementById('overlay')?.classList.add('open');
-}
-
-function closeProductDetailModal(e) {
-  if (e && e.target && e.target.id !== 'productDetailModal' && !e.target.classList.contains('detail-close-btn')) return;
-  const modal = document.getElementById('productDetailModal');
-  if (modal) {
-    modal.classList.remove('open');
-    modal.classList.remove('active');
-  }
-  document.getElementById('overlay')?.classList.remove('open');
-}
-
-function syncDetailCTA(id) {
-  const p = productsDatabase.find(item => item.id === id);
-  if (!p) return;
-  const qty = cart[p.id] || 0;
-  const isOutOfStock = outOfStockItems.includes(p.id);
-  const container = document.getElementById(`detail_cta_${p.id}`);
-  if (!container) return;
-
-  container.innerHTML = qty === 0 ? `
-    <button class="product-add-btn" style="width:100%;height:44px;font-size:0.95rem" ${isOutOfStock ? 'disabled' : ''} onclick="addToCart('${p.id}'); syncDetailCTA('${p.id}');">
-      <span>+ ${currentLang === 'hi' ? 'कार्ट में जोड़ें' : 'Add to Cart'}</span>
-    </button>
-  ` : `
-    <div class="product-qty-ctrl" style="width:100%;height:44px;justify-content:space-between">
-      <button class="pqc-btn" style="width:40px;height:100%;font-size:1.2rem" onclick="updateQty('${p.id}', ${qty - 1}); syncDetailCTA('${p.id}');">-</button>
-      <span class="pqc-num" style="font-size:1.1rem">${qty}</span>
-      <button class="pqc-btn" style="width:40px;height:100%;font-size:1.2rem" onclick="updateQty('${p.id}', ${qty + 1}); syncDetailCTA('${p.id}');">+</button>
-    </div>
   `;
 }
 
