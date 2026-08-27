@@ -539,13 +539,14 @@
 
 <script>
 const WA_NUMBER = "919942089120";
-const CONVENIENCE_FEE = 20;
+const CONVENIENCE_FEE = 10;
 
 function calculateDeliveryFee(subtotal) {
   if (subtotal === 0) return 0;
-  if (subtotal < 149) return 49;
-  if (subtotal < 499) return 29;
-  return 0;
+  if (subtotal >= 800) return 0;
+  if (subtotal >= 500) return 20;
+  if (subtotal >= 200) return 30;
+  return 50;
 }
 
 function calculateConvenienceFee(subtotal) {
@@ -1177,45 +1178,8 @@ function renderCartDrawer() {
   const {subtotal,delivery,convenience,discount}=cartTotals();
   const grand=subtotal+delivery+convenience-discount;
   let deliveryHintHtml = '';
-  if (subtotal > 0 && subtotal < 149) {
-    const diff = 149 - subtotal;
-    deliveryHintHtml = `<div style="font-size:0.75rem;background:#fef3c7;color:#92400e;padding:6px 10px;border-radius:6px;margin-bottom:8px;text-align:center">💡 Add ₹${diff} more items for ₹29 delivery! (FREE on ₹499+)</div>`;
-  } else if (subtotal >= 149 && subtotal < 499) {
-    const diff = 499 - subtotal;
-    deliveryHintHtml = `<div style="font-size:0.75rem;background:#dbeafe;color:#1e40af;padding:6px 10px;border-radius:6px;margin-bottom:8px;text-align:center">🎉 Add ₹${diff} more items for <strong>FREE Delivery!</strong></div>`;
-  } else if (subtotal >= 499) {
-    deliveryHintHtml = `<div style="font-size:0.75rem;background:#dcfce7;color:#166534;padding:6px 10px;border-radius:6px;margin-bottom:8px;text-align:center">🥳 You've unlocked <strong>FREE Delivery!</strong></div>`;
-  }
 
   let couponHtml = '';
-  if (activeCoupon) {
-    couponHtml = `
-      <div class="coupon-section">
-        <div class="coupon-title">🏷️ Coupon Applied</div>
-        <div class="applied-coupon">
-          <div class="ac-left">
-            <div>
-              <div class="ac-code">${activeCoupon.code}</div>
-              <div class="ac-desc">${activeCoupon.text}</div>
-            </div>
-          </div>
-          <button class="ac-remove" onclick="removeCoupon()">Remove</button>
-        </div>
-      </div>
-    `;
-  } else {
-    couponHtml = `
-      <div class="coupon-section">
-        <div class="coupon-title">🏷️ Apply Coupon</div>
-        <div class="coupon-input-wrap">
-          <input type="text" id="couponInput" placeholder="Enter code" />
-          <button onclick="applyCouponCode(document.getElementById('couponInput').value)">Apply</button>
-        </div>
-        <div id="couponMsg" class="coupon-msg"></div>
-        <div style="font-size:0.7rem; color:var(--text-muted); margin-top:6px">Try <strong>WELCOME50</strong> or <strong>GROCERY10</strong></div>
-      </div>
-    `;
-  }
 
   footer.innerHTML=`
     ${couponHtml}

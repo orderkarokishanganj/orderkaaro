@@ -11,10 +11,16 @@
   "Personal Care & Hygiene": "पर्सनल केयर व स्वच्छता"
 };
 
-// Language & PWA & Admin State Globals
-let currentLang = localStorage.getItem('orderkaaro_lang') || 'en';
-let outOfStockItems = JSON.parse(localStorage.getItem('orderkaaro_outofstock') || '[]');
-let orderHistory = JSON.parse(localStorage.getItem('orderkaaro_history') || '[]');
+let currentLang = 'en';
+let outOfStockItems = [];
+let orderHistory = [];
+try {
+  currentLang = localStorage.getItem('orderkaaro_lang') || 'en';
+  outOfStockItems = JSON.parse(localStorage.getItem('orderkaaro_outofstock') || '[]');
+  orderHistory = JSON.parse(localStorage.getItem('orderkaaro_history') || '[]');
+} catch (e) {
+  console.warn("Failed to access localStorage:", e);
+}
 
 const translations = {
   en: {
@@ -48,8 +54,19 @@ const translations = {
    ========================================================================== */
 
 const WA_NUMBER = "919942089120";
-const FLAT_DELIVERY_CHARGE = 0;
-const FREE_DELIVERY_THRESHOLD = 0;
+const CONVENIENCE_FEE = 10;
+
+function calculateDeliveryFee(subtotal) {
+  if (subtotal === 0) return 0;
+  if (subtotal >= 800) return 0;
+  if (subtotal >= 500) return 20;
+  if (subtotal >= 200) return 30;
+  return 50;
+}
+
+function calculateConvenienceFee(subtotal) {
+  return subtotal > 0 ? CONVENIENCE_FEE : 0;
+}
 
 // ==========================================================================
 // COMPLETE 164-ITEM PRODUCT DATABASE
@@ -57,24 +74,24 @@ const FREE_DELIVERY_THRESHOLD = 0;
 const productsDatabase = [
   // --- SPECIAL SAVINGS BUNDLES & COMBOS ---
   { id: "B001", nameHi: "मंथली फैमिली राशन पैकेज (10 सामान)", name: "Monthly Family Rashan Package", unit: "Combo Pack (10 Items)", price: 1450, mrp: 1650, category: "Atta, Rice & Grains", image: "/Catalog/grains/aashirvaad-shud-chakki-atta.png", emoji: "📦", isBundle: true },
-  { id: "B002", nameHi: "त्योहार व पूजा स्पेशल कॉम्बो (6 सामान)", name: "Festive & Puja Special Combo", unit: "Combo Pack (6 Items)", price: 420, mrp: 490, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🪔", isBundle: true },
+  { id: "B002", nameHi: "त्योहार व पूजा स्पेशल कॉम्बो (6 सामान)", name: "Festive & Puja Special Combo", unit: "Combo Pack (6 Items)", price: 420, mrp: 490, category: "Atta, Rice & Grains", image: "/Catalog/grains/katarni-chura.png", emoji: "🪔", isBundle: true },
   { id: "B003", nameHi: "चाय व स्नैक्स सुपर सेवर कॉम्बो (5 सामान)", name: "Family Tea & Snacks Super Saver", unit: "Combo Pack (5 Items)", price: 280, mrp: 330, category: "Biscuits & Bakery", image: "/Catalog/tea/masala-tea.png", emoji: "☕", isBundle: true },
 
   // --- ATTA, RICE & GRAINS ---
   { id: "P001", nameHi: "आशीर्वाद शुद्ध चक्की आटा", name: "Aashirvaad Shud Chakki Atta", unit: "5 kg", price: 250, mrp: 276, category: "Atta, Rice & Grains", image: "/Catalog/grains/aashirvaad-shud-chakki-atta.png", emoji: "🌾" },
-  { id: "P002", nameHi: "अमृत भोग आटा", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, mrp: 252, category: "Atta, Rice & Grains", image: "/Catalog/Grains/amirt-bhog-atta.jpg", emoji: "🌾" },
-  { id: "P009", nameHi: "बेसन", name: "Besan", unit: "1 kg", price: 115, mrp: 132, category: "Atta, Rice & Grains", image: "/Catalog/Grains/besan.png", emoji: "🟡" },
-  { id: "P055", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "500 g", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🍚" },
-  { id: "P056", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "1 kg", price: 90, mrp: 100, category: "Atta, Rice & Grains", image: "/Catalog/Grains/katarni-chura.png", emoji: "🍚" },
-  { id: "P071", nameHi: "सत्तू", name: "Sattu", unit: "200 g", price: 31, mrp: 41, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sattu.png", emoji: "💪" },
-  { id: "P072", nameHi: "सत्तू", name: "Sattu", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sattu.png", emoji: "💪" },
-  { id: "P075", nameHi: "अमृत भोग सूजी", name: "Amrit Bhog Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sooji.png", emoji: "🌾" },
-  { id: "P077", nameHi: "चीनी / शक्कर", name: "Sugar", unit: "1 kg", price: 85, mrp: 90, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sugar.png", emoji: "🍬" },
+  { id: "P002", nameHi: "अमृत भोग आटा", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, mrp: 252, category: "Atta, Rice & Grains", image: "/Catalog/grains/amirt-bhog-atta.jpg", emoji: "🌾" },
+  { id: "P009", nameHi: "बेसन", name: "Besan", unit: "1 kg", price: 115, mrp: 132, category: "Atta, Rice & Grains", image: "/Catalog/grains/besan.png", emoji: "🟡" },
+  { id: "P055", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "500 g", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/grains/katarni-chura.png", emoji: "🍚" },
+  { id: "P056", nameHi: "कतरनी चूड़ा", name: "Katarni Chura", unit: "1 kg", price: 90, mrp: 100, category: "Atta, Rice & Grains", image: "/Catalog/grains/katarni-chura.png", emoji: "🍚" },
+  { id: "P071", nameHi: "सत्तू", name: "Sattu", unit: "200 g", price: 31, mrp: 41, category: "Atta, Rice & Grains", image: "/Catalog/grains/sattu.png", emoji: "💪" },
+  { id: "P072", nameHi: "सत्तू", name: "Sattu", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/grains/sattu.png", emoji: "💪" },
+  { id: "P075", nameHi: "अमृत भोग सूजी", name: "Amrit Bhog Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/grains/sooji.png", emoji: "🌾" },
+  { id: "P077", nameHi: "चीनी / शक्कर", name: "Sugar", unit: "1 kg", price: 85, mrp: 90, category: "Atta, Rice & Grains", image: "/Catalog/grains/sugar.png", emoji: "🍬" },
   { id: "P083", nameHi: "चावल", name: "Chawal", unit: "1 kg", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/chawal.png", emoji: "🍚" },
-  { id: "P084", nameHi: "सूजी", name: "Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sooji.png", emoji: "🌾" },
-  { id: "P103", nameHi: "पॉपकॉर्न मक्की", name: "Popcorn Makki Loose", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/Grains/popcorn-makki-loose.jpg", emoji: "🌽" },
+  { id: "p084", namehi: "सूजी", name: "sooji", unit: "1 kg", price: 60, mrp: 70, category: "atta, rice & grains", image: "/Catalog/Grains/sooji.png", emoji: "🌾" },
+  { id: "P103", nameHi: "पॉपकॉर्न मक्की", name: "Popcorn Makki Loose", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/grains/popcorn-makki-loose.jpg", emoji: "🌽" },
   { id: "P115", nameHi: "सेवई (वर्मिसेली)", name: "Vermicelli", unit: "1 kg", price: 120, mrp: 138, category: "Atta, Rice & Grains", image: "/Catalog/noodles/vermicelli.png", emoji: "🍜" },
-  { id: "P119", nameHi: "मैदा", name: "Maida", unit: "1 kg", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/Grains/maida.png", emoji: "🌾" },
+  { id: "P119", nameHi: "मैदा", name: "Maida", unit: "1 kg", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/Catalog/grains/maida.png", emoji: "🌾" },
 
   // --- PULSES, DAL & CHANA ---
   { id: "P006", nameHi: "अरहर दाल", name: "Arahar Dal", unit: "1 kg", price: 130, mrp: 149, category: "Pulses & Dal", image: "/Catalog/pulses-chana/arhar-dal.png", emoji: "🫘" },
@@ -99,8 +116,8 @@ const productsDatabase = [
   { id: "P061", nameHi: "मसूर दाल", name: "Massor Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/masoor-dal.png", emoji: "🟠" },
   { id: "P062", nameHi: "मसूर दाल", name: "Massor Dal", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "/Catalog/pulses-chana/masoor-dal.png", emoji: "🟠" },
   { id: "P063", nameHi: "मूंग दाल", name: "Moong Dal", unit: "500 g", price: 60, mrp: 70, category: "Pulses & Dal", image: "/Catalog/pulses-chana/moong-dal.png", emoji: "💛" },
-  { id: "P064", nameHi: "मोठ", name: "Moth", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "/Catalog/Grains/moth.png", emoji: "🌾" },
-  { id: "P086", nameHi: "Mouth", name: "Mouth", unit: "500 g", price: 45, mrp: 55, category: "Pulses & Dal", image: "/Catalog/Grains/moth.png", emoji: "🌾" },
+  { id: "P064", nameHi: "मोठ", name: "Moth", unit: "1 kg", price: 120, mrp: 138, category: "Pulses & Dal", image: "/Catalog/grains/moth.png", emoji: "🌾" },
+  { id: "P086", nameHi: "Mouth", name: "Mouth", unit: "500 g", price: 45, mrp: 55, category: "Pulses & Dal", image: "/Catalog/grains/moth.png", emoji: "🌾" },
   { id: "P097", nameHi: "चना दाल", name: "Chana Dal", unit: "1 kg", price: 96, mrp: 106, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chana-dal.png", emoji: "🫘" },
   { id: "P108", nameHi: "चना दाल", name: "Chana Dal", unit: "500 g", price: 40, mrp: 50, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chana-dal.png", emoji: "🫘" },
   { id: "P109", nameHi: "छोले चना", name: "Chole Chana", unit: "500 g", price: 48, mrp: 58, category: "Pulses & Dal", image: "/Catalog/pulses-chana/chole-chana.png", emoji: "🫘" },
@@ -119,37 +136,37 @@ const productsDatabase = [
   { id: "P122", nameHi: "इंजन कच्ची घानी सरसों तेल", name: "Engine Kacchi Ghani Oil", unit: "1 L", price: 215, mrp: 247, category: "Cooking Oils & Ghee", image: "/Catalog/oil/engine-kacchi-ghani.jpg", emoji: "🛢️" },
 
   // --- BISCUITS & COOKIES ---
-  { id: "P005", nameHi: "अनमोल ड्रीम लाइट बिस्कुट", name: "Anmol Dream Lite Salty Butterly Crunch", unit: "1 pcs", price: 5, mrp: 5, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/anmol-dreamlite-salty-butterfly-crunch.png", emoji: "🍪" },
-  { id: "P008", nameHi: "बाबा इलाइची टोस्ट / रस्क", name: "Baba Elaichi Toast", unit: "1 pcs", price: 60, mrp: 70, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/baba-elaichi-toast.png", emoji: "🍞" },
-  { id: "P010", nameHi: "बिस्क फार्म बटर बिस्कुट", name: "Bisk Farm Butter Biscotti", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-butter-biscotti.png", emoji: "🍪" },
-  { id: "P011", nameHi: "बिस्क फार्म मिल्क बिस्कुट", name: "Bisk Farm Champ Milkuit", unit: "1 pcs", price: 25, mrp: 35, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/biskfarm-champ-milkuit.png", emoji: "🥛" },
-  { id: "P012", nameHi: "बिस्क फार्म कोको वंडर", name: "Bisk Farm Coco Wonder", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/biskfarm-coco-wonder.png", emoji: "🍫" },
-  { id: "P013", nameHi: "बिस्क फार्म जीरा वंडर", name: "Bisk Farm Jeera Wonder", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-jeera-wonder.png", emoji: "🌾" },
-  { id: "P014", nameHi: "बिस्क फार्म मस्त जीरा", name: "Bisk Farm Mast Jeera", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-mast-jeera.png", emoji: "🌾" },
-  { id: "P015", nameHi: "बिस्क फार्म रस्क", name: "Bisk Farm Ruskit", unit: "1 pcs", price: 35, mrp: 45, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-ruskit.png", emoji: "🍞" },
-  { id: "P016", nameHi: "बिस्क फार्म टॉप गोल्ड", name: "Bisk Farm Top Gold", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-top-gold.png", emoji: "🥇" },
-  { id: "P017", nameHi: "बिस्क फार्म हर्ब्स", name: "Bisk Farm Top Herbs", unit: "1 pcs", price: 35, mrp: 45, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-top-farm.png", emoji: "🌿" },
-  { id: "P018", nameHi: "ब्रिटानिया 50-50 गोलमाल काला जीरा", name: "Britannia 50-50 Golmaal Kala Jeera", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-50-50-golmaal-kala-jeera.png", emoji: "🍪" },
-  { id: "P019", nameHi: "ब्रिटानिया 50-50 मारी गोल्ड", name: "Britannia 50-50 Marie Gold", unit: "1 pcs", price: 40, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-50-50-marie-gold.png", emoji: "🍪" },
-  { id: "P020", nameHi: "ब्रिटानिया 50-50 टॉप बटर", name: "Britannia 50-50 Top Butterly Bites", unit: "1 pcs", price: 40, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-50-50-top-butterfly-bites.png", emoji: "🧈" },
-  { id: "P021", nameHi: "ब्रिटानिया बार्बन चॉकलेट बिस्कुट", name: "Britannia Bourbon", unit: "1 pcs", price: 45, mrp: 45, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-bourbon.png", emoji: "🍫" },
-  { id: "P022", nameHi: "ब्रिटानिया गुडडे बटर कुकीज", name: "Britannia GoodDay Butter Cookies", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-goodday-butter-cookies.png", emoji: "🧈" },
-  { id: "P023", nameHi: "ब्रिटानिया गुडडे काजू बादाम", name: "Britannia GoodDay Cashew Almond", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-gooday-cashew-almond.png", emoji: "🌰" },
-  { id: "P024", nameHi: "ब्रिटानिया मिल्क बिकिस", name: "Britannia Milk Bikis", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-milk-bikis.png", emoji: "🥛" },
-  { id: "P025", nameHi: "ब्रिटानिया नूट्री च्वाइस", name: "Britannia Nutri Choice Digestive High Fibre", unit: "1 pcs", price: 55, mrp: 65, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/britannia-nutri-choice-digestive-high-fiber.png", emoji: "💚" },
-  { id: "P026", nameHi: "कोको वंडर बिस्कुट", name: "Coco Wonder", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/biskfarm-coco-wonder.png", emoji: "🍫" },
-  { id: "P033", nameHi: "फ्रूट केक", name: "Fruit Cake", unit: "1 pcs", price: 80, mrp: 90, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/fruit-cake.png", emoji: "🍰" },
-  { id: "P043", nameHi: "होम बेक प्रीमियम कुकीज (ग्रीन)", name: "Home Bake Premium Cookies Mix Flavours Green", unit: "1 pcs", price: 55, mrp: 65, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/homebread-premium-cookies-mix-flavours-green.png", emoji: "🍪" },
-  { id: "P044", nameHi: "होम बेक प्रीमियम कुकीज (रेड)", name: "Home Bake Premium Cookies Mix Flavours Red", unit: "1 pcs", price: 55, mrp: 65, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/homebread-premium-cookies-mix-flavours-red.png", emoji: "🍪" },
-  { id: "P045", nameHi: "होमब्रेड कुकीज", name: "Homebread Cookies", unit: "1 pcs", price: 80, mrp: 90, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/homebread-cookies.png", emoji: "🍪" },
-  { id: "P060", nameHi: "मालकिस्ट चीज बिस्कुट", name: "Malkist Cheese Flavoured", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/malkist-cheese-flavoured.png", emoji: "🧀" },
-  { id: "P068", nameHi: "ओरियो चॉकलेट बिस्कुट", name: "Oreo", unit: "1 pcs", price: 10, mrp: 20, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/oreo.png", emoji: "⚫" },
-  { id: "P069", nameHi: "पारले मोनाको क्लासिक", name: "Parle Monaco Classic", unit: "1 pcs", price: 70, mrp: 80, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/parle-monaco-classic.png", emoji: "🍪" },
-  { id: "P070", nameHi: "रस्क", name: "Ruskit", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-ruskit.png", emoji: "🍞" },
-  { id: "P074", nameHi: "सनफीस्ट मॉम्स मैजिक घी रोस्टेड", name: "Sunfeast Mom's Magic Ghee Roasted", unit: "1 pcs", price: 64, mrp: 74, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/sunfeast-moms-magic-ghee-rosted.png", emoji: "🍪" },
-  { id: "P081", nameHi: "बिस्क फार्म मस्त जीरा", name: "Bisk Farm Mast Jeera", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/bisk-farm-mast-jeera.png", emoji: "🌾" },
-  { id: "P120", nameHi: "मिल्क बिकिस", name: "Milk Bikis", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/milk-bikis.webp", emoji: "🥛" },
-  { id: "P121", nameHi: "टाइम पास 50-50", name: "Time Pass 50-50", unit: "1 pcs", price: 25, mrp: 35, category: "Biscuits & Bakery", image: "/Catalog/Biscuits/time-pass-50-50.jpg", emoji: "🍪" },
+  { id: "P005", nameHi: "अनमोल ड्रीम लाइट बिस्कुट", name: "Anmol Dream Lite Salty Butterly Crunch", unit: "1 pcs", price: 5, mrp: 5, category: "Biscuits & Bakery", image: "/Catalog/biscuits/anmol-dreamlite-salty-butterfly-crunch.png", emoji: "🍪" },
+  { id: "P008", nameHi: "बाबा इलाइची टोस्ट / रस्क", name: "Baba Elaichi Toast", unit: "1 pcs", price: 60, mrp: 70, category: "Biscuits & Bakery", image: "/Catalog/biscuits/baba-elaichi-toast.png", emoji: "🍞" },
+  { id: "P010", nameHi: "बिस्क फार्म बटर बिस्कुट", name: "Bisk Farm Butter Biscotti", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/biscuits/bisk-farm-butter-biscotti.png", emoji: "🍪" },
+  { id: "P011", nameHi: "बिस्क फार्म मिल्क बिस्कुट", name: "Bisk Farm Champ Milkuit", unit: "1 pcs", price: 25, mrp: 35, category: "Biscuits & Bakery", image: "/Catalog/biscuits/biskfarm-champ-milkuit.png", emoji: "🥛" },
+  { id: "P012", nameHi: "बिस्क फार्म कोको वंडर", name: "Bisk Farm Coco Wonder", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/biscuits/biskfarm-coco-wonder.png", emoji: "🍫" },
+  { id: "P013", nameHi: "बिस्क फार्म जीरा वंडर", name: "Bisk Farm Jeera Wonder", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/biscuits/bisk-farm-jeera-wonder.png", emoji: "🌾" },
+  { id: "P014", nameHi: "बिस्क फार्म मस्त जीरा", name: "Bisk Farm Mast Jeera", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "/Catalog/biscuits/bisk-farm-mast-jeera.png", emoji: "🌾" },
+  { id: "P015", nameHi: "बिस्क फार्म रस्क", name: "Bisk Farm Ruskit", unit: "1 pcs", price: 35, mrp: 45, category: "Biscuits & Bakery", image: "/Catalog/biscuits/bisk-farm-ruskit.png", emoji: "🍞" },
+  { id: "P016", nameHi: "बिस्क फार्म टॉप गोल्ड", name: "Bisk Farm Top Gold", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/biscuits/bisk-farm-top-gold.png", emoji: "🥇" },
+  { id: "P017", nameHi: "बिस्क फार्म हर्ब्स", name: "Bisk Farm Top Herbs", unit: "1 pcs", price: 35, mrp: 45, category: "Biscuits & Bakery", image: "/Catalog/biscuits/bisk-farm-top-farm.png", emoji: "🌿" },
+  { id: "P018", nameHi: "ब्रिटानिया 50-50 गोलमाल काला जीरा", name: "Britannia 50-50 Golmaal Kala Jeera", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/biscuits/britannia-50-50-golmaal-kala-jeera.png", emoji: "🍪" },
+  { id: "P019", nameHi: "ब्रिटानिया 50-50 मारी गोल्ड", name: "Britannia 50-50 Marie Gold", unit: "1 pcs", price: 40, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/biscuits/britannia-50-50-marie-gold.png", emoji: "🍪" },
+  { id: "P020", nameHi: "ब्रिटानिया 50-50 टॉप बटर", name: "Britannia 50-50 Top Butterly Bites", unit: "1 pcs", price: 40, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/biscuits/britannia-50-50-top-butterfly-bites.png", emoji: "🧈" },
+  { id: "P021", nameHi: "ब्रिटानिया बार्बन चॉकलेट बिस्कुट", name: "Britannia Bourbon", unit: "1 pcs", price: 45, mrp: 45, category: "Biscuits & Bakery", image: "/Catalog/biscuits/britannia-bourbon.png", emoji: "🍫" },
+  { id: "P022", nameHi: "ब्रिटानिया गुडडे बटर कुकीज", name: "Britannia GoodDay Butter Cookies", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/biscuits/britannia-goodday-butter-cookies.png", emoji: "🧈" },
+  { id: "P023", nameHi: "ब्रिटानिया गुडडे काजू बादाम", name: "Britannia GoodDay Cashew Almond", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/biscuits/britannia-gooday-cashew-almond.png", emoji: "🌰" },
+  { id: "P024", nameHi: "ब्रिटानिया मिल्क बिकिस", name: "Britannia Milk Bikis", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/biscuits/britannia-milk-bikis.png", emoji: "🥛" },
+  { id: "P025", nameHi: "ब्रिटानिया नूट्री च्वाइस", name: "Britannia Nutri Choice Digestive High Fibre", unit: "1 pcs", price: 55, mrp: 65, category: "Biscuits & Bakery", image: "/Catalog/biscuits/britannia-nutri-choice-digestive-high-fiber.png", emoji: "💚" },
+  { id: "P026", nameHi: "कोको वंडर बिस्कुट", name: "Coco Wonder", unit: "1 pcs", price: 30, mrp: 40, category: "Biscuits & Bakery", image: "/Catalog/biscuits/biskfarm-coco-wonder.png", emoji: "🍫" },
+  { id: "P033", nameHi: "फ्रूट केक", name: "Fruit Cake", unit: "1 pcs", price: 80, mrp: 90, category: "Biscuits & Bakery", image: "/Catalog/biscuits/fruit-cake.png", emoji: "🍰" },
+  { id: "P043", nameHi: "होम बेक प्रीमियम कुकीज (ग्रीन)", name: "Home Bake Premium Cookies Mix Flavours Green", unit: "1 pcs", price: 55, mrp: 65, category: "Biscuits & Bakery", image: "/Catalog/biscuits/homebread-premium-cookies-mix-flavours-green.png", emoji: "🍪" },
+  { id: "P044", nameHi: "होम बेक प्रीमियम कुकीज (रेड)", name: "Home Bake Premium Cookies Mix Flavours Red", unit: "1 pcs", price: 55, mrp: 65, category: "Biscuits & Bakery", image: "/Catalog/biscuits/homebread-premium-cookies-mix-flavours-red.png", emoji: "🍪" },
+  { id: "P045", nameHi: "होमब्रेड कुकीज", name: "Homebread Cookies", unit: "1 pcs", price: 80, mrp: 90, category: "Biscuits & Bakery", image: "/Catalog/biscuits/homebread-cookies.png", emoji: "🍪" },
+  { id: "P060", nameHi: "मालकिस्ट चीज बिस्कुट", name: "Malkist Cheese Flavoured", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "/Catalog/biscuits/malkist-cheese-flavoured.png", emoji: "🧀" },
+  { id: "P068", nameHi: "ओरियो चॉकलेट बिस्कुट", name: "Oreo", unit: "1 pcs", price: 10, mrp: 20, category: "Biscuits & Bakery", image: "/Catalog/biscuits/oreo.png", emoji: "⚫" },
+  { id: "P069", nameHi: "पारले मोनाको क्लासिक", name: "Parle Monaco Classic", unit: "1 pcs", price: 70, mrp: 80, category: "Biscuits & Bakery", image: "/Catalog/biscuits/parle-monaco-classic.png", emoji: "🍪" },
+  { id: "P070", nameHi: "रस्क", name: "Ruskit", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/biscuits/bisk-farm-ruskit.png", emoji: "🍞" },
+  { id: "P074", nameHi: "सनफीस्ट मॉम्स मैजिक घी रोस्टेड", name: "Sunfeast Mom's Magic Ghee Roasted", unit: "1 pcs", price: 64, mrp: 74, category: "Biscuits & Bakery", image: "/Catalog/biscuits/sunfeast-moms-magic-ghee-rosted.png", emoji: "🍪" },
+  { id: "P081", nameHi: "बिस्क फार्म मस्त जीरा", name: "Bisk Farm Mast Jeera", unit: "1 pcs", price: 45, mrp: 55, category: "Biscuits & Bakery", image: "/Catalog/biscuits/bisk-farm-mast-jeera.png", emoji: "🌾" },
+  { id: "P120", nameHi: "मिल्क बिकिस", name: "Milk Bikis", unit: "1 pcs", price: 40, mrp: 50, category: "Biscuits & Bakery", image: "/Catalog/biscuits/milk-bikis.webp", emoji: "🥛" },
+  { id: "P121", nameHi: "टाइम पास 50-50", name: "Time Pass 50-50", unit: "1 pcs", price: 25, mrp: 35, category: "Biscuits & Bakery", image: "/Catalog/biscuits/time-pass-50-50.jpg", emoji: "🍪" },
 
   // --- TEA, COFFEE & BEVERAGES ---
   { id: "P034", nameHi: "ग्लूकोज डी रेगुलर", name: "Glucon-D Regular", unit: "1 pcs", price: 39, mrp: 49, category: "Tea & Beverages", image: "/Catalog/energy/gulcon-d.png", emoji: "⚡" },
@@ -220,13 +237,13 @@ const productsDatabase = [
   { id: "P112", nameHi: "जीरा पाउडर", name: "Geera Powder", unit: "1 box", price: 180, mrp: 206, category: "Spices & Dry Fruits", image: "/Catalog/masala/geera-powder.webp", emoji: "🌾" },
   { id: "P116", nameHi: "किसमिस / किशमिश", name: "Kismis / Raisins", unit: "250 g", price: 149, mrp: 171, category: "Spices & Dry Fruits", image: "/Catalog/dry-fruit/kismis-raisins.jpg", emoji: "🍇" },
   { id: "P118", nameHi: "सूखा नारियल / गरीगोला", name: "Coconut", unit: "1 pcs", price: 50, mrp: 60, category: "Spices & Dry Fruits", image: "/Catalog/coconut.png", emoji: "🥥" },
-  { id: "P126", nameHi: "काजू", name: "Kaju", unit: "1 kg", price: 999, mrp: 1148, category: "Spices & Dry Fruits", image: "/Catalog/dry-fruit/kaju.png", emoji: "🌰" },
+  { id: "p126", namehi: "काजू", name: "kaju", unit: "1 kg", price: 999, mrp: 1148, category: "spices & dry fruits", image: "/Catalog/dry-fruit/kaju.png", emoji: "🌰" },
   { id: "P127", nameHi: "गोटा जीरा", name: "Gotta Jeera", unit: "1 kg", price: 260, mrp: 299, category: "Spices & Dry Fruits", image: "/Catalog/masala/geera-powder.webp", emoji: "🌾" },
 
   // --- DAIRY, PERSONAL & HOUSEHOLD ---
   { id: "P003", nameHi: "अमूल चीज़ क्यूब्स", name: "Amul Cheese Cubes", unit: "1 pcs", price: 22, mrp: 32, category: "Dairy & Household", image: "/Catalog/dairy/amul-cheese-cubes.png", emoji: "🧀" },
   { id: "P073", nameHi: "सर्फ एक्सेल डिटर्जेंट", name: "Surf Excel", unit: "500 g", price: 71, mrp: 81, category: "Dairy & Household", image: "/Catalog/detergent/sirf-excel.png", emoji: "🧼" },
-  { id: "P078", nameHi: "सेटाफिल मॉइस्चराइजर", name: "Cetaphil", unit: "1 pcs", price: 414, mrp: 476, category: "Dairy & Household", image: "/Catalog/Sanitary/cetaphil.png", emoji: "🧴" },
+  { id: "P078", nameHi: "सेटाफिल मॉइस्चराइजर", name: "Cetaphil", unit: "1 pcs", price: 414, mrp: 476, category: "Dairy & Household", image: "/Catalog/sanitary/cetaphil.png", emoji: "🧴" },
   { id: "P088", nameHi: "विम बार डिशवाश", name: "Vim Bar", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/soap/vim-bar.png", emoji: "🧼" },
   { id: "P089", nameHi: "रिन बार कपड़े धोने का साबुन", name: "Rin Bar", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/soap/rin-bar.png", emoji: "🧼" },
   { id: "P091", nameHi: "सेलोटेप", name: "Cellotape", unit: "1 pcs", price: 10, mrp: 20, category: "Dairy & Household", image: "/Catalog/stationary/cellotape.png", emoji: "📦" },
@@ -241,19 +258,25 @@ const productsDatabase = [
 ];
 
 // State Management (Persisted in localStorage)
-let cart = JSON.parse(localStorage.getItem('order_kaaro_cart') || '{}');
-let wishlist = JSON.parse(localStorage.getItem('order_kaaro_wishlist') || '[]');
-let orders = JSON.parse(localStorage.getItem('order_kaaro_orders') || '[]');
-let profile = JSON.parse(localStorage.getItem('order_kaaro_profile') || '{"name":"","phone":"","address":""}');
+let cart = {};
+let wishlist = [];
+let orders = [];
+let profile = { name: "", phone: "", address: "" };
+
+try {
+  cart = JSON.parse(localStorage.getItem('order_kaaro_cart') || '{}');
+  wishlist = JSON.parse(localStorage.getItem('order_kaaro_wishlist') || '[]');
+  orders = JSON.parse(localStorage.getItem('order_kaaro_orders') || '[]');
+  profile = JSON.parse(localStorage.getItem('order_kaaro_profile') || '{"name":"","phone":"","address":""}');
+} catch(e) {
+  console.warn("Failed to parse user data from localStorage:", e);
+}
 
 let activeCategory = "All";
 
 // --- Coupon Logic ---
 let activeCoupon = null;
-const AVAILABLE_COUPONS = {
-  'WELCOME50': { type: 'flat', val: 50, minOrder: 199, text: 'Flat ₹50 OFF' },
-  'GROCERY10': { type: 'percent', val: 10, minOrder: 499, maxDisc: 100, text: '10% OFF up to ₹100' }
-};
+const AVAILABLE_COUPONS = {};
 
 function applyCouponCode(code) {
   const c = code.toUpperCase().trim();
@@ -631,7 +654,7 @@ function updateHeaderBadges() {
   
   if (fbTotal) fbTotal.innerText = subtotal;
   
-  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD || subtotal === 0 ? 0 : FLAT_DELIVERY_CHARGE;
+  const delivery = calculateDeliveryFee(subtotal);
   if (fbDelivery) {
     fbDelivery.innerText = delivery === 0 ? translations[currentLang].freeDelivery : `+ ₹${delivery} ${translations[currentLang].deliveryFee}`;
   }
@@ -690,7 +713,7 @@ function renderCart() {
     `;
   }).join('');
   
-  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : FLAT_DELIVERY_CHARGE;
+  const delivery = calculateDeliveryFee(subtotal);
   let discount = 0;
   if (activeCoupon) {
     if (subtotal >= activeCoupon.minOrder) {
@@ -704,37 +727,10 @@ function renderCart() {
       activeCoupon = null;
     }
   }
-  const grandTotal = subtotal + delivery - discount;
+  const convenience = calculateConvenienceFee(subtotal);
+  const grandTotal = subtotal + delivery + convenience - discount;
   
   let couponHtml = '';
-  if (activeCoupon) {
-    couponHtml = `
-      <div class="coupon-section">
-        <div class="coupon-title">🏷️ Coupon Applied</div>
-        <div class="applied-coupon">
-          <div class="ac-left">
-            <div>
-              <div class="ac-code">${activeCoupon.code}</div>
-              <div class="ac-desc">${activeCoupon.text}</div>
-            </div>
-          </div>
-          <button class="ac-remove" onclick="removeCoupon()">Remove</button>
-        </div>
-      </div>
-    `;
-  } else {
-    couponHtml = `
-      <div class="coupon-section">
-        <div class="coupon-title">🏷️ Apply Coupon</div>
-        <div class="coupon-input-wrap">
-          <input type="text" id="couponInput" placeholder="Enter code" />
-          <button onclick="applyCouponCode(document.getElementById('couponInput').value)">Apply</button>
-        </div>
-        <div id="couponMsg" class="coupon-msg"></div>
-        <div style="font-size:0.7rem; color:var(--text-muted); margin-top:6px">Try <strong>WELCOME50</strong> or <strong>GROCERY10</strong></div>
-      </div>
-    `;
-  }
 
   cartFooter.innerHTML = `
     ${couponHtml}
@@ -749,6 +745,10 @@ function renderCart() {
         <span class="val" style="${delivery === 0 ? 'color:var(--primary)' : ''}">
           ${delivery === 0 ? translations[currentLang].freeDelivery : '₹' + delivery}
         </span>
+      </div>
+      <div class="db-row">
+        <span class="lbl">Convenience Fee</span>
+        <span class="val">₹${convenience}</span>
       </div>
       ${discount > 0 ? `<div class="db-row" style="color:var(--primary)"><span class="lbl">Coupon Discount</span><span class="val">-₹${discount}</span></div>` : ''}
       <div class="db-row grand">
@@ -1050,7 +1050,7 @@ function confirmOrder() {
     }
   });
   
-  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : FLAT_DELIVERY_CHARGE;
+  const delivery = calculateDeliveryFee(subtotal);
   let discount = 0;
   if (activeCoupon && subtotal >= activeCoupon.minOrder) {
       if (activeCoupon.type === 'percent') {
