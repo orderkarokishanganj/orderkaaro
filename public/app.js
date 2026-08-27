@@ -248,12 +248,46 @@ let profile = JSON.parse(localStorage.getItem('order_kaaro_profile') || '{"name"
 
 let activeCategory = "All";
 
+// --- Coupon Logic ---
+let activeCoupon = null;
+const AVAILABLE_COUPONS = {
+  'WELCOME50': { type: 'flat', val: 50, minOrder: 199, text: 'Flat ₹50 OFF' },
+  'GROCERY10': { type: 'percent', val: 10, minOrder: 499, maxDisc: 100, text: '10% OFF up to ₹100' }
+};
+
+function applyCouponCode(code) {
+  const c = code.toUpperCase().trim();
+  const msgEl = document.getElementById("couponMsg");
+  if(!AVAILABLE_COUPONS[c]) {
+    msgEl.textContent = "Invalid Coupon Code";
+    msgEl.className = "coupon-msg error";
+    return;
+  }
+  let subtotal = 0;
+  Object.keys(cart).forEach(id => {
+    const p = productsDatabase.find(item => item.id === id);
+    if (p) subtotal += p.price * cart[id];
+  });
+  if (subtotal < AVAILABLE_COUPONS[c].minOrder) {
+    msgEl.textContent = `Minimum order ₹${AVAILABLE_COUPONS[c].minOrder} required`;
+    msgEl.className = "coupon-msg error";
+    return;
+  }
+  activeCoupon = { code: c, ...AVAILABLE_COUPONS[c] };
+  renderCart();
+}
+function removeCoupon() {
+  activeCoupon = null;
+  renderCart();
+}
+
 // Save States Helpers
 function saveCart() {
   localStorage.setItem('order_kaaro_cart', JSON.stringify(cart));
   renderCart();
   updateHeaderBadges();
   renderProducts();
+  renderTopDeals();
 }
 
 function saveWishlist() {
@@ -318,6 +352,28 @@ function toggleWishlist(id, event) {
   });
 
   renderWishlistModal();
+}
+
+// Share Product Functionality
+function shareProduct(id, event) {
+  if (event) event.stopPropagation();
+  const p = productsDatabase.find(x => x.id === id);
+  if (!p) return;
+
+  const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
+  const shareData = {
+    title: displayName,
+    text: `Check out ${displayName} for just ₹${p.price} on Order Kaaro!`,
+    url: window.location.origin + "/catalogue?product=" + id
+  };
+
+  if (navigator.share) {
+    navigator.share(shareData).catch(console.error);
+  } else {
+    navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`).then(() => {
+      alert("Link copied to clipboard!");
+    }).catch(console.error);
+  }
 }
 
 // ==========================================================================
@@ -435,6 +491,9 @@ function productCardHTML(p) {
     <div class="product-card ${isOutOfStock ? 'out-of-stock' : ''}" id="card_${p.id}">
       ${isOutOfStock ? `<div class="out-of-stock-overlay">${translations[currentLang].outOfStock}</div>` : ''}
       <span class="product-badge-id">${p.id}</span>
+      <button class="product-share-btn" onclick="shareProduct('${p.id}', event)" title="Share Product">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+      </button>
       <button class="product-wishlist-btn ${isWishlisted ? 'active' : ''}" id="wl_btn_${p.id}" onclick="toggleWishlist('${p.id}', event)" title="Add to Wishlist">
         ${isWishlisted ? '❤️' : '🤍'}
       </button>
@@ -480,21 +539,30 @@ function renderTopDeals() {
     const qty = cart[p.id] || 0;
     const isWishlisted = wishlist.includes(p.id);
     const displayName = (currentLang === 'hi' && p.nameHi) ? p.nameHi : p.name;
+    const mrp = p.mrp || Math.round(p.price * 1.15);
+    const savings = mrp - p.price;
     return `
       <div class="deal-card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
           <span class="product-unit" style="margin-bottom:0">${p.unit}</span>
-          <button class="product-wishlist-btn ${isWishlisted ? 'active' : ''}" id="wl_btn_deal_${p.id}" onclick="toggleWishlist('${p.id}', event)" title="Wishlist" style="position:static;width:24px;height:24px;font-size:0.85rem">
-            ${isWishlisted ? '❤️' : '🤍'}
-          </button>
+          <div style="display:flex; gap: 4px;">
+            <button class="product-share-btn" onclick="shareProduct('${p.id}', event)" title="Share" style="position:static;width:24px;height:24px;font-size:0.85rem; border-radius: 50%; border: 1px solid rgba(226, 232, 240, 0.9); background: rgba(255, 255, 255, 0.9); cursor: pointer; display: flex; align-items: center; justify-content: center;">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+            </button>
+            <button class="product-wishlist-btn ${isWishlisted ? 'active' : ''}" id="wl_btn_deal_${p.id}" onclick="toggleWishlist('${p.id}', event)" title="Wishlist" style="position:static;width:24px;height:24px;font-size:0.85rem">
+              ${isWishlisted ? '❤️' : '🤍'}
+            </button>
+          </div>
         </div>
         <div class="product-img-wrap" style="height:70px;margin-bottom:8px">
           ${p.image ? `<img src="${p.image}" alt="${displayName}" class="product-img" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';" />` : ''}
           <span class="emoji-icon" style="${p.image ? 'display:none' : ''};font-size:2.4rem">${p.emoji || '📦'}</span>
         </div>
         <div class="product-name" style="font-size:0.82rem">${displayName}</div>
-        <div class="product-price-row" style="margin-bottom:8px">
+        <div class="product-price-row" style="margin-bottom:8px; display:flex; align-items:baseline; gap:6px; flex-wrap:wrap;">
           <span class="product-price" style="font-size:1rem">₹${p.price}</span>
+          ${mrp > p.price ? `<span class="product-mrp" style="font-size:0.75rem;">₹${mrp}</span>` : ''}
+          ${savings > 0 ? `<span class="product-save-tag" style="font-size:0.65rem;">Save ₹${savings}</span>` : ''}
         </div>
         ${qty === 0 ? `
           <button class="product-add-btn" style="height:36px;font-size:0.8rem" onclick="addToCart('${p.id}')">Add</button>
@@ -623,10 +691,55 @@ function renderCart() {
   }).join('');
   
   const delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : FLAT_DELIVERY_CHARGE;
-  const grandTotal = subtotal + delivery;
+  let discount = 0;
+  if (activeCoupon) {
+    if (subtotal >= activeCoupon.minOrder) {
+      if (activeCoupon.type === 'percent') {
+        discount = Math.min((subtotal * activeCoupon.val) / 100, activeCoupon.maxDisc || 9999);
+      } else {
+        discount = activeCoupon.val;
+      }
+      discount = Math.round(discount);
+    } else {
+      activeCoupon = null;
+    }
+  }
+  const grandTotal = subtotal + delivery - discount;
   
+  let couponHtml = '';
+  if (activeCoupon) {
+    couponHtml = `
+      <div class="coupon-section">
+        <div class="coupon-title">🏷️ Coupon Applied</div>
+        <div class="applied-coupon">
+          <div class="ac-left">
+            <div>
+              <div class="ac-code">${activeCoupon.code}</div>
+              <div class="ac-desc">${activeCoupon.text}</div>
+            </div>
+          </div>
+          <button class="ac-remove" onclick="removeCoupon()">Remove</button>
+        </div>
+      </div>
+    `;
+  } else {
+    couponHtml = `
+      <div class="coupon-section">
+        <div class="coupon-title">🏷️ Apply Coupon</div>
+        <div class="coupon-input-wrap">
+          <input type="text" id="couponInput" placeholder="Enter code" />
+          <button onclick="applyCouponCode(document.getElementById('couponInput').value)">Apply</button>
+        </div>
+        <div id="couponMsg" class="coupon-msg"></div>
+        <div style="font-size:0.7rem; color:var(--text-muted); margin-top:6px">Try <strong>WELCOME50</strong> or <strong>GROCERY10</strong></div>
+      </div>
+    `;
+  }
+
   cartFooter.innerHTML = `
+    ${couponHtml}
     <div class="delivery-box">
+      <div class="db-title" style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Order Summary</div>
       <div class="db-row">
         <span class="lbl">Item Subtotal</span>
         <span class="val">₹${subtotal}</span>
@@ -637,6 +750,7 @@ function renderCart() {
           ${delivery === 0 ? translations[currentLang].freeDelivery : '₹' + delivery}
         </span>
       </div>
+      ${discount > 0 ? `<div class="db-row" style="color:var(--primary)"><span class="lbl">Coupon Discount</span><span class="val">-₹${discount}</span></div>` : ''}
       <div class="db-row grand">
         <span class="lbl">Grand Total</span>
         <span class="val">₹${grandTotal}</span>
@@ -937,11 +1051,22 @@ function confirmOrder() {
   });
   
   const delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : FLAT_DELIVERY_CHARGE;
-  const grandTotal = subtotal + delivery;
+  let discount = 0;
+  if (activeCoupon && subtotal >= activeCoupon.minOrder) {
+      if (activeCoupon.type === 'percent') {
+        discount = Math.round(Math.min((subtotal * activeCoupon.val) / 100, activeCoupon.maxDisc || 9999));
+      } else {
+        discount = activeCoupon.val;
+      }
+  }
+  const grandTotal = subtotal + delivery - discount;
   
   text += `------------------------------------\n`;
   text += `💰 *Subtotal*: ₹${subtotal}\n`;
   text += `🚚 *Delivery Fee*: ${delivery === 0 ? "FREE" : "₹" + delivery}\n`;
+  if (discount > 0) {
+    text += `🏷️ *Discount*: -₹${discount} (${activeCoupon.code})\n`;
+  }
   text += `💵 *GRAND TOTAL*: ₹${grandTotal}\n`;
   text += `------------------------------------\n`;
   text += `Please confirm my order delivery in Kishanganj. Thank you!`;
@@ -961,6 +1086,7 @@ function confirmOrder() {
   
   // Clear cart upon submitting order
   cart = {};
+  activeCoupon = null;
   saveCart();
   closeModal();
   
