@@ -937,6 +937,21 @@ main {
   color: var(--text-main);
 }
 
+.product-mrp {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  text-decoration: line-through;
+}
+
+.product-save-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
 /* Add Buttons with Touch-Optimized 44px Height */
 .product-add-btn {
   width: 100%;
@@ -1163,29 +1178,33 @@ main {
   overflow-y: auto;
   flex: 1;
   padding: 16px 24px;
-  background: var(--surface);
+  background: #f4f6f9;
 }
 
 .cart-item-row {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
+  padding: 16px;
+  background: white;
+  border-radius: var(--radius-lg);
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .ci-emoji {
   font-size: 1.8rem;
-  width: 44px;
-  height: 44px;
-  background: var(--bg-body);
-  border-radius: var(--radius-sm);
+  width: 56px;
+  height: 56px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
-  padding: 2px;
+  padding: 4px;
 }
 
 .ci-emoji img {
@@ -1195,18 +1214,19 @@ main {
 }
 
 .ci-info { flex: 1; min-width: 0; }
-.ci-name { font-size: 0.88rem; font-weight: 600; color: var(--text-main); line-height: 1.3; }
-.ci-unit { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
-.ci-price { font-size: 0.92rem; font-weight: 700; color: var(--primary-dark); margin-top: 4px; }
+.ci-name { font-size: 0.95rem; font-weight: 600; color: var(--text-main); line-height: 1.3; margin-bottom: 4px; }
+.ci-unit { font-size: 0.75rem; color: var(--text-muted); }
+.ci-price { font-size: 1rem; font-weight: 700; color: var(--text-main); margin-top: 6px; }
 
 .ci-qty {
   display: flex;
   align-items: center;
-  background: var(--primary);
-  border-radius: var(--radius-sm);
+  background: #318616;
+  border-radius: 20px;
   overflow: hidden;
   flex-shrink: 0;
   height: 36px;
+  box-shadow: 0 4px 10px rgba(49, 134, 22, 0.2);
 }
 
 .ciq-btn {
@@ -1246,15 +1266,31 @@ main {
 
 .cart-footer-panel {
   padding: 20px 24px 28px;
-  border-top: 1px solid var(--border);
-  background: var(--bg-body);
+  background: white;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
 }
 
+.coupon-section { padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 16px; box-shadow: var(--shadow-sm); }
+.coupon-title { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
+.coupon-input-wrap { display: flex; gap: 8px; }
+.coupon-input-wrap input { flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.2s; text-transform: uppercase; }
+.coupon-input-wrap input:focus { border-color: var(--primary); }
+.coupon-input-wrap button { background: var(--text-main); color: white; border: none; border-radius: var(--radius-sm); padding: 0 16px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.2s; }
+.coupon-input-wrap button:hover { background: #000; }
+.coupon-msg { font-size: 0.75rem; font-weight: 600; margin-top: 6px; display: none; }
+.coupon-msg.success { color: var(--primary); display: block; }
+.coupon-msg.error { color: var(--danger); display: block; }
+.applied-coupon { display: flex; align-items: center; justify-content: space-between; background: var(--primary-light); border: 1px dashed var(--primary); border-radius: var(--radius-sm); padding: 10px 14px; }
+.ac-left { display: flex; align-items: center; gap: 8px; }
+.ac-code { font-weight: 700; color: var(--primary-dark); letter-spacing: 1px; }
+.ac-desc { font-size: 0.75rem; color: var(--primary-dark); }
+.ac-remove { color: var(--danger); font-size: 0.8rem; font-weight: 600; cursor: pointer; border: none; background: none; }
+
 .delivery-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 14px;
+  background: #f4f6f9;
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 16px;
   margin-bottom: 16px;
 }
 
@@ -1266,20 +1302,20 @@ main {
 .db-row.grand .val { color: var(--primary-dark); font-size: 1.2rem; font-weight: 800; }
 
 @keyframes pulse-glow {
-  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
-  70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(49, 134, 22, 0.5); }
+  70% { box-shadow: 0 0 0 10px rgba(49, 134, 22, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(49, 134, 22, 0); }
 }
 
 .wa-send-btn {
   width: 100%;
-  background: #25D366;
+  background: #318616;
   color: white;
   border: none;
-  border-radius: var(--radius-md);
-  padding: 14px;
+  border-radius: var(--radius-lg);
+  padding: 16px;
   font-family: inherit;
-  font-size: 0.98rem;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
@@ -1289,7 +1325,7 @@ main {
   transition: background 0.2s, transform 0.1s;
 }
 
-.wa-send-btn:hover { background: #128C7E; transform: translateY(-1px); }
+.wa-send-btn:hover { background: #266b11; transform: translateY(-1px); }
 .wa-send-btn:not(:disabled) { animation: pulse-glow 2.2s infinite; }
 .wa-send-btn:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; animation: none; }
 
@@ -1686,6 +1722,31 @@ button, .cat-pill, .product-card, .floating-bar-inner, .nav-links a {
 }
 
 .product-wishlist-btn:hover {
+  transform: scale(1.15);
+  background: white;
+}
+
+/* Share Button on Cards */
+.product-share-btn {
+  position: absolute;
+  top: 10px;
+  right: 48px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 5;
+  transition: transform 0.2s, background 0.2s;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+}
+
+.product-share-btn:hover {
   transform: scale(1.15);
   background: white;
 }

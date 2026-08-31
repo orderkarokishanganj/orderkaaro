@@ -308,6 +308,22 @@
     .ci-remove { background: transparent; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; padding: 8px; margin-left: 4px; border-radius: var(--radius-sm); transition: all 0.2s; display: flex; align-items: center; justify-content: center; height: 40px; width: 40px; }
     .ci-remove:hover { color: var(--danger); background: #fee2e2; }
     
+    .coupon-section { padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 20px; box-shadow: var(--shadow-sm); }
+    .coupon-title { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
+    .coupon-input-wrap { display: flex; gap: 8px; }
+    .coupon-input-wrap input { flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.2s; text-transform: uppercase; }
+    .coupon-input-wrap input:focus { border-color: var(--primary); }
+    .coupon-input-wrap button { background: var(--text-main); color: white; border: none; border-radius: var(--radius-sm); padding: 0 16px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.2s; }
+    .coupon-input-wrap button:hover { background: #000; }
+    .coupon-msg { font-size: 0.75rem; font-weight: 600; margin-top: 6px; display: none; }
+    .coupon-msg.success { color: var(--primary); display: block; }
+    .coupon-msg.error { color: var(--danger); display: block; }
+    .applied-coupon { display: flex; align-items: center; justify-content: space-between; background: var(--primary-light); border: 1px dashed var(--primary); border-radius: var(--radius-sm); padding: 10px 14px; }
+    .ac-left { display: flex; align-items: center; gap: 8px; }
+    .ac-code { font-weight: 700; color: var(--primary-dark); letter-spacing: 1px; }
+    .ac-desc { font-size: 0.75rem; color: var(--primary-dark); }
+    .ac-remove { color: var(--danger); font-size: 0.8rem; font-weight: 600; cursor: pointer; border: none; background: none; }
+
     .cart-footer-panel { padding: 20px 24px 32px; border-top: 1px solid var(--border); background: var(--bg-body); }
     .delivery-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
     .db-title { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -523,13 +539,14 @@
 
 <script>
 const WA_NUMBER = "919942089120";
-const CONVENIENCE_FEE = 20;
+const CONVENIENCE_FEE = 10;
 
 function calculateDeliveryFee(subtotal) {
   if (subtotal === 0) return 0;
-  if (subtotal < 149) return 49;
-  if (subtotal < 499) return 29;
-  return 0;
+  if (subtotal >= 800) return 0;
+  if (subtotal >= 500) return 20;
+  if (subtotal >= 200) return 30;
+  return 50;
 }
 
 function calculateConvenienceFee(subtotal) {
@@ -815,6 +832,36 @@ categories.forEach(cat => cat.brands.forEach(b => {
 
 // Initialize cart from LocalStorage
 let cart = {};
+let activeCoupon = null;
+const AVAILABLE_COUPONS = {
+  'WELCOME50': { type: 'flat', val: 50, minOrder: 199, text: 'Flat ₹50 OFF' },
+  'GROCERY10': { type: 'percent', val: 10, minOrder: 499, maxDisc: 100, text: '10% OFF up to ₹100' }
+};
+
+function applyCouponCode(code) {
+  const c = code.toUpperCase().trim();
+  const msgEl = document.getElementById("couponMsg");
+  if(!AVAILABLE_COUPONS[c]) {
+    msgEl.textContent = "Invalid Coupon Code";
+    msgEl.className = "coupon-msg error";
+    return;
+  }
+  const {subtotal} = cartTotals();
+  if (subtotal < AVAILABLE_COUPONS[c].minOrder) {
+    msgEl.textContent = `Minimum order ₹${AVAILABLE_COUPONS[c].minOrder} required`;
+    msgEl.className = "coupon-msg error";
+    return;
+  }
+  activeCoupon = { code: c, ...AVAILABLE_COUPONS[c] };
+  updateUI();
+  renderCartDrawer();
+}
+function removeCoupon() {
+  activeCoupon = null;
+  updateUI();
+  renderCartDrawer();
+}
+
 try {
   const savedCart = localStorage.getItem('order_kaaro_cart');
   if (savedCart) { cart = JSON.parse(savedCart); }
@@ -826,7 +873,20 @@ function cartTotals() {
   const subtotal = items.reduce((s,i)=>s+(i.special*i.qty),0);
   const delivery = calculateDeliveryFee(subtotal);
   const convenience = calculateConvenienceFee(subtotal);
-  return {qty,subtotal,delivery,convenience};
+  
+  let discount = 0;
+  if (activeCoupon) {
+    if (subtotal >= activeCoupon.minOrder) {
+      if (activeCoupon.type === 'percent') {
+        discount = Math.min((subtotal * activeCoupon.val) / 100, activeCoupon.maxDisc || 9999);
+      } else {
+        discount = activeCoupon.val;
+      }
+    } else {
+      activeCoupon = null; // Auto remove if conditions fail
+    }
+  }
+  return {qty,subtotal,delivery,convenience,discount: Math.round(discount)};
 }
 
 function renderDeals() {
@@ -1115,26 +1175,21 @@ function renderCartDrawer() {
       </button>
     </div>`).join("");
     
-  const {subtotal,delivery,convenience}=cartTotals();
-  const grand=subtotal+delivery+convenience;
+  const {subtotal,delivery,convenience,discount}=cartTotals();
+  const grand=subtotal+delivery+convenience-discount;
   let deliveryHintHtml = '';
-  if (subtotal > 0 && subtotal < 149) {
-    const diff = 149 - subtotal;
-    deliveryHintHtml = `<div style="font-size:0.75rem;background:#fef3c7;color:#92400e;padding:6px 10px;border-radius:6px;margin-bottom:8px;text-align:center">💡 Add ₹${diff} more items for ₹29 delivery! (FREE on ₹499+)</div>`;
-  } else if (subtotal >= 149 && subtotal < 499) {
-    const diff = 499 - subtotal;
-    deliveryHintHtml = `<div style="font-size:0.75rem;background:#dbeafe;color:#1e40af;padding:6px 10px;border-radius:6px;margin-bottom:8px;text-align:center">🎉 Add ₹${diff} more items for <strong>FREE Delivery!</strong></div>`;
-  } else if (subtotal >= 499) {
-    deliveryHintHtml = `<div style="font-size:0.75rem;background:#dcfce7;color:#166534;padding:6px 10px;border-radius:6px;margin-bottom:8px;text-align:center">🥳 You've unlocked <strong>FREE Delivery!</strong></div>`;
-  }
+
+  let couponHtml = '';
 
   footer.innerHTML=`
+    ${couponHtml}
     <div class="delivery-box">
-      <div class="db-title">Bill Summary</div>
+      <div class="db-title">Order Summary</div>
       ${deliveryHintHtml}
       <div class="db-row"><span class="lbl">Subtotal</span><span class="val">₹${subtotal}</span></div>
       <div class="db-row"><span class="lbl">Delivery Charge</span><span class="val">${delivery === 0 ? '<strong style="color:var(--primary)">FREE 🎉</strong>' : `₹${delivery}`}</span></div>
       <div class="db-row"><span class="lbl">Convenience Fee</span><span class="val">₹${convenience}</span></div>
+      ${discount > 0 ? `<div class="db-row" style="color:var(--primary)"><span class="lbl">Coupon Discount</span><span class="val">-₹${discount}</span></div>` : ''}
       <div class="db-row grand"><span class="lbl">To Pay</span><span class="val">₹${grand}</span></div>
     </div>
     <button class="wa-send-btn" onclick="sendWhatsApp()">
@@ -1164,17 +1219,22 @@ function confirmOrder(){
   if(!/^\d{10}$/.test(phone))show("phoneErr","custPhone");else hide("phoneErr","custPhone");
   if(!ok)return;
   const items=Object.values(cart);
-  const {subtotal,delivery,convenience}=cartTotals();
-  const grand=subtotal+delivery+convenience;
+  const {subtotal,delivery,convenience,discount}=cartTotals();
+  const grand=subtotal+delivery+convenience-discount;
   let msg="🛒 *New Order – Order Kaaro*\n━━━━━━━━━━━━━━━━━━━━\n\n*👤 Customer Details:*\n";
   msg+=`• Name: ${name}\n• Mobile: ${phone}\n• Address: ${addr}\n\n`;
   msg+="━━━━━━━━━━━━━━━━━━━━\n*🛍️ Order:*\n\n";
   items.forEach(i=>msg+=`• ${i.name} (${i.unit||"1 pcs"})\n  Qty: ${i.qty}  |  ₹${i.special} each  |  *₹${i.special*i.qty}*\n\n`);
-  msg+=`━━━━━━━━━━━━━━━━━━━━\n🧾 Subtotal: ₹${subtotal}\n🚚 Delivery: ${delivery === 0 ? 'FREE 🎉' : `₹${delivery}`}\n⚙️ Convenience Fee: ₹${convenience}\n━━━━━━━━━━━━━━━━━━━━\n💰 *Grand Total: ₹${grand}*\n\nThank you! 🙏`;
+  msg+=`━━━━━━━━━━━━━━━━━━━━\n🧾 Subtotal: ₹${subtotal}\n🚚 Delivery: ${delivery === 0 ? 'FREE 🎉' : `₹${delivery}`}\n⚙️ Convenience Fee: ₹${convenience}\n`;
+  if (discount > 0) {
+    msg+=`🏷️ Discount: -₹${discount} (${activeCoupon.code})\n`;
+  }
+  msg+=`━━━━━━━━━━━━━━━━━━━━\n💰 *Grand Total: ₹${grand}*\n\nThank you! 🙏`;
   closeModal();
   
   // Clear cart upon successful checkout intent
   cart = {};
+  activeCoupon = null;
   updateUI();
   renderDeals();
   renderBrandSections();
