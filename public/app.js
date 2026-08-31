@@ -69,7 +69,7 @@ const productsDatabase = [
   { id: "P071", nameHi: "सत्तू", name: "Sattu", unit: "200 g", price: 31, mrp: 41, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sattu.png", emoji: "💪" },
   { id: "P072", nameHi: "सत्तू", name: "Sattu", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sattu.png", emoji: "💪" },
   { id: "P075", nameHi: "अमृत भोग सूजी", name: "Amrit Bhog Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sooji.png", emoji: "🌾" },
-  { id: "P077", nameHi: "चीनी / शक्कर", name: "Sugar", unit: "1 kg", price: 85, mrp: 90, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sugar.png", emoji: "🍬" },
+  { id: "P077", nameHi: "चीनी / शक्कर", name: "Sugar", unit: "1 kg", price: 75, mrp: 85, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sugar.png", emoji: "🍬" },
   { id: "P083", nameHi: "चावल", name: "Chawal", unit: "1 kg", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/chawal.png", emoji: "🍚" },
   { id: "P084", nameHi: "सूजी", name: "Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/Catalog/Grains/sooji.png", emoji: "🌾" },
   { id: "P103", nameHi: "पॉपकॉर्न मक्की", name: "Popcorn Makki Loose", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/Catalog/Grains/popcorn-makki-loose.jpg", emoji: "🌽" },
