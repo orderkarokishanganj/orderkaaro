@@ -9,15 +9,16 @@ import ContactPage from './pages/ContactPage';
 import CataloguePage from './pages/CataloguePage';
 import PrivacyPage from './pages/PrivacyPage';
 import CookiePage from './pages/CookiePage';
+import ReviewGeneratorPage from './pages/ReviewGeneratorPage';
 
 function AppContent() {
   const location = useLocation();
-  const isCataloguePage = location.pathname === '/' || location.pathname === '/catalogue';
+  const isFullScreenPage = location.pathname === '/' || location.pathname === '/catalogue' || location.pathname === '/review';
 
   return (
     <div className="min-h-screen bg-white">
       <ScrollToTop />
-      {!isCataloguePage && <Header />}
+      {!isFullScreenPage && <Header />}
       <Routes>
         <Route path="/" element={<CataloguePage />} />
         <Route path="/home" element={<HomePage />} />
@@ -26,9 +27,10 @@ function AppContent() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/cookies" element={<CookiePage />} />
+        <Route path="/review" element={<ReviewGeneratorPage />} />
       </Routes>
-      {!isCataloguePage && <Footer />}
-      {!isCataloguePage && <ScrollToTopButton />}
+      {!isFullScreenPage && <Footer />}
+      {!isFullScreenPage && <ScrollToTopButton />}
     </div>
   );
 }
