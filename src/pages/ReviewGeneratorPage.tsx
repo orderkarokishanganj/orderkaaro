@@ -3,7 +3,7 @@ import { Star, Copy, ExternalLink, CheckCircle2 } from 'lucide-react';
 
 // You will need to replace this link with your actual Google Maps Review link.
 // You can get this from your Google Business Profile dashboard ("Ask for reviews" button).
-const GOOGLE_REVIEW_LINK = "https://g.page/r/YOUR_COMPANY_ID/review";
+const GOOGLE_REVIEW_LINK = "https://g.page/r/Caa1t0LPjd8YEBM/review";
 
 const PRE_GENERATED_REVIEWS = {
   5: [
