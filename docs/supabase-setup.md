@@ -1,20 +1,21 @@
 # Setting up Supabase
 
-Do this once for the **live** project (`order-kaaro`) and once for the **test** project (`order-kaaro-test`). It takes about 15 minutes. Nothing here needs Docker.
+Order Kaaro uses **one** Supabase project for both testing and the live shop. It takes about 15 minutes. Nothing here needs Docker.
 
-## 1. Create the projects
+## 1. Create the project
 
 1. Sign in at [supabase.com](https://supabase.com) and click **New project**.
-2. Name it `order-kaaro` and choose the **Mumbai (ap-south-1)** region. Save the database password somewhere safe.
-3. Repeat for `order-kaaro-test`.
+2. Choose the **Mumbai (ap-south-1)** region. Save the database password somewhere safe.
+
+(A second, separate test project is optional. If you add one later, its keys go in the `TEST_` lines of `.env` and scripts take `--test`.)
 
 ## 2. Put the keys in `.env`
 
 1. Copy `.env.example` to `.env` in the project folder.
-2. For each project, open **Project Settings → API** and copy:
-   - **Project URL** into `VITE_SUPABASE_URL` (or `TEST_SUPABASE_URL`)
-   - **anon public** into `VITE_SUPABASE_ANON_KEY` (or `TEST_SUPABASE_ANON_KEY`)
-   - **service_role** into `SUPABASE_SERVICE_ROLE_KEY` (or `TEST_SUPABASE_SERVICE_ROLE_KEY`)
+2. Open **Project Settings → API** and copy:
+   - **Project URL** into `VITE_SUPABASE_URL`
+   - **anon public** into `VITE_SUPABASE_ANON_KEY`
+   - **service_role** into `SUPABASE_SERVICE_ROLE_KEY`
 
 The service_role key can read and change everything. Keep it only in `.env` on your computer.
 
@@ -42,15 +43,13 @@ This creates every table, security rule and function from `supabase/migrations`,
 
 If you prefer not to use the command line, open **SQL Editor** in Supabase and run each file in `supabase/migrations` in name order, then `supabase/seed.sql`.
 
-For the test project, link to its reference and push again.
-
 ## 5. Upload the product photos
 
 ```bash
 npm run images:import
 ```
 
-This converts the 115 photos in `public/catalog` to small WebP files (48 MB becomes about 6 MB) and uploads them to the `product-images` bucket. For the test project add `-- --test`. Then check every product photo loads:
+This converts the 115 photos in `public/catalog` to small WebP files (48 MB becomes about 6 MB) and uploads them to the `product-images` bucket. Then check every product photo loads:
 
 ```bash
 npm run images:check:remote
