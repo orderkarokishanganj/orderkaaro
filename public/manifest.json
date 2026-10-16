@@ -1,11 +1,11 @@
 {
   "name": "Order Kaaro - Kishanganj Grocery Delivery",
   "short_name": "Order Kaaro",
-  "description": "Order 160+ daily groceries, atta, oil, dal, snacks, tea, and household essentials in Kishanganj with fast 30-minute delivery via WhatsApp.",
+  "description": "Order groceries and daily essentials in Kishanganj on WhatsApp. Cash or UPI on delivery.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f8fafc",
-  "theme_color": "#16a34a",
+  "background_color": "#F4EFE7",
+  "theme_color": "#4E6E58",
   "orientation": "portrait-primary",
   "icons": [
     {

@@ -214,7 +214,7 @@ const Contact = () => {
                 <Clock className="w-5 h-5 text-primary-500 mt-0.5" />
                 <div>
                   <p className="font-semibold text-gray-900">Operating Hours</p>
-                  <p className="text-sm text-gray-600">9:00 AM - 9:00 PM (All days)</p>
+                  <p className="text-sm text-gray-600">Mon–Sat 9:00 AM – 9:00 PM, Sun 10:00 AM – 6:00 PM</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">

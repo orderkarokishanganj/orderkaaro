@@ -44,7 +44,8 @@ const CTABanner = () => {
 
           {/* Stats/Features Row */}
           <div className="flex flex-wrap justify-center gap-6 mb-10">
-            {['45 Min Delivery', 'Fresh Produce', 'No Minimum Order'].map((item, index) => (
+            {/* Keep in sync with FREE_DELIVERY_MIN in public/app.js. */}
+            {['Free Delivery on ₹800+', 'Fresh Produce', 'Cash or UPI on Delivery'].map((item, index) => (
               <div
                 key={index}
                 className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-5 py-2 rounded-full"
