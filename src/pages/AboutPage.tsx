@@ -224,7 +224,7 @@ const AboutPage = () => {
                     </div>
                     <div>
                       <p className="font-bold text-gray-900">Fast Delivery</p>
-                      <p className="text-sm text-gray-500">Guaranteed</p>
+                      <p className="text-sm text-gray-500">Right to your door</p>
                     </div>
                   </div>
                 </div>

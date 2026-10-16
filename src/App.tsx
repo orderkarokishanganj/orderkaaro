@@ -9,7 +9,7 @@ import ContactPage from './pages/ContactPage';
 import CataloguePage from './pages/CataloguePage';
 import PrivacyPage from './pages/PrivacyPage';
 import CookiePage from './pages/CookiePage';
-import ReviewGeneratorPage from './pages/ReviewGeneratorPage';
+import ReviewPage from './pages/ReviewPage';
 
 function AppContent() {
   const location = useLocation();
@@ -27,7 +27,7 @@ function AppContent() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/cookies" element={<CookiePage />} />
-        <Route path="/review" element={<ReviewGeneratorPage />} />
+        <Route path="/review" element={<ReviewPage />} />
       </Routes>
       {!isFullScreenPage && <Footer />}
       {!isFullScreenPage && <ScrollToTopButton />}

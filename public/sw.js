@@ -1,7 +1,9 @@
-const CACHE_NAME = 'orderkaaro-v1';
-const STATIC_ASSETS = [
+// Bump the version whenever caching rules change; old caches are deleted on activate.
+const CACHE_NAME = 'orderkaaro-v2';
+
+// Saved on install so the catalogue still opens offline.
+const OFFLINE_ASSETS = [
   '/',
-  '/index.html',
   '/Catelog.html',
   '/styles.css',
   '/app.js',
@@ -11,49 +13,65 @@ const STATIC_ASSETS = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(OFFLINE_ASSETS))
   );
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      );
-    })
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))
+    )
   );
   self.clients.claim();
 });
 
-self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
+// Images and Vite's content-hashed bundles never change at the same URL,
+// so they can be served from cache. Everything else (HTML, app.js with prices,
+// styles, manifest) must come from the network so customers see current prices.
+function isCacheFirst(url) {
+  return url.pathname.startsWith('/assets/') ||
+    /\.(png|jpe?g|webp|gif|svg|ico|woff2?)$/i.test(url.pathname);
+}
 
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        // Return cached asset, fetch fresh copy in background
-        fetch(event.request).then((networkResponse) => {
-          if (networkResponse.status === 200) {
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse));
-          }
-        }).catch(() => {});
-        return cachedResponse;
-      }
-      return fetch(event.request).then((networkResponse) => {
-        if (networkResponse.status === 200 && event.request.url.startsWith(self.location.origin)) {
-          const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
-        }
-        return networkResponse;
-      });
-    })
-  );
+function putInCache(request, response) {
+  if (response.ok && response.type === 'basic') {
+    const copy = response.clone();
+    caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+  }
+  return response;
+}
+
+async function networkFirst(request) {
+  try {
+    return putInCache(request, await fetch(request));
+  } catch (err) {
+    const cached = await caches.match(request);
+    if (cached) return cached;
+    // Offline navigation to a route we never cached: fall back to the app shell.
+    if (request.mode === 'navigate') {
+      const shell = await caches.match('/');
+      if (shell) return shell;
+    }
+    throw err;
+  }
+}
+
+async function cacheFirst(request) {
+  const cached = await caches.match(request);
+  if (cached) return cached;
+  return putInCache(request, await fetch(request));
+}
+
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  if (request.method !== 'GET') return;
+
+  const url = new URL(request.url);
+  // Leave other sites (fonts, WhatsApp) and video range requests to the browser.
+  if (url.origin !== self.location.origin) return;
+  if (request.headers.has('range') || url.pathname.endsWith('.mp4')) return;
+
+  event.respondWith(isCacheFirst(url) ? cacheFirst(request) : networkFirst(request));
 });

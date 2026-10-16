@@ -20,7 +20,7 @@ const services = [
   {
     icon: Clock,
     title: 'Quick Delivery',
-    description: 'Abhi order karo aur sirf 45 minutes mein groceries paao. Itna fast ki shopping list banane se pehle hi delivery ho jaaye!',
+    description: 'Abhi WhatsApp par order karo aur groceries seedha ghar par paao. Na line, na bheed, na tension!',
     image: 'https://images.pexels.com/photos/6965754/pexels-photo-6965754.jpeg?auto=compress&cs=tinysrgb&w=600',
     gradient: 'from-primary-500 to-green-600',
     bgGradient: 'from-primary-50 to-green-50',

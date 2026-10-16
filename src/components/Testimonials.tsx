@@ -13,7 +13,7 @@ const testimonials = [
     name: 'Rahul Kumar',
     role: 'Student',
     quote: "Budget-friendly and super convenient! Order Kaaro helps me manage groceries without breaking my student wallet.",
-    highlights: ['Affordable pricing', 'Wide product range', 'No minimum order'],
+    highlights: ['Affordable pricing', 'Wide product range', 'Easy WhatsApp ordering'],
     image: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=300',
     rating: 5,
   },

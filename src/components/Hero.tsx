@@ -2,16 +2,17 @@ import { ShoppingBag, Truck, Clock, Shield, ChevronRight } from 'lucide-react';
 
 const CATALOGUE_URL = '/catalogue';
 
+// Keep in sync with FREE_DELIVERY_MIN in public/app.js.
 const stats = [
-  { value: '30', suffix: 'min', label: 'Express Delivery' },
-  { value: '160+', suffix: '', label: 'Fresh Products' },
-  { value: '₹0', suffix: '', label: 'Delivery on ₹499+' },
+  { value: '160+', suffix: '', label: 'Products' },
+  { value: '₹0', suffix: '', label: 'Delivery on ₹800+' },
+  { value: '7', suffix: ' days', label: 'Open Every Week' },
 ];
 
 const features = [
-  { icon: Clock, text: '30-Min Guarantee' },
+  { icon: Clock, text: 'Open 7 Days' },
   { icon: Shield, text: '100% Genuine Quality' },
-  { icon: Truck, text: 'Cash on Delivery' },
+  { icon: Truck, text: 'Cash or UPI on Delivery' },
 ];
 
 const Hero = () => {
