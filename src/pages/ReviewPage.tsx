@@ -1,48 +1,39 @@
+import { ExternalLink, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Star, ExternalLink } from 'lucide-react';
+import { useCatalog } from '../data/CatalogContext';
+import { useLang } from '../i18n/LanguageContext';
+import { usePageTitle } from '../ui/usePageTitle';
 
-// Google Business Profile review link ("Ask for reviews" in the dashboard).
-const GOOGLE_REVIEW_LINK = 'https://g.page/r/Caa1t0LPjd8YEBM/review';
+// Used until settings load. The owner can change the link in the admin panel's settings.
+const DEFAULT_REVIEW_LINK = 'https://g.page/r/Caa1t0LPjd8YEBM/review';
 
+/** Linked from the QR code on receipts. Sends customers to Google with no pre-written text. */
 export default function ReviewPage() {
+  const { lang, t } = useLang();
+  const { catalog } = useCatalog();
+  const link = catalog?.settings.googleReviewUrl || DEFAULT_REVIEW_LINK;
+  const hi = lang === 'hi';
+  usePageTitle(hi ? 'धन्यवाद' : 'Thank you');
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-cream-50 flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl border border-gray-100 p-8 text-center">
-        <img
-          src="/logo.jpeg"
-          alt="Order Kaaro logo"
-          className="w-20 h-20 rounded-2xl object-cover mx-auto mb-6 shadow-md"
-        />
-
-        <h1 className="font-display text-3xl font-bold text-gray-900 mb-2">
-          Thank you!
-        </h1>
-        <p className="text-lg text-gray-700 mb-1">Order Kaaro se order karne ke liye dhanyavaad.</p>
-        <p className="text-gray-600 mb-8">
-          Your honest feedback helps other families in Kishanganj find us, and helps us get better.
+    <div className="page">
+      <div className="card mx-auto flex max-w-md flex-col items-center px-6 py-10 text-center">
+        <img src="/logo.jpeg" alt="Order Kaaro" width={80} height={80} className="h-20 w-20 rounded-2xl object-cover" />
+        <h1 className="mt-5 text-[32px]">{hi ? 'धन्यवाद!' : 'Thank you!'}</h1>
+        <p className="mt-1 text-lg">{hi ? 'ऑर्डर कारो से ऑर्डर करने के लिए शुक्रिया।' : 'Thank you for ordering from Order Kaaro.'}</p>
+        <p className="mt-2 text-stone">
+          {hi
+            ? 'आपकी सच्ची राय किशनगंज के दूसरे परिवारों को हमें ढूँढने में मदद करती है, और हमें बेहतर बनाती है।'
+            : 'Your honest feedback helps other families in Kishanganj find us, and helps us get better.'}
         </p>
-
-        <div className="flex justify-center gap-1 mb-8" aria-hidden="true">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <Star key={star} className="w-8 h-8 text-accent-400" />
-          ))}
+        <div className="my-6 flex gap-1" aria-hidden="true">
+          {[1, 2, 3, 4, 5].map((n) => <Star key={n} className="h-8 w-8 text-clay" strokeWidth={1.5} />)}
         </div>
-
-        <a
-          href={GOOGLE_REVIEW_LINK}
-          className="flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-semibold text-lg transition-colors"
-        >
-          Write a review on Google
-          <ExternalLink className="w-5 h-5" aria-hidden="true" />
+        <a href={link} className="btn-primary w-full text-lg">
+          {hi ? 'Google पर रिव्यू लिखें' : 'Write a review on Google'} <ExternalLink className="h-5 w-5" aria-hidden="true" />
         </a>
-
-        <Link
-          to="/"
-          className="inline-block mt-6 text-primary-700 font-medium hover:underline"
-        >
-          Back to shopping
-        </Link>
+        <Link to="/" className="mt-4 inline-flex min-h-[44px] items-center font-semibold text-sage hover:underline">{t('continueShopping')}</Link>
       </div>
-    </main>
+    </div>
   );
 }

@@ -1,12 +1,10 @@
 // Bump the version whenever caching rules change; old caches are deleted on activate.
-const CACHE_NAME = 'orderkaaro-v2';
+const CACHE_NAME = 'orderkaaro-v3';
 
-// Saved on install so the catalogue still opens offline.
+// Saved on install so the app shell still opens offline. The product list itself is kept by
+// the app (localStorage) and refreshed from Supabase whenever there is a connection.
 const OFFLINE_ASSETS = [
   '/',
-  '/Catelog.html',
-  '/styles.css',
-  '/app.js',
   '/manifest.json',
   '/logo.jpeg'
 ];
@@ -28,8 +26,8 @@ self.addEventListener('activate', (event) => {
 });
 
 // Images and Vite's content-hashed bundles never change at the same URL,
-// so they can be served from cache. Everything else (HTML, app.js with prices,
-// styles, manifest) must come from the network so customers see current prices.
+// so they can be served from cache. Everything else (HTML, the app shell,
+// manifest) must come from the network so customers always get the latest version.
 function isCacheFirst(url) {
   return url.pathname.startsWith('/assets/') ||
     /\.(png|jpe?g|webp|gif|svg|ico|woff2?)$/i.test(url.pathname);

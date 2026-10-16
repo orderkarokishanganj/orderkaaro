@@ -15,14 +15,19 @@
     "db:seed:generate": "node scripts/generate-seed.mjs",
     "db:types": "node scripts/generate-db-types.mjs",
     "images:import": "node scripts/import-images.mjs",
-    "images:check:remote": "node scripts/check-images.mjs --remote"
+    "images:check:remote": "node scripts/check-images.mjs --remote",
+    "orders:cleanup-tests": "node scripts/cleanup-test-orders.mjs"
   },
   "dependencies": {
+    "@fontsource/fraunces": "^5.3.0",
+    "@fontsource/hind": "^5.3.0",
+    "@fontsource/tiro-devanagari-hindi": "^5.3.0",
     "@supabase/supabase-js": "^2.57.4",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.18.0"
+    "react-router-dom": "^7.18.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.10",

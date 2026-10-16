@@ -1,5 +1,6 @@
 // Converts the catalogue photos in public/catalog to resized WebP and uploads them to the
-// "product-images" Storage bucket at the paths the seed uses (catalog/<folder>/<name>.webp).
+// "product-images" Storage bucket at the paths the seed uses (catalog/<folder>/<name>.webp),
+// plus a 320px copy under thumbs/ (thumbs/catalog/...) for product grids.
 //   npm run images:import            -> live project (needs SUPABASE_SERVICE_ROLE_KEY in .env)
 //   npm run images:import -- --test  -> test project (TEST_ variables)
 //   npm run images:import -- --dry-run -> convert only, write files to a temp folder, upload nothing
@@ -28,30 +29,38 @@ const outDir = join(tmpdir(), 'order-kaaro-webp');
 
 let before = 0;
 let after = 0;
+let thumbs = 0;
 const failures = [];
 
 async function convertAndUpload(img) {
   const source = `${root}public${img.legacy}`;
   before += statSync(source).size;
-  const webp = await sharp(source)
-    .rotate()
-    .resize({ width: 800, height: 800, fit: 'inside', withoutEnlargement: true })
-    .webp({ quality: 80 })
-    .toBuffer();
-  after += webp.length;
+  const versions = [
+    { path: img.storage_path, size: 800, quality: 80 },
+    { path: `thumbs/${img.storage_path}`, size: 320, quality: 75 },
+  ];
+  for (const v of versions) {
+    const webp = await sharp(source)
+      .rotate()
+      .resize({ width: v.size, height: v.size, fit: 'inside', withoutEnlargement: true })
+      .webp({ quality: v.quality })
+      .toBuffer();
+    if (v.size === 800) after += webp.length;
+    else thumbs += webp.length;
 
-  if (dryRun) {
-    const target = join(outDir, img.storage_path);
-    mkdirSync(dirname(target), { recursive: true });
-    writeFileSync(target, webp);
-    return;
+    if (dryRun) {
+      const target = join(outDir, v.path);
+      mkdirSync(dirname(target), { recursive: true });
+      writeFileSync(target, webp);
+      continue;
+    }
+    const { error } = await client.storage.from('product-images').upload(v.path, webp, {
+      contentType: 'image/webp',
+      cacheControl: '31536000',
+      upsert: true,
+    });
+    if (error) failures.push(`${v.path}: ${error.message}`);
   }
-  const { error } = await client.storage.from('product-images').upload(img.storage_path, webp, {
-    contentType: 'image/webp',
-    cacheControl: '31536000',
-    upsert: true,
-  });
-  if (error) failures.push(`${img.storage_path}: ${error.message}`);
 }
 
 // A few uploads at a time keeps this quick without hammering the API.
@@ -68,7 +77,7 @@ await Promise.all(Array.from({ length: 4 }, async () => {
 }));
 
 const mb = (n) => `${(n / 1024 / 1024).toFixed(1)} MB`;
-console.log(`${images.length - failures.length}/${images.length} images ${dryRun ? `converted into ${outDir}` : 'uploaded'}: ${mb(before)} -> ${mb(after)}.`);
+console.log(`${images.length}/${images.length} images ${dryRun ? `converted into ${outDir}` : 'processed'}: ${mb(before)} -> ${mb(after)} full size, ${mb(thumbs)} thumbnails.`);
 if (failures.length) {
   console.error(failures.join('\n'));
   process.exit(1);

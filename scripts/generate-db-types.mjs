@@ -33,7 +33,8 @@ const relationships = (await db.query(`
   select con.conname as name, src.relname as table_name,
          array_agg(sa.attname order by k.n) as columns, dst.relname as referenced,
          array_agg(da.attname order by k.n) as referenced_columns,
-         exists (select 1 from pg_index i where i.indrelid = con.conrelid and i.indisunique
+         -- Partial unique indexes (e.g. "one primary image per product") do not make it one-to-one.
+         exists (select 1 from pg_index i where i.indrelid = con.conrelid and i.indisunique and i.indpred is null
                  and i.indkey::int2[] @> con.conkey and cardinality(i.indkey::int2[]) = cardinality(con.conkey)) as one_to_one
   from pg_constraint con
   join pg_class src on src.oid = con.conrelid

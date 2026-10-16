@@ -37,11 +37,13 @@ if (process.argv.includes('--remote')) {
     process.exit(1);
   }
   const rows = await res.json();
-  await Promise.all(rows.map(async ({ storage_path }) => {
-    const head = await fetch(`${url}/storage/v1/object/public/product-images/${storage_path}`, { method: 'HEAD' });
-    if (!head.ok) missing.push(`${storage_path} (HTTP ${head.status})`);
+  // Every photo has a full-size copy and a thumbs/ copy used in product grids.
+  const paths = rows.flatMap(({ storage_path }) => [storage_path, `thumbs/${storage_path}`]);
+  await Promise.all(paths.map(async (path) => {
+    const head = await fetch(`${url}/storage/v1/object/public/product-images/${path}`, { method: 'HEAD' });
+    if (!head.ok) missing.push(`${path} (HTTP ${head.status})`);
   }));
-  console.log(`Checked ${rows.length} images in Storage.`);
+  console.log(`Checked ${paths.length} image files in Storage.`);
 } else {
   const { products } = loadLegacyCatalog(`${root}public/app.js`);
   const images = products.flatMap((p) => p.images.map((img) => ({ ...img, product: p.name_en })));

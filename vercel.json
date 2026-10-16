@@ -4,6 +4,11 @@
   "installCommand": "npm install",
   "framework": "vite",
   "outputDirectory": "dist",
+  "redirects": [
+    { "source": "/Catelog.html", "destination": "/", "permanent": true },
+    { "source": "/catalogue", "destination": "/", "permanent": true },
+    { "source": "/home", "destination": "/", "permanent": true }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
