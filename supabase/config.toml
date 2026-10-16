@@ -1,0 +1,13 @@
+# Supabase CLI settings. Migrations live in supabase/migrations, starter data in supabase/seed.sql.
+project_id = "order-kaaro"
+
+[db]
+major_version = 17
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[auth]
+# Only the shop owner adds admin accounts; nobody can sign up from the website.
+enable_signup = false
