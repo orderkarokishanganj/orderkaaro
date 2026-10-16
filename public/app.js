@@ -92,14 +92,9 @@ function getOrderTotals() {
 }
 
 // ==========================================================================
-// COMPLETE 164-ITEM PRODUCT DATABASE
+// PRODUCT DATABASE
 // ==========================================================================
 const productsDatabase = [
-  // --- SPECIAL SAVINGS BUNDLES & COMBOS ---
-  { id: "B001", nameHi: "मंथली फैमिली राशन पैकेज (10 सामान)", name: "Monthly Family Rashan Package", unit: "Combo Pack (10 Items)", price: 1450, mrp: 1650, category: "Atta, Rice & Grains", image: "/catalog/grains/aashirvaad-shud-chakki-atta.png", emoji: "📦", isBundle: true },
-  { id: "B002", nameHi: "त्योहार व पूजा स्पेशल कॉम्बो (6 सामान)", name: "Festive & Puja Special Combo", unit: "Combo Pack (6 Items)", price: 420, mrp: 490, category: "Atta, Rice & Grains", image: "/catalog/grains/katarni-chura.png", emoji: "🪔", isBundle: true },
-  { id: "B003", nameHi: "चाय व स्नैक्स सुपर सेवर कॉम्बो (5 सामान)", name: "Family Tea & Snacks Super Saver", unit: "Combo Pack (5 Items)", price: 280, mrp: 330, category: "Biscuits & Bakery", image: "/catalog/tea/masala-tea.png", emoji: "☕", isBundle: true },
-
   // --- ATTA, RICE & GRAINS ---
   { id: "P001", nameHi: "आशीर्वाद शुद्ध चक्की आटा", name: "Aashirvaad Shud Chakki Atta", unit: "5 kg", price: 250, mrp: 276, category: "Atta, Rice & Grains", image: "/catalog/grains/aashirvaad-shud-chakki-atta.png", emoji: "🌾" },
   { id: "P002", nameHi: "अमृत भोग आटा", name: "Amrit Bhog Atta", unit: "5 kg", price: 220, mrp: 252, category: "Atta, Rice & Grains", emoji: "🌾" },
@@ -111,7 +106,6 @@ const productsDatabase = [
   { id: "P075", nameHi: "अमृत भोग सूजी", name: "Amrit Bhog Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/catalog/grains/sooji.png", emoji: "🌾" },
   { id: "P077", nameHi: "चीनी / शक्कर", name: "Sugar", unit: "1 kg", price: 75, mrp: 85, category: "Atta, Rice & Grains", image: "/catalog/grains/sugar.png", emoji: "🍬" },
   { id: "P083", nameHi: "चावल", name: "Chawal", unit: "1 kg", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/catalog/chawal.png", emoji: "🍚" },
-  { id: "p084", nameHi: "सूजी", name: "Sooji", unit: "1 kg", price: 60, mrp: 70, category: "Atta, Rice & Grains", image: "/catalog/grains/sooji.png", emoji: "🌾" },
   { id: "P103", nameHi: "पॉपकॉर्न मक्की", name: "Popcorn Makki Loose", unit: "500 g", price: 70, mrp: 80, category: "Atta, Rice & Grains", image: "/catalog/grains/popcorn-makki-loose.jpg", emoji: "🌽" },
   { id: "P115", nameHi: "सेवई (वर्मिसेली)", name: "Vermicelli", unit: "1 kg", price: 120, mrp: 138, category: "Atta, Rice & Grains", image: "/catalog/noodles/vermicelli.png", emoji: "🍜" },
   { id: "P119", nameHi: "मैदा", name: "Maida", unit: "1 kg", price: 50, mrp: 60, category: "Atta, Rice & Grains", image: "/catalog/grains/maida.png", emoji: "🌾" },
@@ -294,6 +288,11 @@ try {
 } catch(e) {
   console.warn("Failed to parse user data from localStorage:", e);
 }
+
+// Drop saved items that are no longer sold, so badges and totals stay correct.
+const isKnownProduct = (id) => productsDatabase.some(p => p.id === id);
+Object.keys(cart).forEach(id => { if (!isKnownProduct(id)) delete cart[id]; });
+wishlist = wishlist.filter(isKnownProduct);
 
 let activeCategory = "All";
 
@@ -578,7 +577,7 @@ function renderTopDeals() {
   const dealsRow = document.getElementById('dealsRow');
   if (!dealsRow) return;
   
-  const featuredIds = ["B001", "B002", "B003", "P001", "P004", "P006", "P029", "P022", "P125", "P094", "P076", "P080", "P162"];
+  const featuredIds = ["P001", "P004", "P006", "P029", "P022", "P125", "P094", "P076", "P080", "P162"];
   const featured = productsDatabase.filter(p => featuredIds.includes(p.id));
   
   dealsRow.innerHTML = featured.map(p => {
@@ -873,7 +872,7 @@ function closeOrders() {
 function reorderItems(encodedItems) {
   try {
     const items = JSON.parse(decodeURIComponent(encodedItems));
-    items.forEach(i => {
+    items.filter(i => isKnownProduct(i.id)).forEach(i => {
       cart[i.id] = (cart[i.id] || 0) + i.qty;
     });
     saveCart();

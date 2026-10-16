@@ -39,13 +39,13 @@ const CTABanner = () => {
           {/* Description */}
           <p className="text-white/90 text-lg md:text-xl lg:text-2xl leading-relaxed mb-10 max-w-2xl mx-auto">
             Soch ke dekho, ab kabhi grocery store ki bheed mein nahi fasna padega.{' '}
-            <span className="font-semibold text-white">Hum atta, dal aur tel se lekar household essentials tak sab kuch seedha aapke ghar tak laate hain.</span>
+            <span className="font-semibold text-white">Hum fresh sabzi se lekar household essentials tak sab kuch seedha aapke ghar tak laate hain.</span>
           </p>
 
           {/* Stats/Features Row */}
           <div className="flex flex-wrap justify-center gap-6 mb-10">
             {/* Keep in sync with FREE_DELIVERY_MIN in public/app.js. */}
-            {['Free Delivery on ₹800+', '160+ Products', 'Cash or UPI on Delivery'].map((item, index) => (
+            {['Free Delivery on ₹800+', 'Fresh Produce', 'Cash or UPI on Delivery'].map((item, index) => (
               <div
                 key={index}
                 className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-5 py-2 rounded-full"
