@@ -23,6 +23,7 @@ The look: a calm, soft neighbourhood store. Lots of breathing room, thin borders
 | `out-bg` | `#EEEAE3` | Out-of-stock button background |
 | `out-ink` | `#4A463F` | Out-of-stock button text |
 | `on-sage-soft` | `#E8EFE9` | Small secondary text on `sage` (cart bar subline) |
+| `chart` | `#2F7A50` | Chart bars and lines only (validated: lightness band, chroma floor; 5.2:1 on white) |
 | `danger-bg` / `danger-ink` | `#FBE3DE` / `#8C2F1E` | Reserved for destructive admin actions (6.8:1) |
 
 Contrast (WCAG AA needs 4.5:1 for body text):

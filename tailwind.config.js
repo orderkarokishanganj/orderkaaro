@@ -17,6 +17,8 @@ export default {
         clay: '#8A4630',
         out: { bg: '#EEEAE3', ink: '#4A463F' },
         danger: { bg: '#FBE3DE', ink: '#8C2F1E' },
+        // Chart marks only: a richer step of sage that passes the chroma check (sage alone reads grey).
+        chart: '#2F7A50',
       },
       fontFamily: {
         display: ['Fraunces', '"Tiro Devanagari Hindi"', 'serif'],

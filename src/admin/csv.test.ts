@@ -14,7 +14,7 @@ const product: AdminProduct = {
 describe('CSV round trip', () => {
   it('exports what it can import back unchanged', () => {
     const csv = toCsv(productsToRows([product], categories));
-    expect(csv.startsWith('﻿variant_id,product_slug')).toBe(true);
+    expect(csv.startsWith('\uFEFFvariant_id,product_slug')).toBe(true);
     const { headerError, rows } = checkImport(csv, new Set(['pulses-dal']));
     expect(headerError).toBeNull();
     expect(rows).toHaveLength(1);

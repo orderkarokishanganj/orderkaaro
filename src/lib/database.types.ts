@@ -684,12 +684,63 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_activity_log: {
+        Args: {
+          p_table?: string
+          p_before?: string
+          p_limit?: number
+        }
+        Returns: {
+          id: number
+          created_at: string
+          actor_name: string
+          actor_email: string
+          table_name: string
+          record_id: string
+          action: string
+          changes: Json
+        }[]
+      }
+      admin_add_admin: {
+        Args: {
+          p_email: string
+          p_role: Database["public"]["Enums"]["admin_role"]
+          p_name?: string
+        }
+        Returns: string
+      }
       admin_adjust_prices: {
         Args: {
           p_variant_ids: string[]
           p_percent: number
         }
         Returns: number
+      }
+      admin_coupon_stats: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          coupon_id: string
+          uses: number
+          discount_total: number
+        }[]
+      }
+      admin_customers: {
+        Args: {
+          p_search?: string
+        }
+        Returns: {
+          phone: string
+          name: string
+          address: string
+          landmark: string
+          orders: number
+          total_spent: number
+          last_order_at: string
+        }[]
+      }
+      admin_dashboard: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
       }
       admin_delete_category: {
         Args: {
@@ -708,6 +759,16 @@ export type Database = {
           p_rows: Json
         }
         Returns: Json
+      }
+      admin_list_admins: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          user_id: string
+          email: string
+          role: Database["public"]["Enums"]["admin_role"]
+          display_name: string
+          created_at: string
+        }[]
       }
       admin_price_history: {
         Args: {
@@ -733,6 +794,21 @@ export type Database = {
       admin_save_product: {
         Args: {
           p: Json
+        }
+        Returns: Json
+      }
+      admin_set_order_status: {
+        Args: {
+          p_order_id: string
+          p_status: Database["public"]["Enums"]["order_status"]
+          p_note?: string
+        }
+        Returns: undefined
+      }
+      admin_update_order_items: {
+        Args: {
+          p_order_id: string
+          p_items: Json
         }
         Returns: Json
       }

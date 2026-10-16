@@ -11,6 +11,8 @@ const EXPOSED_FUNCTIONS = [
   'quote_cart', 'place_order', 'validate_coupon', 'is_admin', 'is_owner', 'current_admin_role', 'delivery_fee_for',
   'admin_save_product', 'admin_delete_product', 'admin_adjust_prices', 'admin_reorder_categories',
   'admin_delete_category', 'admin_import_products', 'admin_price_history',
+  'admin_set_order_status', 'admin_update_order_items', 'admin_dashboard', 'admin_customers',
+  'admin_coupon_stats', 'admin_list_admins', 'admin_add_admin', 'admin_activity_log',
 ];
 
 const db = new PGlite();
