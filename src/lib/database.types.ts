@@ -684,6 +684,58 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_adjust_prices: {
+        Args: {
+          p_variant_ids: string[]
+          p_percent: number
+        }
+        Returns: number
+      }
+      admin_delete_category: {
+        Args: {
+          p_id: string
+        }
+        Returns: undefined
+      }
+      admin_delete_product: {
+        Args: {
+          p_id: string
+        }
+        Returns: string[]
+      }
+      admin_import_products: {
+        Args: {
+          p_rows: Json
+        }
+        Returns: Json
+      }
+      admin_price_history: {
+        Args: {
+          p_product_id: string
+        }
+        Returns: {
+          variant_id: string
+          unit_en: string
+          old_price: number
+          new_price: number
+          old_mrp: number
+          new_mrp: number
+          changed_at: string
+          changed_by_name: string
+        }[]
+      }
+      admin_reorder_categories: {
+        Args: {
+          p_ids: string[]
+        }
+        Returns: undefined
+      }
+      admin_save_product: {
+        Args: {
+          p: Json
+        }
+        Returns: Json
+      }
       current_admin_role: {
         Args: Record<PropertyKey, never>
         Returns: Database["public"]["Enums"]["admin_role"]

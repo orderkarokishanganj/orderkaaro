@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { CatalogProvider } from './data/CatalogContext';
 import { LanguageProvider } from './i18n/LanguageContext';
@@ -22,6 +22,8 @@ const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 const ReviewPage = lazy(() => import('./pages/ReviewPage'));
 const TermsPage = lazy(() => import('./pages/TermsPage'));
 const WishlistPage = lazy(() => import('./pages/WishlistPage'));
+// The admin panel is a separate download that customers never load.
+const AdminApp = lazy(() => import('./admin/AdminApp'));
 
 export default function App() {
   return (
@@ -30,6 +32,10 @@ export default function App() {
         <CatalogProvider>
           <BrowserRouter>
             <Routes>
+              <Route
+                path="admin/*"
+                element={<Suspense fallback={<p className="p-6 text-stone" role="status">Loading admin…</p>}><AdminApp /></Suspense>}
+              />
               <Route element={<Layout />}>
                 <Route index element={<HomePage />} />
                 <Route path="category/:slug" element={<CategoryPage />} />

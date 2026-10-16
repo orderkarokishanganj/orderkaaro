@@ -7,6 +7,7 @@ import { formatTime, hoursStatus } from '../lib/hours';
 import { formatRupees, freeDeliveryMin } from '../lib/pricing';
 import { whatsappUrl } from '../lib/whatsapp';
 import { ProductGrid, ProductGridSkeleton } from '../ui/ProductCard';
+import { CategoryIcon } from '../ui/CategoryIcon';
 import { ProductImage } from '../ui/ProductImage';
 import { LoadError, SectionTitle } from '../ui/states';
 import { usePageTitle } from '../ui/usePageTitle';
@@ -71,7 +72,8 @@ export default function HomePage() {
         <ul className="flex flex-wrap gap-2">
           {categories.map((c) => (
             <li key={c.id}>
-              <Link to={`/category/${c.slug}`} className="inline-flex min-h-[44px] items-center rounded-full border border-line bg-white px-4 font-medium hover:border-sage">
+              <Link to={`/category/${c.slug}`} className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-line bg-white px-4 font-medium hover:border-sage">
+                <CategoryIcon icon={c.icon} />
                 {pick(c.nameEn, c.nameHi)}
               </Link>
             </li>

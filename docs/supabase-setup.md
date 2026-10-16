@@ -69,6 +69,14 @@ where email = 'owner@example.com';
 
 The owner can add staff later from the admin panel. The database refuses to remove or demote the last owner.
 
+## 7. Allow password-reset links
+
+In **Authentication → URL Configuration**:
+- set **Site URL** to the shop's address (for example `https://orderkaaro.in`)
+- under **Redirect URLs**, add `https://<your shop address>/admin/reset-password` and, for testing on a computer, `http://localhost:4173/admin/reset-password`
+
+Without this, "Forgot password?" emails link to the wrong place.
+
 ## What the database enforces
 
 - Customers can read only visible products, categories and the shop settings.

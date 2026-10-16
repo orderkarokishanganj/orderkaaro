@@ -7,7 +7,11 @@ import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 // Customer- and admin-facing functions the app calls through supabase.rpc().
-const EXPOSED_FUNCTIONS = ['quote_cart', 'place_order', 'validate_coupon', 'is_admin', 'is_owner', 'current_admin_role', 'delivery_fee_for'];
+const EXPOSED_FUNCTIONS = [
+  'quote_cart', 'place_order', 'validate_coupon', 'is_admin', 'is_owner', 'current_admin_role', 'delivery_fee_for',
+  'admin_save_product', 'admin_delete_product', 'admin_adjust_prices', 'admin_reorder_categories',
+  'admin_delete_category', 'admin_import_products', 'admin_price_history',
+];
 
 const db = new PGlite();
 await db.exec(readFileSync(`${root}tests/db/supabase-stubs.sql`, 'utf8'));
@@ -52,7 +56,12 @@ const functions = (await db.query(`
   select p.proname as name, p.pronargs as nargs, p.pronargdefaults as ndefaults,
          coalesce(p.proargnames, '{}') as arg_names,
          array(select format_type(t, null) from unnest(p.proargtypes) t) as arg_types,
-         format_type(p.prorettype, null) as return_type
+         format_type(p.prorettype, null) as return_type,
+         -- Columns of "returns table (...)" functions.
+         coalesce(array(select format_type(t, null) from unnest(p.proallargtypes, p.proargmodes) with ordinality as a(t, m, n)
+                        where m = 't' order by n), '{}') as table_types,
+         coalesce(array(select nm from unnest(p.proargnames, p.proargmodes) with ordinality as a(nm, m, n)
+                        where m = 't' order by n), '{}') as table_names
   from pg_proc p join pg_namespace n on n.oid = p.pronamespace
   where n.nspname = 'public' and p.proname = any($1) order by p.proname`, [EXPOSED_FUNCTIONS])).rows;
 
@@ -150,7 +159,9 @@ for (const fn of functions) {
   });
   out += `${indent(6)}${fn.name}: {
 ${indent(8)}Args: ${args.length ? `{\n${args.join('\n')}\n${indent(8)}}` : 'Record<PropertyKey, never>'}
-${indent(8)}Returns: ${pgTypeToTs(fn.return_type)}
+${indent(8)}Returns: ${fn.table_names.length
+    ? `{\n${fn.table_names.map((n, i) => `${indent(10)}${n}: ${pgTypeToTs(fn.table_types[i])}`).join('\n')}\n${indent(8)}}[]`
+    : pgTypeToTs(fn.return_type)}
 ${indent(6)}}
 `;
 }

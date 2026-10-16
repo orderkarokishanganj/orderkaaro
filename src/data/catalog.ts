@@ -7,6 +7,8 @@ export interface Category {
   slug: string;
   nameEn: string;
   nameHi: string;
+  /** Key into CATEGORY_ICONS, chosen in the admin panel. */
+  icon: string | null;
   sortOrder: number;
 }
 
@@ -74,7 +76,7 @@ const CATALOG_CACHE_KEY = 'ok_catalog_v1';
 
 export async function fetchCatalog(db: Db): Promise<Catalog> {
   const [categories, products, settings] = await Promise.all([
-    db.from('categories').select('id, slug, name_en, name_hi, sort_order').order('sort_order'),
+    db.from('categories').select('id, slug, name_en, name_hi, icon, sort_order').order('sort_order'),
     db.from('products')
       .select(`id, slug, category_id, name_en, name_hi, description_en, description_hi, search_keywords, featured, sort_order,
         product_variants (id, legacy_id, unit_en, unit_hi, price, mrp, in_stock, track_stock, stock_qty, max_per_order, sort_order),
@@ -88,7 +90,7 @@ export async function fetchCatalog(db: Db): Promise<Catalog> {
 
   const s = settings.data;
   return {
-    categories: categories.data.map((c) => ({ id: c.id, slug: c.slug, nameEn: c.name_en, nameHi: c.name_hi, sortOrder: c.sort_order })),
+    categories: categories.data.map((c) => ({ id: c.id, slug: c.slug, nameEn: c.name_en, nameHi: c.name_hi, icon: c.icon, sortOrder: c.sort_order })),
     products: products.data
       .map((p) => ({
         id: p.id,
