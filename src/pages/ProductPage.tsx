@@ -5,6 +5,8 @@ import { useCatalog } from '../data/CatalogContext';
 import { defaultVariant } from '../data/catalog';
 import { useLang } from '../i18n/LanguageContext';
 import { discountPercent, formatRupees } from '../lib/pricing';
+import { productImageUrl } from '../lib/rest';
+import { productJsonLd } from '../lib/structuredData';
 import { whatsappUrl } from '../lib/whatsapp';
 import { toggleWishlist, wishlistStore } from '../store/stores';
 import { ProductGrid } from '../ui/ProductCard';
@@ -20,7 +22,17 @@ export default function ProductPage() {
   const wishlist = wishlistStore.useValue();
   const product = productBySlug.get(slug);
   const [chosenId, setChosenId] = useState<string | null>(null);
-  usePageTitle(product ? pick(product.nameEn, product.nameHi) : catalog ? t('productNotFound') : null);
+  const shown = product && defaultVariant(product);
+  usePageTitle(product ? pick(product.nameEn, product.nameHi) : catalog ? t('productNotFound') : null, {
+    description: product && shown
+      ? `${product.nameEn} (${shown.unitEn}) for ${formatRupees(shown.price)} at Order Kaaro, Kishanganj. Order on WhatsApp and pay cash or UPI on delivery.`
+      : undefined,
+    jsonLd: product
+      ? productJsonLd(product, categoryById.get(product.categoryId), window.location.origin,
+        product.images[0] ? productImageUrl(product.images[0].path, 'full') : null)
+      : null,
+    noindex: Boolean(catalog && !product),
+  });
 
   if (!catalog) {
     return (
@@ -59,7 +71,7 @@ export default function ProductPage() {
       )}
       <div className="grid gap-5 md:grid-cols-2">
         <div className="relative rounded-panel bg-sage-plate p-6">
-          <ProductImage product={product} size="full" className="mx-auto aspect-square w-full max-w-sm" dimmed={!variant.available} eager />
+          <ProductImage key={product.id} product={product} size="full" className="mx-auto aspect-square w-full max-w-sm" dimmed={!variant.available} eager />
           {off && (
             <span className="absolute left-4 top-4 rounded-full bg-peach px-3 text-sm font-semibold leading-7 text-clay">
               {t('percentOff', { n: off })}

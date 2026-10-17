@@ -27,7 +27,8 @@ export function Layout() {
       </a>
       <SiteHeader showSearch={!pathname.startsWith('/checkout')} />
       <StoreNotice />
-      <main id="main" className={`flex-1 pt-4 ${showCartBar ? 'pb-32' : 'pb-8'}`}>
+      {/* At least a screen tall, so the footer never jumps down while a page loads. */}
+      <main id="main" className={`min-h-screen flex-1 pt-4 ${showCartBar ? 'pb-32' : 'pb-8'}`}>
         <Suspense fallback={<p className="page text-stone" role="status">{t('loading')}</p>}>
           <Outlet />
         </Suspense>

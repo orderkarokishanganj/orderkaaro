@@ -6,7 +6,7 @@ import { usePageTitle } from '../ui/usePageTitle';
 
 export default function NotFoundPage() {
   const { t } = useLang();
-  usePageTitle(t('notFoundTitle'));
+  usePageTitle(t('notFoundTitle'), { noindex: true });
   return (
     <div className="page">
       <EmptyState icon={<Compass className="h-7 w-7" />} title={t('notFoundTitle')} text={t('notFoundText')}>

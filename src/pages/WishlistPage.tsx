@@ -21,7 +21,7 @@ export default function WishlistPage() {
   return (
     <div className="page">
       <h1 className="mb-4 text-[29px]">{t('wishlistTitle')}</h1>
-      {products.length ? <ProductGrid products={products} /> : (
+      {products.length ? <ProductGrid products={products} headingLevel={2} /> : (
         <EmptyState icon={<Heart className="h-7 w-7" />} title={t('wishlistEmpty')} text={t('wishlistHint')}>
           <Link to="/" className="btn-primary">{t('startShopping')}</Link>
         </EmptyState>

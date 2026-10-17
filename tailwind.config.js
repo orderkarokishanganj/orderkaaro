@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 // Sage & Oat design tokens. See docs/design-system.md.
 export default {
-  // src/components holds the old pre-rebuild components, kept until cleanup; they are not rendered.
-  content: ['./index.html', './src/**/*.{ts,tsx}', '!./src/components/**'],
+  // vite.config.ts holds the first-screen HTML (appShell).
+  content: ['./index.html', './vite.config.ts', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -23,6 +23,9 @@ export default {
       fontFamily: {
         display: ['Fraunces', '"Tiro Devanagari Hindi"', 'serif'],
         body: ['Hind', 'system-ui', 'sans-serif'],
+        // The phone's own font. Used for the few Hindi words on English pages, so English visitors
+        // don't download the Hindi web fonts (about 150 KB) just for a label.
+        system: ['system-ui', 'sans-serif'],
       },
       borderRadius: {
         card: '22px',

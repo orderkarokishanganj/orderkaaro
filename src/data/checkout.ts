@@ -1,6 +1,4 @@
-import type { PostgrestError } from '@supabase/supabase-js';
-import type { Json } from '../lib/database.types';
-import { supabase } from '../lib/supabase';
+import { DatabaseError, rpc, supabaseConfigured } from '../lib/rest';
 
 // Shapes returned by quote_cart() and place_order() in supabase/migrations/*_checkout_functions.sql.
 export type LineProblem = 'UNAVAILABLE' | 'OUT_OF_STOCK' | 'NOT_ENOUGH_STOCK' | 'QUANTITY_LIMIT';
@@ -77,7 +75,7 @@ export class CheckoutError extends Error {
 /** The database could not be reached; the customer can still order on WhatsApp. */
 export class ConnectionError extends Error {}
 
-function toError(error: PostgrestError): Error {
+function toError(error: DatabaseError): Error {
   if (BUSINESS_CODES.has(error.message)) {
     let quote: Quote | null = null;
     try {
@@ -91,30 +89,19 @@ function toError(error: PostgrestError): Error {
   return new ConnectionError(error.message);
 }
 
-export async function quoteCart(items: Array<{ variant_id: string; quantity: number }>, couponCode?: string | null, phone?: string | null): Promise<Quote> {
-  if (!supabase) throw new ConnectionError('Supabase is not configured');
+async function call<T>(fn: string, args: Record<string, unknown>): Promise<T> {
+  if (!supabaseConfigured) throw new ConnectionError('Supabase is not configured');
   try {
-    const { data, error } = await supabase.rpc('quote_cart', {
-      p_items: items as unknown as Json,
-      p_coupon_code: couponCode || undefined,
-      p_phone: phone || undefined,
-    });
-    if (error) throw toError(error);
-    return data as unknown as Quote;
+    return await rpc<T>(fn, args);
   } catch (err) {
-    if (err instanceof CheckoutError || err instanceof ConnectionError) throw err;
-    throw new ConnectionError(String(err));
+    throw err instanceof DatabaseError ? toError(err) : new ConnectionError(String(err));
   }
 }
 
+export async function quoteCart(items: Array<{ variant_id: string; quantity: number }>, couponCode?: string | null, phone?: string | null): Promise<Quote> {
+  return call<Quote>('quote_cart', { p_items: items, p_coupon_code: couponCode || undefined, p_phone: phone || undefined });
+}
+
 export async function placeOrder(payload: OrderPayload): Promise<PlacedOrder> {
-  if (!supabase) throw new ConnectionError('Supabase is not configured');
-  try {
-    const { data, error } = await supabase.rpc('place_order', { p_order: payload as unknown as Json });
-    if (error) throw toError(error);
-    return data as unknown as PlacedOrder;
-  } catch (err) {
-    if (err instanceof CheckoutError || err instanceof ConnectionError) throw err;
-    throw new ConnectionError(String(err));
-  }
+  return call<PlacedOrder>('place_order', { p_order: payload });
 }

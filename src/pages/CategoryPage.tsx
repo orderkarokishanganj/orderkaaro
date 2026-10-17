@@ -11,7 +11,12 @@ export default function CategoryPage() {
   const { t, pick } = useLang();
   const { catalog, status, categoryBySlug } = useCatalog();
   const category = categoryBySlug.get(slug);
-  usePageTitle(category ? pick(category.nameEn, category.nameHi) : catalog ? t('categoryNotFound') : null);
+  usePageTitle(category ? pick(category.nameEn, category.nameHi) : catalog ? t('categoryNotFound') : null, {
+    description: category
+      ? `Buy ${category.nameEn} in Kishanganj from Order Kaaro. Order on WhatsApp and pay cash or UPI on delivery.`
+      : undefined,
+    noindex: Boolean(catalog && !category),
+  });
 
   if (!catalog) {
     return <div className="page">{status === 'error' ? <LoadError /> : <ProductGridSkeleton count={8} />}</div>;
@@ -54,7 +59,7 @@ export default function CategoryPage() {
           ))}
         </ul>
       </nav>
-      {items.length ? <ProductGrid products={items} eagerCount={4} /> : (
+      {items.length ? <ProductGrid products={items} eagerCount={4} headingLevel={2} /> : (
         <EmptyState icon={<PackageSearch className="h-7 w-7" />} title={t('categoryNotFound')}>
           <Link to="/" className="btn-primary">{t('backToShop')}</Link>
         </EmptyState>

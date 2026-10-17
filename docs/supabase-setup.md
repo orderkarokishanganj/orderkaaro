@@ -43,16 +43,12 @@ This creates every table, security rule and function from `supabase/migrations`,
 
 If you prefer not to use the command line, open **SQL Editor** in Supabase and run each file in `supabase/migrations` in name order, then `supabase/seed.sql`.
 
-## 5. Upload the product photos
+## 5. Product photos
+
+The original photos were converted to WebP and uploaded to the `product-images` bucket when the shop moved to Supabase (October 2026). New photos are added from the admin panel, which makes the small and full-size copies itself. To check every product photo loads:
 
 ```bash
-npm run images:import
-```
-
-This converts the 115 photos in `public/catalog` to small WebP files (48 MB becomes about 6 MB) and uploads them to the `product-images` bucket. Then check every product photo loads:
-
-```bash
-npm run images:check:remote
+npm run images:check
 ```
 
 ## 6. Create the first owner account

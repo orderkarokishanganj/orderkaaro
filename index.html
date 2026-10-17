@@ -2,8 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/jpeg" href="/logo.jpeg" />
-    <link rel="apple-touch-icon" href="/logo.jpeg" />
+    <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#4E6E58" />
     <title>Order Kaaro | Groceries in Kishanganj on WhatsApp</title>
@@ -12,16 +13,21 @@
     <link rel="preconnect" href="%VITE_SUPABASE_URL%" crossorigin />
     <link rel="manifest" href="/manifest.json" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Order Kaaro" />
+    <meta property="og:locale" content="en_IN" />
     <meta property="og:title" content="Order Kaaro | Groceries in Kishanganj on WhatsApp" />
     <meta property="og:description" content="Order groceries and daily essentials on WhatsApp with Order Kaaro in Kishanganj. Cash or UPI on delivery." />
-    <meta property="og:image" content="/logo.jpeg" />
+    <meta property="og:image" content="%SITE_URL%/icons/share.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Order Kaaro logo" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Order Kaaro | Groceries in Kishanganj on WhatsApp" />
     <meta name="twitter:description" content="Order groceries and daily essentials on WhatsApp with Order Kaaro in Kishanganj. Cash or UPI on delivery." />
-    <meta name="twitter:image" content="/logo.jpeg" />
+    <meta name="twitter:image" content="%SITE_URL%/icons/share.jpg" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-shell--></div>
     <noscript>Order Kaaro needs JavaScript. You can also order on WhatsApp: https://wa.me/919942089120</noscript>
     <script type="module" src="/src/main.tsx"></script>
     <script>

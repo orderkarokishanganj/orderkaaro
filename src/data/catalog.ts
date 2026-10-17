@@ -1,4 +1,6 @@
-import type { Db } from '../lib/supabase';
+import type { Tables } from '../lib/database.types';
+import { select } from '../lib/rest';
+import { CATALOG_REQUESTS } from './catalogRequests';
 import { parseHours, type StoreHours } from '../lib/hours';
 import { parseTiers, type DeliveryTier } from '../lib/pricing';
 
@@ -74,24 +76,27 @@ export interface Catalog {
 
 const CATALOG_CACHE_KEY = 'ok_catalog_v1';
 
-export async function fetchCatalog(db: Db): Promise<Catalog> {
-  const [categories, products, settings] = await Promise.all([
-    db.from('categories').select('id, slug, name_en, name_hi, icon, sort_order').order('sort_order'),
-    db.from('products')
-      .select(`id, slug, category_id, name_en, name_hi, description_en, description_hi, search_keywords, featured, sort_order,
-        product_variants (id, legacy_id, unit_en, unit_hi, price, mrp, in_stock, track_stock, stock_qty, max_per_order, sort_order),
-        product_images (storage_path, alt_en, alt_hi, is_primary, sort_order)`)
-      .order('sort_order'),
-    db.from('settings').select('*').single(),
-  ]);
-  if (categories.error) throw categories.error;
-  if (products.error) throw products.error;
-  if (settings.error) throw settings.error;
+type CategoryRow = Pick<Tables<'categories'>, 'id' | 'slug' | 'name_en' | 'name_hi' | 'icon' | 'sort_order'>;
+type ProductRow = Pick<Tables<'products'>, 'id' | 'slug' | 'category_id' | 'name_en' | 'name_hi' | 'description_en' | 'description_hi'
+  | 'search_keywords' | 'featured' | 'sort_order'> & {
+  product_variants: Pick<Tables<'product_variants'>, 'id' | 'legacy_id' | 'unit_en' | 'unit_hi' | 'price' | 'mrp' | 'in_stock'
+    | 'track_stock' | 'stock_qty' | 'max_per_order' | 'sort_order'>[];
+  product_images: Pick<Tables<'product_images'>, 'storage_path' | 'alt_en' | 'alt_hi' | 'is_primary' | 'sort_order'>[];
+};
 
-  const s = settings.data;
+/** Reads the visible catalogue and store settings (row level security hides everything else). */
+export async function fetchCatalog(): Promise<Catalog> {
+  const [categories, products, settingsRows] = await Promise.all([
+    select<CategoryRow>(CATALOG_REQUESTS.categories),
+    select<ProductRow>(CATALOG_REQUESTS.products),
+    select<Tables<'settings'>>(CATALOG_REQUESTS.settings),
+  ]);
+  const s = settingsRows[0];
+  if (!s) throw new Error('Store settings are missing');
+
   return {
-    categories: categories.data.map((c) => ({ id: c.id, slug: c.slug, nameEn: c.name_en, nameHi: c.name_hi, icon: c.icon, sortOrder: c.sort_order })),
-    products: products.data
+    categories: categories.map((c) => ({ id: c.id, slug: c.slug, nameEn: c.name_en, nameHi: c.name_hi, icon: c.icon, sortOrder: c.sort_order })),
+    products: products
       .map((p) => ({
         id: p.id,
         slug: p.slug,
