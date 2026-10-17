@@ -1,9 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 // Sage & Oat design tokens. See docs/design-system.md.
 export default {
-  // src/components holds the old pre-rebuild components, kept until cleanup; they are not rendered.
   // vite.config.ts holds the first-screen HTML (appShell).
-  content: ['./index.html', './vite.config.ts', './src/**/*.{ts,tsx}', '!./src/components/**'],
+  content: ['./index.html', './vite.config.ts', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
