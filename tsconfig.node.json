@@ -2,9 +2,12 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2023"],
-    "types": ["node"],
+    "types": ["node", "vite/client"],
     "module": "ESNext",
     "skipLibCheck": true,
+    /* The Vercel functions in api/ are plain JavaScript, type-checked through JSDoc. */
+    "allowJs": true,
+    "checkJs": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -19,5 +22,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts", "vitest.config.ts", "tests"]
+  "include": ["vite.config.ts", "vitest.config.ts", "tests", "api"]
 }

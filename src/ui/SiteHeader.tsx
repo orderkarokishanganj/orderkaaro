@@ -8,7 +8,7 @@ import { MenuDrawer } from './MenuDrawer';
 import { SearchBox } from './SearchBox';
 
 export function SiteHeader({ showSearch = true }: { showSearch?: boolean }) {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const { count } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -26,7 +26,7 @@ export function SiteHeader({ showSearch = true }: { showSearch?: boolean }) {
         </button>
         <Link to="/" className="text-center leading-none">
           <span className="block font-display text-[28px] font-semibold tracking-tight">Order Kaaro</span>
-          <span className="mt-1 block text-[11px] uppercase tracking-[0.14em] text-stone">{t('tagline')}</span>
+          <span className={`mt-1 block text-[11px] uppercase tracking-[0.14em] text-stone ${lang === 'en' ? 'font-system' : ''}`}>{t('tagline')}</span>
         </Link>
         <Link to="/cart" className="relative flex h-11 w-11 items-center justify-center rounded-full hover:bg-sage-mist" aria-label={`${t('cart')}: ${count}`}>
           <ShoppingBag className="h-6 w-6" aria-hidden="true" />

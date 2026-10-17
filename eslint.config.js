@@ -24,5 +24,15 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
     },
+  },
+  {
+    // Vercel functions (plain JavaScript, run on Node).
+    extends: [js.configs.recommended],
+    files: ['api/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: globals.node,
+    },
   }
 );

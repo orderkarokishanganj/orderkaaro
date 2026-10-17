@@ -1,24 +1,20 @@
 {
+  "id": "/",
   "name": "Order Kaaro - Kishanganj Grocery Delivery",
   "short_name": "Order Kaaro",
   "description": "Order groceries and daily essentials in Kishanganj on WhatsApp. Cash or UPI on delivery.",
+  "lang": "en",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#F4EFE7",
   "theme_color": "#4E6E58",
   "orientation": "portrait-primary",
+  "categories": ["shopping", "food"],
   "icons": [
-    {
-      "src": "/logo.jpeg",
-      "sizes": "192x192",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/logo.jpeg",
-      "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
-    }
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }

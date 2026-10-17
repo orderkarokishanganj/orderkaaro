@@ -173,6 +173,8 @@ export const en = {
   alternateNumber: 'Alternate number',
   email: 'Email',
   footerNote: 'Groceries from Kishanganj, ordered on WhatsApp and delivered to your door.',
+  updateAvailable: 'A new version of Order Kaaro is ready.',
+  updateLater: 'Later',
 } as const;
 
 export type StringKey = keyof typeof en;
@@ -349,4 +351,6 @@ export const hi: Record<StringKey, string> = {
   alternateNumber: 'दूसरा नंबर',
   email: 'ईमेल',
   footerNote: 'किशनगंज का किराना, WhatsApp पर ऑर्डर, आपके दरवाज़े तक।',
+  updateAvailable: 'ऑर्डर कारो का नया वर्ज़न तैयार है।',
+  updateLater: 'बाद में',
 };

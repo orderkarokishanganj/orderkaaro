@@ -4,16 +4,17 @@ import { CatalogProvider } from './data/CatalogContext';
 import { LanguageProvider } from './i18n/LanguageContext';
 import CartPage from './pages/CartPage';
 import CategoryPage from './pages/CategoryPage';
-import CheckoutPage from './pages/CheckoutPage';
 import HomePage from './pages/HomePage';
-import OrderConfirmationPage from './pages/OrderConfirmationPage';
 import ProductPage from './pages/ProductPage';
 import SearchPage from './pages/SearchPage';
 import { ErrorBoundary } from './ui/ErrorBoundary';
 import { Layout } from './ui/Layout';
+import { UpdatePrompt } from './ui/UpdatePrompt';
 
 // Pages customers rarely open first are loaded only when visited.
 const AboutPage = lazy(() => import('./pages/AboutPage'));
+const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
+const OrderConfirmationPage = lazy(() => import('./pages/OrderConfirmationPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const CookiePage = lazy(() => import('./pages/CookiePage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
@@ -31,6 +32,7 @@ export default function App() {
       <LanguageProvider>
         <CatalogProvider>
           <BrowserRouter>
+            <UpdatePrompt />
             <Routes>
               <Route
                 path="admin/*"

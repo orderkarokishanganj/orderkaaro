@@ -44,7 +44,7 @@ export default function SearchPage() {
     <div className="page">
       <h1 className="text-[26px]" aria-live="polite">{t('searchResults', { q: query })}</h1>
       <p className="mb-4 text-stone">{t('productsCount', { n: results.length })}</p>
-      {results.length ? <ProductGrid products={results} eagerCount={4} /> : (
+      {results.length ? <ProductGrid products={results} eagerCount={4} headingLevel={2} /> : (
         <EmptyState icon={<SearchX className="h-7 w-7" />} title={t('noResults', { q: query })} text={t('noResultsHint')}>
           <a
             href={whatsappUrl(catalog.settings.whatsappNumber, `Hi, do you have ${query}?`)}

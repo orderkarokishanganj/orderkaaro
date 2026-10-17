@@ -1,12 +1,12 @@
 // Bump the version whenever caching rules change; old caches are deleted on activate.
-const CACHE_NAME = 'orderkaaro-v3';
+const CACHE_NAME = 'orderkaaro-v4';
 
 // Saved on install so the app shell still opens offline. The product list itself is kept by
 // the app (localStorage) and refreshed from Supabase whenever there is a connection.
 const OFFLINE_ASSETS = [
   '/',
   '/manifest.json',
-  '/logo.jpeg'
+  '/icons/icon-192.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -67,6 +67,8 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET') return;
 
   const url = new URL(request.url);
+  // The update check must always ask the server.
+  if (url.pathname === '/version.json') return;
   // Leave other sites (fonts, WhatsApp) and video range requests to the browser.
   if (url.origin !== self.location.origin) return;
   if (request.headers.has('range') || url.pathname.endsWith('.mp4')) return;

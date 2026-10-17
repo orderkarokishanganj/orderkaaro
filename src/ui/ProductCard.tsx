@@ -7,7 +7,9 @@ import { toggleWishlist, wishlistStore } from '../store/stores';
 import { ProductImage } from './ProductImage';
 import { QuantityControl } from './QuantityControl';
 
-export function ProductCard({ product, eager = false }: { product: Product; eager?: boolean }) {
+/** headingLevel: 3 under a section title, 2 when the grid sits straight under the page's h1. */
+export function ProductCard({ product, eager = false, headingLevel = 3 }: { product: Product; eager?: boolean; headingLevel?: 2 | 3 }) {
+  const Heading = headingLevel === 2 ? 'h2' : 'h3';
   const { t, pick } = useLang();
   const wishlist = wishlistStore.useValue();
   const variant = defaultVariant(product);
@@ -36,7 +38,7 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
         <Heart className={`h-5 w-5 ${saved ? 'fill-current' : ''}`} aria-hidden="true" />
       </button>
       <Link to={`/product/${product.slug}`} className="px-1 pt-1">
-        <h3 className="line-clamp-2 min-h-[2.6em] font-body text-[15px] font-semibold leading-snug">{name}</h3>
+        <Heading className="line-clamp-2 min-h-[2.6em] font-body text-[15px] font-semibold leading-snug">{name}</Heading>
       </Link>
       <div className="px-1 text-sm text-stone">
         {pick(variant.unitEn, variant.unitHi)}
@@ -59,11 +61,11 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
   );
 }
 
-export function ProductGrid({ products, eagerCount = 0 }: { products: Product[]; eagerCount?: number }) {
+export function ProductGrid({ products, eagerCount = 0, headingLevel }: { products: Product[]; eagerCount?: number; headingLevel?: 2 | 3 }) {
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
       {products.map((p, i) => (
-        <ProductCard key={p.id} product={p} eager={i < eagerCount} />
+        <ProductCard key={p.id} product={p} eager={i < eagerCount} headingLevel={headingLevel} />
       ))}
     </div>
   );

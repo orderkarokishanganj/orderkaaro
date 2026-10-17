@@ -10,6 +10,7 @@ import { ProductGrid, ProductGridSkeleton } from '../ui/ProductCard';
 import { CategoryIcon } from '../ui/CategoryIcon';
 import { ProductImage } from '../ui/ProductImage';
 import { LoadError, SectionTitle } from '../ui/states';
+import { storeJsonLd } from '../lib/structuredData';
 import { usePageTitle } from '../ui/usePageTitle';
 
 const byShelf = (a: Product, b: Product) =>
@@ -18,14 +19,22 @@ const byShelf = (a: Product, b: Product) =>
 export default function HomePage() {
   const { t, pick, lang } = useLang();
   const { catalog, status } = useCatalog();
-  usePageTitle(null);
+  usePageTitle(null, { jsonLd: catalog ? storeJsonLd(catalog.settings, window.location.origin) : null });
+
+  // The heading needs no data, so it shows straight away while products load.
+  const heading = (
+    <>
+      <h1 id="hero-title" className="max-w-xl text-[29px] tracking-tight">{t('heroTitle')}</h1>
+      <p className="mt-2 max-w-xl text-ink-soft">{t('heroSub')}</p>
+    </>
+  );
 
   if (!catalog) {
     return (
-      <div className="page">
+      <div className="page space-y-8">
+        <section className="rounded-panel bg-sage-mist px-5 pb-5 pt-6" aria-labelledby="hero-title">{heading}</section>
         {status === 'error' ? <LoadError /> : (
           <div role="status" aria-label={t('loading')}>
-            <div className="mb-6 h-56 animate-pulse rounded-panel bg-sage-mist" />
             <ProductGridSkeleton />
           </div>
         )}
@@ -43,8 +52,7 @@ export default function HomePage() {
   return (
     <div className="page space-y-8">
       <section className="rounded-panel bg-sage-mist px-5 pb-5 pt-6" aria-labelledby="hero-title">
-        <h1 id="hero-title" className="max-w-xl text-[29px] tracking-tight">{t('heroTitle')}</h1>
-        <p className="mt-2 max-w-xl text-ink-soft">{t('heroSub')}</p>
+        {heading}
         <div className="mt-4 flex flex-wrap gap-2">
           {freeMin !== null && (
             <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-sage">
